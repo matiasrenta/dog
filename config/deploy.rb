@@ -5,7 +5,7 @@ require 'seed-fu/capistrano3'
 
 set :application, 'chucky-template'
 set :repo_url, 'git@github.com:matiasrenta/chucky-template.git'
-set :branch, 'puma' # change branch as needed
+#set :branch, 'puma' # change branch as needed
 
 # Default branch is :master
 #ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<% if user_signed_in? %>
+<html>
+    <%= render "/layouts/head", locals: {js_options: {'data-turbolinks-track' => true}, css_options: { media: 'all', 'data-turbolinks-track' => true}} %>
+	<%= render "/layouts/body" %>
+<% else %>
+<html id="extr-page">
+    <%= render "/layouts/head", locals: {js_options: {}, css_options: { media: 'all'}} %>
+	<%= render "/layouts/login" %>
+<% end %>
+</html>
+

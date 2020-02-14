@@ -1,0 +1,199 @@
+LISTA DE CATÁLOGOS DE CUAUH PARA GENERAR CHUCKY BOTS:
+=====================================================
+CATÁLOGO DE DERECHOS HUMANOS
+Derecho: key:string description:text
+Estrategia: key:string description:text
+Línea de Acción: key:string description:text
+cat_der_derecho_humano (human right)
+cat_der_estrategia (strategy)
+cat_der_linea_de_accion (line of action)
+---------
+cat_der_human_right
+cat_der_strategy
+cat_der_line_of_action
+
+
+CATALOGO DE GÉNERO:
+Eje: key:string description:text
+Objetivo: key:string description:text
+Estrategia: key:string description:text
+Meta: key:string description:text
+Línea de Acción: key:string description:text
+cat_gen_eje (axis)
+cat_gen_objetivo (objective)
+cat_gen_estrategia (strategy)
+cat_gen_meta (goal)
+cat_gen_linea_de_accion (line of action)
+-----------------------
+cat_gen_axi, cat_gen_objective
+cat_gen_strategy, cat_gen_goal (cat_gen_strategies ahora necesita cat_gen_axi_id)
+cat_gen_line_of_action (ahora necesita cat_gen_strategy_id)
+
+CATÁLOGO PGDDF (Programa General de Desarrollo del DF):
+Eje: key:string description:text
+AO: key:string description:text
+Objetivo: key:string description:text
+Meta: key:string description:text
+LA (Línea de Acción): key:string description:text
+cat_pgd_eje (axis)
+cat_pgd_area_oportunidad (Area of opportunity)
+cat_pgd_objetivo (objective)
+cat_pgd_meta (goal)
+cat_pgd_linea_de_accion (line of action)
+---------------------------
+cat_pgd_axi
+cat_pgd_area_of_opportunity
+cat_pgd_objective
+cat_pgd_goal
+cat_pgd_line_of_action
+
+CATÁLOGO DE FONDO:
+FF (Fuente de Financiamiento): key:string description:text
+FG (Fuente Genérica): key:string description:text
+FE (Fuente Específica): key:string description:text
+AD (Año del Documento): key:string description:text (en este caso la description es 2016, podría ser un integer pero mejor no cambiar)
+OR (Origen del Recurso): key:string description:text
+Fondo: key:string description:text
+cat_fon_fuente_financiamiento (Funding Source)
+cat_fon_fuente_generica (Generic source)
+cat_fon_fuente_especifica (Specific source)
+cat_fon_year_document
+cat_fon_origen_recurso (Origin Resource)
+cat_fon_fondo (fund) (esta relacionado con claves foraneas a c/u de los anteriores)
+---------------------------------
+cat_fon_funding_source
+cat_fon_generic_source
+cat_fon_specific_source
+cat_fon_year_document
+cat_fon_origin_resource
+cat_fon_fund
+
+
+CATÁLOGO CLASIFICACION FUNCIONAL:
+FI (Finalidad)
+F (Función)
+SF (Subfunción)
+----------------
+cat_cfu_finality
+cat_cfu_function
+cat_cfu_subfunction
+
+
+CATÁLOGO DE ESTRUCTURA POR RESULTADOS:
+EG (Enfoque del Gasto)
+R (Resultado)
+SR (Subresultado)
+--------------------
+cat_ere_expending_focu
+cat_ere_result
+cat_ere_subresult
+
+CATALOGO DE ACTIVIDAD INSTITUCIONAL:
+cat_aci_institutional_activity
+campos: key, description, cat_pgd_axi_id, cat_ere_expending_focu_id, cat_ere_result_id, cat_ere_subresult_id, cat_cfu_finality_id, cat_cfu_function_id, cat_cfu_subfunction_id
+
+CATÁLOGO DE POSICIÓN PRESUPUESTAL:
+tipo de gasto
+dígito identificador
+destino de gasto
+partida
+    capítulo
+    concepto
+    partida genérica
+    partida específica
+-----------------------------
+cat_ppr_expense_type
+cat_ppr_digit_identifier
+cat_ppr_spending_destination
+cat_ppr_par_chapter
+cat_ppr_par_concept
+cat_ppr_par_partida_generica
+cat_ppr_par_partida_especifica
+
+CATÁLOGO DE ÁREAS:
+cat_are_area
+
+CATÁLOGO DE UNIDADES DE MEDIDA:
+cat_uni_measure_unit
+
+
+
+ANALÍTICO DE CLAVES (key_analytical):
+====================
+Campos:
+cat_pgd_axi_id
+cat_ere_expending_focu_id
+cat_ere_result_id
+cat_ere_subresult_id
+year
+sector (02 significa Gobierno)
+subsector (CD significa Órganos Desconcentrados)
+unidad_responsable (06 significa Delegación Cuauhtemoc)
+cat_cfu_finality_id
+cat_cfu_function_id
+cat_cfu_subfunction_id
+cat_aci_institutional_activity_id (hay que poner solo el 208)(aqui hay que checar que esta AI tenga los foreing key iguales a los de ere y cfu y que la descripción sea igual también)
+
+cat_fon_funding_source_id
+cat_fon_generic_source_id (la clave no es unica, checar por description)
+cat_fon_specific_source_id (la clave no es unica, checar por description)
+cat_fon_year_document_id
+cat_fon_origin_resource_id
+cat_fon_fund_id (este no va porque van los otros, podriamos ver que existe uno de estos con la combinacion de todos los anteriores dados por el excel de analitico de claves, si no existe podriamos revisarlo)
+
+cat_ppr_par_chapter_id
+cat_ppr_par_concept_id
+cat_ppr_par_partida_generica_id
+cat_ppr_par_partida_especifica_id (deberia incluir los catalogos que forman esta y además esta, y checar que existe una linea en c/u de los catalogos segun esta key compuesta)
+
+cat_ppr_expense_type_id
+cat_ppr_digit_identifier_id
+cat_ppr_spending_destination_id (no sabemos aun, cuando lo cargue revisar)
+
+proyecto_de_inversion (string)
+
+cat_are_area_id (en el excel sale la description no el key, solo tener en cuenta para mostrar la description y nunca el key)
+
+autorizado (un float)
+enero, febrero, marzo, ...diciembre (floats)
+
+cat_uni_measure_unit_id
+
+meta_fisica (integer)
+
+descripcion_de_las_acciones (un text)
+
+domicilio_del_area (un text)
+
+dut_de_la_accion (significa unidad territorial, es decir, condesa-roma o tepito-guerrero (es un text))
+
+poblacion_beneficiada (integer)
+
+cat_der_human_right_id (en el excel sale sin el cero adelante, unificar o bien aclararlo con luis)
+cat_der_strategy_id (en el excel sale solo un digito, sin cero y sin el anterior)
+cat_der_line_of_action_id (aqui sale completita la key)
+justificacion_derechos_humanos (text)
+
+porcentaje_igualdad_sustantiva
+mujeres (integer)
+hombres (integer)
+cat_gen_axi_id (en el excel sale sin el cero de adelante)
+cat_gen_strategy_id (el excel no tiene los ceros ni los anteriores)
+cat_gen_line_of_action_id (no figura en el excel)
+justificacion_genero (text)
+
+Los siguientes no figuran en el excel (checar si no hay mas):
+--------------------------------------
+cat_pgd_area_of_opportunity_id
+cat_pgd_objective_id
+cat_pgd_goal_id
+cat_pgd_line_of_action_id
+
+
+
+
+
+
+
+
+

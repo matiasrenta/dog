@@ -1,0 +1,576 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+es:
+  "true": "Sí"
+  "false": "No"
+
+
+  date:
+    input:
+      formats: ['default', 'short', 'long', 'long_day', 'system'] # <- this and ...
+
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d de %b"
+      long: "%d de %B de %Y"
+      long_day: "%A %d de %B de %Y"
+      system: "%Y-%m-%d"
+
+    day_names:
+      - domingo
+      - lunes
+      - martes
+      - miércoles
+      - jueves
+      - viernes
+      - sábado
+    abbr_day_names:
+      - dom
+      - lun
+      - mar
+      - mié
+      - jue
+      - vie
+      - sáb
+
+    month_names:
+      - ~
+      - enero
+      - febrero
+      - marzo
+      - abril
+      - mayo
+      - junio
+      - julio
+      - agosto
+      - septiembre
+      - octubre
+      - noviembre
+      - diciembre
+    abbr_month_names:
+      - ~
+      - ene
+      - feb
+      - mar
+      - abr
+      - may
+      - jun
+      - jul
+      - ago
+      - sep
+      - oct
+      - nov
+      - dic
+    order:
+      - :day
+      - :month
+      - :year
+
+  time:
+    formats:
+      default: "%d/%m/%Y"
+      with_seg: "%d/%m/%Y %H:%M:%S"
+      without_seg: "%d/%m/%Y %H:%M"
+      short: "%d de %b %H:%M"
+      short_day: "%A %d de %B %H:%M"
+      long: "%d de %B de %Y %H:%M"
+      long_day: "%A %d de %B de %Y %H:%M"
+      system: "%Y-%m-%d"
+    am: "am"
+    pm: "pm"
+
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " y "
+      last_word_connector: ", y "
+
+    select:
+      prompt: "Por favor seleccione"
+
+  number:
+    format:
+      separator: "."
+      delimiter: ","
+      precision: 2
+      significant: false
+      strip_insignificant_zeros: false
+
+    currency:
+      format:
+        format: "%n %u"
+        unit: "€"
+        separator: "."
+        delimiter: ","
+        precision: 2
+        significant: false
+        strip_insignificant_zeros: false
+
+    percentage:
+      format:
+        delimiter: ""
+
+    precision:
+      format:
+        delimiter: ""
+
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one:   "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+      decimal_units:
+        format: "%n %u"
+        units:
+          unit: ""
+          thousand: "mil"
+          million: "millón"
+          billion: "mil millones"
+          trillion: "billón"
+          quadrillion: "mil billones"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "medio minuto"
+      less_than_x_seconds:
+        one:  "menos de 1 segundo"
+        other: "menos de %{count} segundos"
+      x_seconds:
+        one:  "1 segundo"
+        other: "%{count} segundos"
+      less_than_x_minutes:
+        one:  "menos de 1 minuto"
+        other: "menos de %{count} minutos"
+      x_minutes:
+        one:  "1 minuto"
+        other: "%{count} minutos"
+      about_x_hours:
+        one:  "alrededor de 1 hora"
+        other: "alrededor de %{count} horas"
+      x_days:
+        one:  "1 día"
+        other: "%{count} días"
+      about_x_months:
+        one:  "alrededor de 1 mes"
+        other: "alrededor de %{count} meses"
+      x_months:
+        one:  "1 mes"
+        other: "%{count} meses"
+      about_x_years:
+        one:  "alrededor de 1 año"
+        other: "alrededor de %{count} años"
+      over_x_years:
+        one:  "más de 1 año"
+        other: "más de %{count} años"
+      almost_x_years:
+        one: "casi 1 año"
+        other: "casi %{count} años"
+    prompts:
+      year:   "Año"
+      quarter: "Cutrimestre"
+      month:  "Mes"
+      week:   "Semana"
+      day:    "Día"
+      hour:   "Hora"
+      minute: "Minutos"
+      second: "Segundos"
+
+  helpers:
+    select:
+      prompt: "Por favor seleccione"
+      create: 'Creó'
+      update: 'Actualizó'
+      destroy: 'Eliminó'
+      inactivate: 'Inactivó'
+
+    submit:
+      create: 'Crear %{model}'
+      update: 'Actualizar %{model}'
+      submit: 'Guardar %{model}'
+      cancel: 'Cancelar'
+      search: 'Filtrar'
+
+    reset:
+      clear_search: "Limpiar"
+
+    link:
+      create: 'Crear %{model}'
+      newf: 'Nueva'
+      show: 'Mostrar'
+      edit: 'Editar'
+      delete: 'Borrar'
+      list: 'Listar'
+      filter: 'Filtros'
+      filter_active: 'Filtros Activos'
+      download: 'Bajar'
+
+    messages:
+      are_you_sure: "¿Está seguro de querer borrar el registro?"
+      access_denied: "Acceso denegado"
+      edit_setting_variable: 'Si esta variable es usada en algún initializer de la aplicación, deberá reiniciar la aplicación para que tome el nuevo valor de la variable.'
+
+  errors:
+    format: "%{attribute} %{message}"
+
+    messages: &errors_messages
+      inclusion: "no está incluido en la lista"
+      exclusion: "está reservado"
+      invalid: "no es válido"
+      confirmation: "no coincide la confirmación"
+      accepted: "debe ser aceptado"
+      empty: "no puede estar vacío"
+      blank: "no puede estar en blanco"
+      too_long: "es demasiado largo (%{count} caracteres máximo)"
+      too_short: "es demasiado corto (%{count} caracteres mínimo)"
+      wrong_length: "no tiene la longitud correcta (%{count} caracteres exactos)"
+      not_a_number: "no es un número"
+      not_an_integer: "debe ser un entero"
+      greater_than: "debe ser mayor que %{count}"
+      greater_than_or_equal_to: "debe ser mayor que o igual a %{count}"
+      equal_to: "debe ser igual a %{count}"
+      less_than: "debe ser menor que %{count}"
+      less_than_or_equal_to: "debe ser menor que o igual a %{count}"
+      odd: "debe ser impar"
+      even: "debe ser par"
+      cant_be_in_the_future: "No puede ser en el futuro"
+      invalid_email: 'Email inválido'
+      invalid_mx: 'invalid mx'
+      invalid_imported_entities: 'Hay registros inválidos'
+
+    errors:
+      default_missing: 'default_missing'
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one:   'No se pudo guardar este/a %{model} porque se encontró 1 error'
+          other:  "No se pudo guardar este/a %{model} porque se encontraron %{count} errores"
+        # The variable :count is also available
+        default_error_base: 'Revise los errores en el formulario'
+
+      messages:
+        restrict_dependent_destroy:
+          many: 'Existen registros relacionados a este. En caso que sea permitido, intente eliminar estos registros primero para luego eliminar este.'
+        invalid_extension: 'Tipo de archivo inválido'
+        invalid_content_type: 'Formato no permitido'
+        too_large: 'Excede el tamaño permitido'
+        taken: "ya está en uso"
+        record_invalid: "La validación falló: %{errors}"
+        <<: *errors_messages
+
+      full_messages:
+        format: "%{attribute} %{message}"
+
+      models:
+        user:
+          attributes:
+            reset_password_token: 'El token debe haber expirado o no es válido'
+            unlock_token: 'El token debe haber expirado o no es válido'
+
+    messages:
+      imported_successfuly: 'Se importaron %{count} registros exitosamente'
+      comment_successfully_added: 'El comentario fue agregado exitosamente'
+
+    models:
+      nomina_document:
+        one: Reporte de Nómina
+        other: Reportes de Nómina
+        fa_icon: 'fa-fw fa fa-file-text'
+      open_datum:
+        one: Datos Abiertos
+        other: Datos Abiertos
+        fa_icon: 'fa-fw fa fa-database'
+      social_user:
+        one: Usuario Social
+        other: Usuarios Sociales
+        fa_icon: 'fa-fw fa fa-facebook-square'
+      api_key:
+        one: API Key
+        other: API Keys
+        fa_icon: 'fa-fw fa fa-key'
+      registration:
+        one: Usuario API
+        other: Usuarios API
+      api_user:
+        one: Usuario API
+        other: Usuarios API
+      verification:
+        one: Verificación
+        other: Verificaciones
+        fa_icon: 'fa-fw fa fa-camera'
+      ley_fraccion:
+        one: Fracción de Artículo
+        other: Fracciones de Artículos
+      ley_articulo:
+        one: Artículo de Transparencia
+        other: Artículos de Transparencia
+        fa_icon: 'fa-fw fa fa-eye'
+      staff:
+        one: Trabajador
+        other: Trabajadores
+        fa_icon: 'fa-fw fa fa-male'
+      job_title:
+        one: Denominación de Puesto
+        other: Denominaciones de Puestos
+      ascription:
+        one: Adscripción
+        other: Adscripciones
+      project_activity_adquisicion:
+        one: Actividad de Adquisición
+        other: Actividades de Adquisición
+        fa_icon: 'fa-fw fa fa-shopping-cart '
+      beneficiary:
+        one: Beneficiario
+        other: Beneficiarios
+        fa_icon: 'fa-fw fa fa-male'
+      territorial_unit:
+        one: Unidad Territorial
+        other: Unidades Territoriales
+      project_activity_social:
+        one: Actividad Social
+        other: Actividades Sociales
+        fa_icon: 'fa-fw fa fa-child'
+      social_development_program:
+        one: Programa de Desarrollo Social
+        other: Programas de Desarrollo Social
+      project_activity_obra:
+        one: Actividad de Obra
+        other: Actividades de Obra
+        fa_icon: 'fa-fw fa fa-building'
+      project_nomina:
+        one: Proyecto de Nómina
+        other: Proyectos de Nóminas
+        fa_icon: ''
+      project_adquisicion:
+        one: Proyecto de Adquisición
+        other: Proyectos de Adquisiciones
+        fa_icon: ''
+      project_social:
+        one: Proyecto Social
+        other: Proyectos Sociales
+        fa_icon: ''
+      project_obra:
+        one: Proyecto de Obra
+        other: Proyectos de Obra
+        fa_icon: 'fa-fw fa fa-building'
+      supplier:
+        one: Proveedor
+        other: Proveedores
+        fa_icon: 'fa-fw fa fa-truck'
+      town:
+        one: Municipio / Delegación
+        other: Municipios / Delegaciones
+        fa_icon: 'fa-fw fa fa-map-marker'
+      state:
+        one: Estado
+        other: Estados
+        fa_icon: 'fa-fw fa fa-globe'
+      financial_document_type:
+        one: Tipo de Documento Financiero
+        other: Tipos de Documentos Financieros
+      financial_document:
+        one: Documento Financiero
+        other: Documentos Financieros
+        fa_icon: 'fa-fw fa fa-file-pdf-o'
+      project:
+        one: Proyecto
+        other: Proyectos
+        fa_icon: 'fa-fw fa fa-list-ol'
+      key_analytical:
+        one: Afectación
+        other: Afectaciones
+        fa_icon: 'fa-fw fa fa-money'
+      cat_ppr_spending_destination:
+        one: Destino de Gasto
+        other: Destinos de Gasto
+      cat_uni_measure_unit:
+        one: Unidad de Medida
+        other: Unidades de Medida
+      cat_are_area:
+        one: Área
+        other: Áreas
+      cat_ppr_digit_identifier:
+        one: Dígito Identificador
+        other: Dígitos Identificadores
+      cat_ppr_par_partida_especifica:
+        one: Partida Específica
+        other: Partidas Específicas
+      cat_ppr_par_partida_generica:
+        one: Partida Genérica
+        other: Partidas Genéricas
+      cat_ppr_par_concept:
+        one: Concepto
+        other: Conceptos
+      cat_ppr_par_chapter:
+        one: Capítulo
+        other: Capítulos
+      cat_ppr_expense_type:
+        one: Tipo de Gasto
+        other: Tipos de Gasto
+      cat_aci_institutional_activity:
+        one: Actividad Institucional
+        other: Actividades Institucionales
+      cat_ere_subresult:
+        one: Subresultado
+        other: Subresultados
+      cat_ere_result:
+        one: Resultado
+        other: Resultados
+      cat_ere_expending_focu:
+        one: Enfoque del Gasto
+        other: Enfoques de los Gastos
+      cat_cfu_subfunction:
+        one: Subfunción
+        other: Subfunciones
+      cat_cfu_function:
+        one: Función
+        other: Funciones
+      cat_cfu_finality:
+        one: Finalidad
+        other: Finalidades
+      cat_fon_fund:
+        one: Fondo
+        other: Fondos
+      cat_fon_origin_resource:
+        one: Origen del Recurso
+        other: Orígenes de los Recursos
+      cat_fon_year_document:
+        one: Año del Documento
+        other: Años de los Documentos
+      cat_fon_specific_source:
+        one: Fuente Específica
+        other: Fuentes Específicas
+      cat_fon_generic_source:
+        one: Fuente Genérica
+        other: Fuentes Genéricas
+      cat_pgd_line_of_action:
+        one: Línea de Acción PGDDF
+        other: Líneas de Acción PGDDF
+      cat_pgd_goal:
+        one: Meta PGDDF
+        other: Metas PGDDF
+      cat_pgd_objective:
+        one: Objetivo PGDDF
+        other: Objetivos PGDDF
+      cat_pgd_area_of_opportunity:
+        one: Área de Oportunidad
+        other: Áreas de Oportunidad
+      cat_fon_funding_source:
+        one: Fuente de Financiamiento
+        other: Fuentes de Financiamiento
+      cat_pgd_axi:
+        one: Eje PGDDF
+        other: Ejes PGDDF
+      cat_gen_line_of_action:
+        one: Línea de Acción Género
+        other: Líneas de Acción Género
+      cat_gen_strategy:
+        one: Estrategia Género
+        other: Estrategias Género
+      cat_gen_axi:
+        one: Eje Género
+        other: Ejes Género
+      cat_der_line_of_action:
+        one: Línea de Acción Derechos Humanos
+        other: Líneas de Acción Derechos Humanos
+      cat_der_strategy:
+        one: Estrategia Derechos Humanos
+        other: Estrategias Derechos Humanos
+      cat_der_human_right:
+        one: Derecho Humano
+        other: Derechos Humanos
+      delayed_job:
+        one: Delayed job
+        other: Delayed jobs
+        fa_icon: 'fa-fw fa fa-stack-overflow'
+      thing_category:
+        one: Categoría de cosa
+        other: Categoría de cosas
+        fa_icon: 'fa-fw fa fa-user'
+      thing_contact:
+        one: Contacto
+        other: Contactos
+        fa_icon: 'fa-fw'
+      thing_part:
+        one: Parte
+        other: Partes
+        fa_icon: 'fa-fw fa fa-user'
+      user:
+        one: 'Usuario'
+        other: 'Usuarios'
+        fa_icon: 'fa-fw fa fa-user'
+      chucky_bot:
+        one: 'Chucky Bot'
+        other: 'Chucky Bots'
+        fa_icon: 'fa-fw fa fa-reddit'
+      thing:
+        one: 'Cosa'
+        other: 'Cosas'
+        fa_icon: 'fa-fw fa fa-cube'
+      setting:
+        one: 'Variable de Configuración'
+        other: 'Variables de Configuración'
+        fa_icon: 'fa-fw fa fa-cog'
+
+    actions:
+      new:  'Nuevo'
+      new_with_type: 'Nuevo'
+      newf: 'Nueva'
+      show: 'Mostrar'
+      create: 'Nuevo'
+      edit: 'Editar'
+      update: 'Editar'
+      edit_multiple: 'Editar'
+      update_multiple: 'Editar'
+      import: 'Importar'
+      Export: 'Exportar'
+      mark_as_read: 'Marcar como leído'
+      mark__all_as_read: 'Marcar todos como leídos'
+      move_to_trash: 'Eliminar'
+
+  will_paginate:
+    previous_label: "&#8592;"
+    next_label: "&#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page:
+        zero:  "No %{model} found"
+        one:   "Displaying 1 %{model}"
+        other: "Displaying all %{count} %{model}"
+      single_page_html:
+        zero:  "No %{model} found"
+        one:   "Displaying <b>1</b> %{model}"
+        other: "Displaying <b>all&nbsp;%{count}</b> %{model}"
+      multi_page: "Displaying %{model} %{from} - %{to} of %{count} in total"
+      multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total"

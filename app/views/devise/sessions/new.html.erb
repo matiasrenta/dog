@@ -1,0 +1,37 @@
+<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {id: 'login-form', class: 'smart-form client-form'}) do |f| %>
+    <header>
+      <%= t('pages.login.sign_in') %>
+    </header>
+
+    <fieldset>
+
+      <section>
+        <label class="label"><%= t('pages.login.e-mail') %></label>
+        <label class="input"> <i class="icon-append fa fa-user"></i>
+          <%= f.input :email, label: false, autofocus: true, required: true %>
+        </label>
+      </section>
+
+      <section>
+        <label class="label"><%= t('pages.login.password') %></label>
+        <label class="input"> <i class="icon-append fa fa-lock"></i>
+          <%= f.input :password, label: false, required: true %>
+        </label>
+
+        <div class="note">
+          <%= render "devise/shared/links" %>
+        </div>
+      </section>
+
+      <section>
+        <label class="checkbox">
+          <input type="checkbox" name="remember">
+          <i></i><%= t('pages.login.stay_signed_in') %>
+          <%= f.input :remember_me, label: false, as: :boolean, input_html: {checked: true} if devise_mapping.rememberable? %>
+        </label>
+      </section>
+    </fieldset>
+    <footer>
+      <%= f.button :submit, t('pages.login.sign_in'), class: 'btn btn-primary' %>
+    </footer>
+<% end %>

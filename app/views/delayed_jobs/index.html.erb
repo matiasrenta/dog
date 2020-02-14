@@ -1,0 +1,132 @@
+<section id="widget-grid">
+  <div class="row">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+        <header><span class="widget-icon"><i class="fa fa-table"></i></span>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_delayed_job_path, class: 'btn btn-primary' if (can? :create, DelayedJob) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn  <%= @filter_active ? 'btn-danger' : 'btn-primary' %>"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
+            </a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+            <div class="col-md-9 col-sm-12 no-padding"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+                  <fieldset>
+                    <div class="form-group spanning">
+                      <label for="q[priority_gteq]"><%= t('simple_form.labels.defaults.priority') %></label>
+
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :priority_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :priority_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                      </div>
+                    </div>
+                    <div class="form-group spanning">
+                      <label for="q[attempts_gteq]"><%= t('simple_form.labels.defaults.attempts') %></label>
+
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :attempts_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :attempts_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="q[handler_cont]"><%= t('simple_form.labels.defaults.handler') %></label>
+                      <%= f.search_field :handler_cont, label: false, class: "form-control input-sm" %>
+                    </div>
+                    <div class="form-group">
+                      <label for="q[last_error_cont]"><%= t('simple_form.labels.defaults.last_error') %></label>
+                      <%= f.search_field :last_error_cont, label: false, class: "form-control input-sm" %>
+                    </div>
+                    <div class="form-group spanning">
+                      <label for="q[run_at_gteq]"><%= t('simple_form.labels.defaults.run_at') %></label>
+
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :run_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.run_at_gteq) %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :run_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.run_at_lteq) %>
+                      </div>
+                    </div>
+                    <div class="form-group spanning">
+                      <label for="q[locked_at_gteq]"><%= t('simple_form.labels.defaults.locked_at') %></label>
+
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :locked_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.locked_at_gteq) %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :locked_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.locked_at_lteq) %>
+                      </div>
+                    </div>
+                    <div class="form-group spanning">
+                      <label for="q[failed_at_gteq]"><%= t('simple_form.labels.defaults.failed_at') %></label>
+
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :failed_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.failed_at_gteq) %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :failed_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.failed_at_lteq) %>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="q[locked_by_cont]"><%= t('simple_form.labels.defaults.locked_by') %></label>
+                      <%= f.search_field :locked_by_cont, label: false, class: "form-control input-sm" %>
+                    </div>
+                    <div class="form-group">
+                      <label for="q[queue_cont]"><%= t('simple_form.labels.defaults.queue') %></label>
+                      <%= f.search_field :queue_cont, label: false, class: "form-control input-sm" %>
+                    </div>
+                    <%= render 'shared/submit_filters' %>
+                  </fieldset>
+              <% end %>
+            </div>
+          </div>
+          <div class="widget-body">
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+              <tr>
+                <th class='all control'><%= sort_link(@q, :priority, t('simple_form.labels.defaults.priority')) %></th>
+                <th><%= sort_link(@q, :attempts, t('simple_form.labels.defaults.attempts')) %></th>
+                <th><%= sort_link(@q, :handler, t('simple_form.labels.defaults.handler')) %></th>
+                <th><%= sort_link(@q, :last_error, t('simple_form.labels.defaults.last_error')) %></th>
+                <th><%= sort_link(@q, :run_at, t('simple_form.labels.defaults.run_at')) %></th>
+                <th><%= sort_link(@q, :locked_at, t('simple_form.labels.defaults.locked_at')) %></th>
+                <th><%= sort_link(@q, :failed_at, t('simple_form.labels.defaults.failed_at')) %></th>
+                <th><%= sort_link(@q, :locked_by, t('simple_form.labels.defaults.locked_by')) %></th>
+                <th><%= sort_link(@q, :queue, t('simple_form.labels.defaults.queue')) %></th>
+                <th class="all"><%= t('simple_form.screen.actions') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @delayed_jobs.each do |delayed_job| %>
+                  <tr>
+                    <td align='right'><%= delayed_job.priority %></td>
+                    <td align='right'><%= delayed_job.attempts %></td>
+                    <td><%= truncate(delayed_job.handler, length:30) %></td>
+                    <td><%= delayed_job.last_error %></td>
+                    <td><%= l(delayed_job.run_at, format: :without_seg) if delayed_job.run_at %></td>
+                    <td><%= l(delayed_job.locked_at, format: :without_seg) if delayed_job.locked_at %></td>
+                    <td><%= l(delayed_job.failed_at, format: :without_seg) if delayed_job.failed_at %></td>
+                    <td><%= delayed_job.locked_by %></td>
+                    <td><%= delayed_job.queue %></td>
+                    <td class="table-actions">
+                      <%= render 'shared/action_icons', locals: {target: delayed_job} %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <div class="widget-footer">
+              <%= render 'shared/pagination', locals: {target: @delayed_jobs, model_index_path: delayed_jobs_path} %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+

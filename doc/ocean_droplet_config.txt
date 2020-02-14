@@ -1,0 +1,317 @@
+SSH to chucky_droplet
+=====================
+ssh root@138.197.74.226
+
+
+RECORDATORIO:
+Antes de olvidar, recordar como usar Bundler. Recordar que chucky se hizo con: bundle package --all --all-platforms
+por lo tanto se debería deployar usando: bundle install --local, esto haria que todos los gem se instalaran solamente
+desde vendor/cache. Esto nos garantiza consistencia en el codigo. No se si Capistrano deploya usando bundle install --local
+pero debería hacerlo así, sino cambiar capistrano para que lo haga.
+para mas info ver: https://bundler.io/man/bundle-package.1.html
+
+
+Crear User deployer
+===================
+cualquier duda consultar:
+https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04
+
+O bien se puede hacer esto con un script en vez de a mano:
+https://www.digitalocean.com/community/tutorials/automating-initial-server-setup-with-ubuntu-18-04
+
+Hacerlo a mano:
+logearse al droplet:
+ssh root@138.197.74.226
+
+agregar ususrio:
+adduser sammy
+
+darle prvilegios administrativos:
+usermod -aG sudo sammy
+
+para agregar las keys del root al ususario deployer
+rsync --archive --chown=deployer:deployer ~/.ssh /home/deployer
+
+ahora ya se puede hacer desde la compu local:
+ssh deployer@138.197.74.226
+
+y mostrara:
+deployer@chucky-droplet:~$
+podremos hacer: sudo 'cualquier comando'
+
+
+Configurar e Instalar droplet para correr Chucky:
+=================================================
+(+)Instalar rbenv y ruby. Dudas: https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-ubuntu-18-04
+ssh deployer@138.197.74.226
+
+update the packages index:
+sudo apt update
+
+instalar dependencias:
+sudo apt install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev
+
+clonar rbenv:
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+
+agrear rbenv al path para que este en los proximos logins:
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+
+para que rbenv se cargue automaticamente:
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+
+para que afecte a la session actual:
+source ~/.bashrc
+
+check si rbnev esta bien (muestra una funcion):
+type rbenv
+
+instala ruby-build:
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+listar todas las versiones disponibles de ruby:
+rbenv install -l
+
+patch: para qeu compile openssl tuve que instalar esto primero antes de instalar ruby: (ver issue: https://github.com/AbertayHackers/BeEF/issues/3)
+sudo apt-get install -y libssl1.0-dev
+
+instalar la version deseada (2.2.2 es la original de chucky, la cual está unsupported, deberia actualizarla)
+rbenv install 2.2.2
+
+setear esta version de ruby como la global:
+rbenv global 2.2.2
+
+NOTA: Si se necesita updetear Rubygems (en un momento me pasó que necesité updetar a rubygems 2.5.2):
+para ver la version instalada:
+gem --version
+para updetarla si es necesario
+gem update --system 'version'
+gem update --system '2.5.2'
+
+(-)
+
+(+) instalar gem bundler
+para que cuando se instalen gems no instale la documentacion localmente asi va mas rapido
+echo "gem: --no-document" > ~/.gemrc
+
+si estoy usando ruby < 2.3.0 entonces bundler no piuede instalarse porque requiere ruby 2.3.0 u superior.
+En ese caso instalar la ultima version de bundler antes de la de la 2.0.0 (sería asi: gem install bundler -v '1.17.3')
+gem install bundler
+(-)
+
+(+) Install Nginx (ver: https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04)
+sudo apt update
+sudo apt install nginx
+
+para listar las posibles configuraciones:
+sudo ufw app list
+
+hacemos que el firewall acepte requerimientos para el puerto 80 y el 443 que sería para el ssl
+sudo ufw allow 'Nginx Full'
+
+chequear si el servicio esta corriendo:
+systemctl status nginx
+
+chequear desde el navegador:
+http://your_server_ip
+
+manejar nginx process
+sudo systemctl start nginx
+sudo systemctl stop nginx
+sudo systemctl restart nginx
+
+despues de cambiar configuracion para que tome los cambios
+sudo systemctl reload nginx
+(-)
+
+
+(+) DNSs
+Registré gratuitamente DOGSTRIBUIDORA.GA con la empresa http://freenom.org/. Alli puse los nameservers
+de Digital Ocean ns1.digitalocean.com, ns2.digitalocean.com, and ns3.digitalocean.com
+
+crear 3 A record:
+@
+www
+sys
+(-)
+
+(+) Nginx Server Blocks. ver aqui: https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04
+sudo mkdir -p /var/www/dogstribuidora.ga/html
+sudo chown -R $USER:$USER /var/www/dogstribuidora.ga/html
+sudo chmod -R 755 /var/www/dogstribuidora.ga
+
+crear un index.html
+vim /var/www/dogstribuidora.ga/html/index.html
+
+crear el server block:
+sudo vim /etc/nginx/sites-available/dogstribuidora.ga
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/dogstribuidora.ga/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name dogstribuidora.ga www.dogstribuidora.ga;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+
+Ahora crear el link:
+sudo ln -s /etc/nginx/sites-available/dogstribuidora.ga /etc/nginx/sites-enabled/
+
+Descomentar la linea en la configuracion
+sudo vim /etc/nginx/nginx.conf
+
+...
+http {
+    ...
+    server_names_hash_bucket_size 64;
+    ...
+}
+...
+
+chequear que la sintaxis del nginx.conf esta ok
+sudo nginx -t
+
+sudo systemctl restart nginx
+(-)
+
+(+) Instal PostgreSQL
+#para instalar una version vieja de ubuntu: https://superuser.com/questions/1108439/how-do-i-install-an-old-version-of-postgres-using-apt
+
+sudo apt-get install postgresql postgresql-contrib libpq-dev
+#sudo apt-get install libpq-dev
+
+create db user para que la rails app se conecte con este usuario
+sudo -u postgres createuser -s dbuser
+
+sudo -u postgres psql
+\password dbuser
+(la password que le puse es Re********0. La del modem y al final un cero)
+
+\q
+(-)
+
+(+) Generar id_rca key en el droplet de Digital Ocean. ver: https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+Hay que generar en el droplet un key SIN passphrase y agregarla a github.com, porque cuando capistrano quiere
+traer el codigo del repositorio que está en github no tendrá acceso. debe ser sin passphrase porque sino seguirá
+diciendo que tiene problema con el public key
+(-)
+
+(+) Otros problemas que tuve al deployar en un droplet nuevo
+para que compile el gem rmagig: sudo apt-get install libmagickwand-dev imagemagick
+(-)
+
+(+) SSL HTTPS
+para crear certificados y configurar SSL
+https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04
+
+chequear este nginx config que parece muy completo:
+https://serverfault.com/questions/947011/host-two-rails-app-using-puma-nginx-on-domain-and-subdomain-each
+
+You should test your configuration at:
+https://www.ssllabs.com/ssltest/analyze.html?d=dogstribuidora.ga
+https://www.ssllabs.com/ssltest/analyze.html?d=www.dogstribuidora.ga
+https://www.ssllabs.com/ssltest/analyze.html?d=sys.dogstribuidora.ga
+
+(-)
+
+(+) Puma as a service SystemD
+
+links importantes:
+
+github: https://github.com/puma/puma
+
+links para systemd:
+   https://github.com/puma/puma/blob/master/docs/systemd.md
+   https://prograils.com/posts/capistrano-deploy-to-ubuntu-with-systemd-nginx-puma-and-rbenv
+   creo que es para que que se restartee puma cada 6 horas: https://github.com/codetriage/codetriage/blob/master/config/puma.rb
+
+links para usarlo con capistrano:
+   https://prograils.com/posts/capistrano-deploy-to-ubuntu-with-systemd-nginx-puma-and-rbenv
+
+https://medium.com/@damuz91/setting-up-puma-as-a-service-in-systemd-in-ubuntu-18-9d2c1fe774e4
+https://github.com/puma/puma/blob/master/docs/systemd.md
+
+este link explica mucho, es una escuela en Eroku: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#adding-puma-to-your-application
+
+este link es de linux systemd, profundo sobre systemd: https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+
+
+archivos importantes:
+/etc/systemd/system/puma-chucky-template.service
+depues de modificar este archivo hacer:
+sudo systemctl daemon-reload
+
+para start, stop, restart puma:
+sudo service puma-chucky-template start
+sudo service puma-chucky-template stop
+sudo service puma-chucky-template restart
+sudo service puma-chucky-template status
+
+para ver el log por si el status es inactive:
+journalctl -xe
+
+para ver los procesos de puma:
+ps aux | grep puma
+
+desde mi local puedo usr capistrano para start stop puma, pero por alguna razon si lo inicio desde el droplet (usando sudo service puma start)
+cuando hago "bundle exec cap production puma:stop" en mi local no logra hacer stop de puma en el servidor. Si lo arranco con
+"bundle exec cap production puma:start" si puedo hacerle stop.
+
+NOTA: en /etc/systemd/system/puma.service arranco puma con bundle SIN la opcion --daemon (segun la documentacion, no debo usar --daemon en systemd)
+Esta es la linea que uso para arrancar puma como servicio:
+/home/deployer/.rbenv/bin/rbenv exec bundle exec puma -C /home/deployer/railsapps/dogstribuidora/shared/puma.rb
+
+Esta es l alinea que usa capistrano para arrancar puma:
+/home/deployer/.rbenv/bin/rbenv exec bundle exec puma -C /home/deployer/railsapps/dogstribuidora/shared/puma.rb --daemon
+
+estos arranque los hace capistrano si configuro workers = 0, es decir, qe no esta en modo "cluster" sino en modo "simple"
+/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -S /home/deployer/railsapps/dogstribuidora/shared/tmp/pids/puma.state -F /home/deployer/railsapps/dogstribuidora/shared/puma.rb start
+/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -S /home/deployer/railsapps/dogstribuidora/shared/tmp/pids/puma.state -F /home/deployer/railsapps/dogstribuidora/shared/puma.rb stop
+
+(-)
+
+(+) SEND EMAIL. El gran tema para no caer al spam
+en esta pagina la respuesta es muy buena:
+https://www.digitalocean.com/community/questions/how-to-send-emails-using-droplets
+
+los links de esa pagiina son:
+para testear como te ven los servidores: http://www.mail-tester.com
+para ver no se que de los blacklist: http://whatismyipaddress.com/blacklist-check
+(-)
+
+
+[Unit]
+Description=Puma HTTP Server
+After=network.target
+
+[Service]
+Type=simple
+User=myuser
+WorkingDirectory=/home/deployer/railsapps/dogstribuidora/current
+Environment=RAILS_ENV=production
+
+ExecStart=/home/deployer/railsapps/dogstribuidora/shared/bundle/ruby/2.3.0/bin/puma -C /home/deployer/railsapps/dogstribuidora/current/config/puma.rb --pidfile /home/deployer/railsapps/dogstribuidora/current/tmp/pids/puma.pid -e production
+ExecStop=/home/deployer/.rbenv/versions/2.3.1/bin/bundle exec pumactl -F config/puma.rb stop
+ExecReload=/home/deployer/.rbenv/versions/2.3.1/bin/bundle exec pumactl -F config/puma.rb phased-restart
+Restart=always
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+$HOME/.rbenv/bin/rbenv exec bundle exec pumactl -S /home/deployer/railsapps/dogstribuidora/shared/tmp/pids/puma.state -F /home/deployer/railsapps/dogstribuidora/shared/puma.rb restart
+
+
+gem install libv8 -v '3.16.14.19' -- --with-system-v8
+
+libv8-3.16.14.13-x86_64-linux
+
+sudo certbot --nginx -d chucky.ml -d www.chucky.ml -d puma.chucky.ml

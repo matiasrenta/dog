@@ -1,0 +1,10 @@
+- Para mantener el menú expandido y con la class="active" en el LI que se seleccionó...
+
+    -- Se creo una función para obtener el pathname y compararlo con los href del menú, al encontrarlo agregar la clase "active"
+    -- Esta función no dió resultados en chucky_config.js ya que al navegar se utiliza Turbolinks
+    -- Probamos poner la función dentro de:
+        document.addEventListener("turbolinks:load", function() {
+          // ...
+        })
+        -- Tampoco funcionó
+    -- La función solo dió resultados al meterla en un script dentro de _navigation.html.erb

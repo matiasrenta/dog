@@ -1,0 +1,39 @@
+<article class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+  <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+    <header>
+      <span class="widget-icon"><i class="fa fa-file-pdf-o"></i></span>
+      <h2>Documentos Financieros</h2>
+      <div class="widget-toolbar">
+        <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), locals[:new_path], class: 'btn btn-primary' if can?(:create, FinancialDocument.new(project_activityable: locals[:instance])) %>
+      </div>
+    </header>
+    <div class="no-padding">
+      <div class="widget-body">
+        <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover">
+          <thead>
+          <tr>
+            <th class='all control'>Tipo</th>
+            <th>Número</th>
+            <th>Importe</th>
+            <th class="all"><%= t('simple_form.screen.actions') %></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% locals[:instance].financial_documents.each do |fd| %>
+              <tr>
+                <td><%= fd.financial_document_type.try(:name) %></td>
+                <td><%= fd.nro_documento %></td>
+                <td><%= fd.monto %></td>
+                <td class="table-actions">
+                  <%= link_to raw('<i class="fa fa-binoculars fa-lg"></i>'), financial_document_path(fd), rel: 'tooltip', title: t('simple_form.tooltips.show'), data: { toggle: 'toggle', placement: 'top', 'original-title' => t('simple_form.tooltips.show')} if can? :read, fd %>
+                  <%= link_to raw('<i class="fa fa-pencil fa-lg"></i>'), edit_financial_document_path(fd), rel: 'tooltip', title: t('simple_form.tooltips.edit'), data: { toggle: 'toggle', placement: 'top', 'original-title' => t('simple_form.tooltips.edit')} if can? :update, fd %>
+                  <%= link_to raw('<i class="fa fa-trash fa-lg"></i>'), financial_document_path(fd), method: :delete, rel: 'tooltip', title: t('simple_form.tooltips.destroy'), class:'tooltipwithnofollow', data: { toggle: 'toggle', placement: 'top' , confirm: t('helpers.messages.are_you_sure'), 'original-title' => t('simple_form.tooltips.destroy')} if can? :destroy, fd %>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</article>

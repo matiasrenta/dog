@@ -1,0 +1,12 @@
+<div class="comments-header">
+  <h4>
+    <%= commentable.comment_threads.count == 0 ? t('simple_form.screen.no_comments_yet') : pluralize(commentable.comment_threads.count, t('simple_form.screen.comment'))  %>
+  </h4>
+</div>
+<div class="product-content product-wrap clearfix product-deatil">
+  <div class="comments-container chat-body no-padding profile-message">
+    <%= render partial: "comments/reply", locals: {comments: commentable.root_comments.order('created_at ASC')} %>
+  </div>
+
+  <%= render partial: "comments/form", locals: {new_comment: new_comment} %>
+</div>

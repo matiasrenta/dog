@@ -1,0 +1,78 @@
+<% comments.each do |comment| %>
+    <% puts comment.inspect %>
+    <ul class="comments-show" style="list-style: none;">
+      <li class="comment message">
+        <% user = User.find_by_id(User.find_by_id(comment.user_id)) %>
+        <%= image_tag attachment_url(user, :avatar, :fill, 40, 40, fallback: "avatars/male.png"), class: 'avatar_in_comment' %>
+        <span class="message-text">
+          <a href="<%= user ? user_path(user) : 'javascript:void(0);' %>" class="username"><%= user.try(:name) %>
+              <small class="text-muted pull-right ultra-light"> <%= time_ago_in_words(comment.created_at) %> </small>
+          </a>
+          <div class="mentions" contenteditable><%= comment.body %></div>
+          <ul class="list-inline font-xs reply-bottom">
+            <li class="time-left">
+              <a href="javascript:void(0);" class="text-muted"><%= time_ago_in_words(comment.created_at) %> </a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" class="text-info reply-button"><i class="fa fa-reply"></i> <%= t('simple_form.buttons.reply') %></a>
+            </li>
+            <!-- <li><a href="javascript:void(0);" class="text-danger"><i class="fa fa-thumbs-up"></i> Like</a></li>
+            <li><a href="javascript:void(0);" class="text-muted">Show All Comments (14)</a></li>
+            <li><a href="javascript:void(0);" class="text-primary">Hide</a></li> -->
+          </ul>
+          <ul style="list-style: none;">
+            <li class="reply-form">
+              <%= form_for @new_comment do |f| %>
+                  <%= f.hidden_field :commentable_id, value: @new_comment.commentable_id %>
+                  <%= f.hidden_field :commentable_type, value: @new_comment.commentable_type %>
+                  <%= f.hidden_field :comment_id, value: comment.id %>
+                  <div class="field form-group">
+                    <%= f.text_area :body, class: 'form-control mentions', placeholder: t('simple_form.placeholders.write_a_reply') %>
+                  </div>
+                  <div class="margin-top-10">
+                    <%= submit_tag t('simple_form.buttons.post_reply'), class: 'btn btn-sm btn-primary pull-right' %>
+                    <button type="button" class="btn btn-sm btn-default pull-right cancel-reply"><%= t('simple_form.buttons.cancel') %></button>
+                    <br><br>
+                  </div>
+              <% end %>
+            </li>
+          </ul>
+        </span>
+        <!-- <div class="comment-nav"><a href="#" class="comment-reply">reply</a></div> -->
+      </li>
+      <li class="message message-reply">
+        <%= render partial: "comments/reply", locals: {comments: comment.children} %>
+      </li>
+    </ul>
+<% end %>
+<script type="text/javascript">
+  $('.reply-form').hide();
+  $('.reply-button').click(function(e) {
+    var $this = $(this);
+    $( this ).parent().parent().next().children().slideDown();
+  });
+  $('.cancel-reply').click(function(e) {
+    var $this = $(this);
+    $( this ).parent().parent().parent().slideUp();
+  });
+
+  $('.comments-show').each(function() {
+    var messageReply = $(this).find('.message-reply')[0];
+    var messageChild = $(messageReply).children()[0];
+
+    if ( $(messageChild).hasClass('comments-show') ) {
+      $(this).find('.message-reply').show();
+    } else {
+      $(this).find('.message-reply').hide();
+    };
+  });
+
+  $('.comment').each(function() {
+    var commentEach = $(this)[0];
+    if ( $(commentEach).parent().parent().hasClass('message-reply') ) {
+      $(commentEach).find('.ultra-light').hide();
+    } else {
+      $(commentEach).find('.time-left').hide();
+    }
+  });
+</script>

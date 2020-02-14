@@ -1,0 +1,4 @@
+$('.modal').modal('hide');
+var data = $('#s2id_thing_thing_part_ids').select2('data');
+data.push({id:<%= @thing_part.id %>, text:'<%= @thing_part.name %>'});
+$('#s2id_thing_thing_part_ids').select2("data", data, true);

@@ -1,0 +1,44 @@
+es:
+  pages:
+    error_500:
+      something_went_wrong: 'Oooops, algo no ha funcionado bien!'
+      experienced_technical_error: 'Ha ocurrido un problema técnico.'
+      we_are_informed: 'Hemos sido notificados automáticamente vía email de este problema. Lo atenderemos a la brevedad para que no vuelva a ocurrir.'
+    error_404:
+      page_not_found: 'La página no existe'
+      page_could_not_be_found: 'La página o recurso solicitado no se ha encontrado. Si usó un link externo puede que esté desactualizado.'
+      use_back_button: 'Use el boton  "atrás" de su navegador para regresar a la página anterior.'
+    login:
+      sign_in: 'Iniciar sesión'
+      sign_out: 'Cerrar sesión'
+      sign_up: 'Crear cuenta'
+      e-mail: 'E-mail'
+      password: 'Contraseña'
+      stay_signed_in: 'Mantenerme conectado'
+      sign_in_using: 'O inicia sessión usando'
+      forgot_your_password: '¿Olvidaste tu clave?'
+      forgot_password: 'Olvido de contraseña'
+      didnt_receive_confirmation_instructions: '¿No recibiste las instrucciones de confirmación?'
+      didnt_receive_unlock_instructions: '¿No recibiste las instrucciones de desbloqueo?'
+      enter_your_email_address: 'Ingrese su e-mail'
+      reset_password: 'Cambiar contraseña'
+      account_unlock_instructions: 'Instruciones para desbloquear cuenta'
+      send_unlock_instructions: 'Enviar instrucciones de desbloqueo'
+      change_your_password: 'Cambio de contraseña'
+      new_password: 'Nueva contraseña'
+      confirm_your_new_password: 'Confirma tu nueva contraseña'
+      characters_minimum: 'caracteres como mínimo'
+      change_password: 'Cambiar contraseña'
+      resend_confirmation_instructions: 'Reenviar instrucciones de confirmación'
+      welcome: 'Bienvenido'
+      you_can_confirm_your_account: 'Puedes confirmar tu cuenta a traves del siguiente link'
+      confirm_my_account: 'Confirmar mi cuenta'
+
+    header:
+      full_screen: 'Pantalla completa'
+      collapse_menu: 'Colapsar menú'
+
+    navigation:
+      key_meta: 'Meta Claves'
+
+

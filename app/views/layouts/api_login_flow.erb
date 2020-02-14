@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html id="extr-page">
+<%= render "/layouts/head", locals: {js_options: {'data-turbolinks-track' => true}, css_options: { media: 'all', 'data-turbolinks-track' => true}} %>
+
+<body class="animated fadeInDown">
+
+<header id="header">
+
+  <div id="logo-group">
+    <span id="logo">
+      <%= image_tag('logo-cuauhtemoc.png', style: "width:100px;") %>
+    </span>
+  </div>
+
+  <!-- <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a href="register.html" class="btn btn-danger">Create account</a> </span> -->
+
+</header>
+
+<div id="main" role="main">
+
+  <!-- MAIN CONTENT -->
+  <div id="content" class="container">
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
+        <h1 class="txt-color-red login-header-big">Delegación Cuauhtémoc</h1>
+        <div class="hero">
+
+          <div class="pull-left login-desc-box-l">
+            <h4 class="paragraph-header">Aplicación móvil para la verificación de obras de la Delegación Cuauhtémoc.</h4>
+            <div class="login-app-icons">
+              <a href="http://www.transparenciacuauhtemoc.com" class="btn btn-danger btn-sm">Portal de Transparencia</a>
+            </div>
+          </div>
+
+          <%= image_tag("demo/iphoneview.png", class:"pull-right display-image", alt:"", style: "width:210px") %>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <h5 class="about-heading">Desarrollado por OPI</h5>
+            <p>
+              <%= image_tag('logo_opi.png', style: "width:80px;") %>
+              <%= link_to 'www.opi.la', 'http://www.opi.la' %>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+        <%
+           if defined? resource
+             if resource.errors.messages[:base].present?
+               flash[:alert] = resource.errors.get(:base).kind_of?(String) ? resource.errors.get(:base) : resource.errors.get(:base).join(". ")
+             elsif resource.errors.messages[:reset_password_token].present?
+               flash[:alert] = t('activerecord.errors.models.user.attributes.reset_password_token')
+             elsif resource.errors.messages[:unlock_token].present?
+               flash[:alert] = t('activerecord.errors.models.user.attributes.unlock_token')
+             elsif resource.errors.any?
+               flash[:alert] = t('activerecord.errors.template.default_error_base')
+             end
+             flash.discard(:alert) # elimina esta entrada del flash al finalizar el action
+           end
+        %>
+        <% if alert && alert != 'Necesitas iniciar sesión o registrarte para continuar.' %>
+            <div class="alert alert-danger fade in">
+              <button class="close" data-dismiss="alert">
+                ×
+              </button>
+              <%= alert %>
+            </div>
+        <% end %>
+        <% if notice && notice != 'Has cerrado la sesión correctamente.' %>
+            <div class="alert alert-success fade in">
+              <button class="close" data-dismiss="alert">
+                ×
+              </button>
+              <%= notice %>
+            </div>
+        <% end %>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+        <div class="well no-padding">
+          <%= yield %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!--================================================== -->
+<%= render "layouts/bottom_javascripts" %>
+
+<script type="text/javascript">
+    runAllForms();
+
+    $(function() {
+        // Validation
+        $("#login-form").validate({
+            // Rules for form validation
+            rules : {
+                'user[email]' : {
+                    required : true,
+                    email : true
+                },
+                'user[password]' : {
+                    required : true,
+                    minlength : 8,
+                    maxlength : 20
+                },
+                'user[password_confirmation]' : {
+                    required : true,
+                    minlength : 8,
+                    maxlength : 20
+                }
+            },
+
+            // Messages for form validation
+            messages : {
+                'user[email]' : {
+                    required : '<%= t('errors.messages.blank') %>',
+                    email : '<%= t('errors.messages.invalid_email') %>'
+                },
+                'user[password]' : {
+                    required : '<%= t('errors.messages.blank') %>',
+                    minlength: '<%= t('errors.messages.too_short', count: 8) %>',
+                    maxlength: '<%= t('errors.messages.too_long', count: 20) %>'
+                },
+                'user[password_confirmation]' : {
+                    required : '<%= t('errors.messages.blank') %>',
+                    minlength: '<%= t('errors.messages.too_short', count: 8) %>',
+                    maxlength: '<%= t('errors.messages.too_long', count: 20) %>'
+                }
+            },
+
+            // Do not change code below
+            errorPlacement : function(error, element) {
+                error.insertAfter(element.parent());
+            }
+        });
+    });
+</script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,4 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: t('activerecord.models.thing.other')) do |sheet|
+  sheet.add_row (Thing.column_names - %W(id created_at updated_at)).map { |c| I18n.t("simple_form.labels.defaults.#{c}") }
+end

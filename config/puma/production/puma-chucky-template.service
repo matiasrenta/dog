@@ -1,0 +1,25 @@
+[Unit]
+Description=Chucky-Template Puma Server
+After=network.target
+
+[Service]
+Type=simple
+User=deployer
+
+# EnvironmentFile=/home/myapp51/app/current/.rbenv-vars
+
+Environment=RAILS_ENV=production
+WorkingDirectory=/home/deployer/railsapps/chucky-template/current/
+
+ExecStart=/home/deployer/.rbenv/bin/rbenv exec bundle exec puma -C /home/deployer/railsapps/chucky-template/shared/puma.rb
+
+ExecStop=/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/chucky-template/shared/puma.rb stop
+
+ExecReload=/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/chucky-template/shared/puma.rb phased-restart
+
+TimeoutSec=15
+Restart=always
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

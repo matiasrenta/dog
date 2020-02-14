@@ -1,0 +1,75 @@
+<%
+  f = locals[:f]
+  field = locals[:field]
+  association = field.to_s.split('_files')[0].to_sym
+  label = locals[:label] || t("simple_form.labels.defaults.#{association}")
+  instance = f.object
+  accepted_files = instance.send(association).send("file_attachment_definition").valid_content_types.join(', ') if instance.send(association).send("file_attachment_definition").valid_content_types
+%>
+
+<%= f.input field, as: :attachment, multiple: true, direct: locals[:direct] || true, label: false, input_html: {style: 'display: none;'} %>
+<div class="form-group">
+ <label class="col-xs-12 col-sm-3 control-label" for=""><%= label %></label>
+ <div class="col-sm-8">
+   <div class="upload-dropzone dropzone dz-clickable" data-upload-field="images" id="dropzoneMultiple">
+     <div class="dz-default dz-message">
+       <div class="col-xs-12">
+         <h3><i class="fa fa-caret-right text-danger"></i> <%= t('simple_form.screen.click_or_drop_files') %>.</h3>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
+
+<%= f.fields_for association do |upload| %>
+  <div class="hidden">
+   <%= upload.input :_destroy, as: :boolean, wrapper: :clean, label: false, input_html: {style: 'display: none;'} %>
+  </div>
+<% end %>
+
+<%= render 'shared/dropzone_shared' %>
+
+<script type="text/javascript">
+    Dropzone.options.dropzoneMultiple = {
+        maxFiles: null,
+        maxFilesize: <%= locals[:max_filesize] %>,
+        acceptedFiles: '<%= accepted_files %>',
+        dictDefaultMessage: '<%= t('simple_form.screen.click_or_drop_files') %>',
+        dictFallbackMessage: '<%= t('simple_form.screen.not_support_drag_drop') %>',
+        dictFallbackText: '<%= t('simple_form.screen.use_the_form_below') %>',
+        dictFileTooBig: '<%= t('simple_form.screen.file_is_too_big') %> ({{filesize}}Mb). <%= t('simple_form.screen.max_filesize') %>: {{maxFilesize}}Mb.',
+        dictInvalidFileType: '<%= t('simple_form.screen.cant_upload_this_type') %>',
+        dictResponseError: '<%= t('simple_form.screen.server_responded_with_code') %>: {{statusCode}}',
+        dictCancelUpload: '<%= t('simple_form.screen.cancel_upload') %>',
+        dictCancelUploadConfirmation: '<%= t('simple_form.screen.are_you_sure_cancel_upload') %>',
+        dictRemoveFile: '<%= t('simple_form.screen.remove_file') %>',
+        dictRemoveFileConfirmation: null,
+        dictMaxFilesExceeded: '<%= t('simple_form.screen.cant_upload_any_more_files') %>',
+        init: function (file, done) {
+            thisDropzone = this;
+            var mockFile = {};
+            var indexVar = 0;
+            <%= f.fields_for association, nil, {wrapper: false, include_id: false} do |uploaded| %>
+            <% f_input_string = uploaded.input :_destroy, as: :boolean, wrapper: :clean
+                hidden_name = f_input_string.split('name="')[1].split('"')[0] %>
+            mockFile = {
+                name: '<%= uploaded.object.file_filename %>',
+                size: <%= uploaded.object.file_size %>,
+                type: '<%= uploaded.object.file_content_type %>',
+                hidden_name: '<%= hidden_name %>',
+                index: indexVar
+            };
+            thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+            thisDropzone.options.thumbnail.call(thisDropzone, mockFile, '<%= attachment_url(uploaded.object, :file, :fill, 100, 100) %>');
+            noImage(mockFile);
+            indexVar++;
+            <% end %>
+            $('#dropzoneMultiple').removeClass('dz-started');
+            $('.dz-image').children().before('<i class="fileUploadedCheck fa fa-2x fa-check-circle"></i>');
+            $('.dz-progress').fadeOut();
+        },
+        accept: function (file, done) {
+            back_files_news(file, done);
+        }
+    };
+</script>

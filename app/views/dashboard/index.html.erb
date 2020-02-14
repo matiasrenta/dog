@@ -1,0 +1,28 @@
+<script type="application/javascript" data-turbolinks-eval=always>
+    var Chartkick = {"language": "es"};
+</script>
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+  <!-- row -->
+  <div class="row">
+
+  </div>
+
+
+
+</section>
+<!-- end widget grid -->
+
+<script data-no-turbolink="true">
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+        markers = handler.addMarkers(<%=raw @hash.to_json %>);
+        handler.bounds.extendWith(markers);
+        handler.fitMapToBounds();
+        handler.getMap().setZoom(13);
+    });
+    $('.show-details:even').addClass('striped-div');
+</script>

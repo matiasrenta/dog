@@ -1,0 +1,463 @@
+<section id="widget-grid">
+
+  <div class="row">
+    <!-- Widgets en 1 columna Abarca todo el ancho de la pantalla. <article> con class col-xs-12 -->
+    <article class="col-sm-6">
+      <div class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>" id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false">
+        <header>
+          <div class="jarviswidget-ctrls hidden-xs" role="menu">
+            <a href="javascript:export_list();" class="button-icon" rel="tooltip" title="" data-placement="bottom" data-original-title="<%= t('activerecord.actions.Export') %>"><i class="fa fa-file-excel-o"></i>
+            </a>
+          </div>
+
+          <span class="widget-icon"><i class="fa fa-table"></i></span>
+
+          <!-- <%= @filter_active ? t('simple_form.buttons.filtering') : '' %> Hay un issue con esta condición, se pinta el texto de los inputs en el titulo del widget -->
+          <%= @filter_active ? "<h3>Filtrando</h3>".html_safe : "".html_safe %>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_thing_path, class: 'btn btn-primary' if (can? :create, Thing) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
+            </a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <!-- La clase fitler-zone hace que se abra una caja de filtros a la vez, si se elimina esta clase se pueden mantener abiertas todas las zonas al mismo tiempo -->
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+            <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+                  <fieldset>
+                    <!-- campos de filtros dentro de un row para que se muestren alineados -->
+                    <div class="row">
+                      <!-- Para un solo widget en 1 columna, poner las clases col-md-3 col-sm-6 col-xs-12, a los divs que contienen los inputs, selects, labels -->
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[name_cont]"><%= t('simple_form.labels.defaults.name') %></label>
+                        <%= f.search_field :name_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[age_gteq]"><%= t('simple_form.labels.defaults.age') %></label>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :age_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :age_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[price_gteq]"><%= t('simple_form.labels.defaults.price') %></label>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :price_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :price_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[expires_gteq]"><%= t('simple_form.labels.defaults.expires') %></label>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :expires_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.expires_gteq) %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :expires_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.expires_lteq) %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[discharged_at_gteq]"><%= t('simple_form.labels.defaults.discharged_at') %></label>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :discharged_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.discharged_at_gteq) %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :discharged_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.discharged_at_lteq) %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[description_cont]"><%= t('simple_form.labels.defaults.description') %></label>
+                        <%= f.search_field :description_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[published_eq]"><%= t('simple_form.labels.defaults.published') %></label>
+                        <%= f.select :published_eq, options_for_select([[t('true'), 'true'], [t('false'), 'false']], @q.published_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[thing_category_id_eq]"><%= t('simple_form.labels.defaults.thing_category') %></label>
+                        <%= f.select :thing_category_id_eq, options_from_collection_for_select(ThingCategory.all, :id, :name, @q.thing_category_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[gender_cont]"><%= t('simple_form.labels.defaults.gender') %></label>
+                        <%= f.search_field :gender_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                    </div>
+                    <div class="row pull-right">
+                      <div class="col-sm-12">
+                        <%= render "shared/submit_filters" %>
+                      </div>
+                    </div>
+                  </fieldset>
+              <% end %>
+            </div>
+          </div>
+          <div class="widget-body no-margin-top-bottom" >
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+              <tr class="table-heading">
+                <th class='all control'><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
+                <th><%= sort_link(@q, :age, t('simple_form.labels.defaults.age')) %></th>
+                <th><%= sort_link(@q, :price, t('simple_form.labels.defaults.price')) %></th>
+                <th><%= sort_link(@q, :expires, t('simple_form.labels.defaults.expires')) %></th>
+                <th><%= sort_link(@q, :discharged_at, t('simple_form.labels.defaults.discharged_at')) %></th>
+                <th><%= sort_link(@q, :description, t('simple_form.labels.defaults.description')) %></th>
+                <th><%= sort_link(@q, :published, t('simple_form.labels.defaults.published')) %></th>
+                <th><%= sort_link(@q, :gender, t('simple_form.labels.defaults.gender')) %></th>
+                <th class="all"><%= t('simple_form.screen.actions') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @things.each do |thing| %>
+                  <tr>
+                    <td><%= thing.name %></td>
+                    <td align='right'><%= thing.age %></td>
+                    <td align='right'><%= thing.price ? number_to_currency(thing.price, unit: '') : nil %></td>
+                    <td><%= l(thing.expires, format: :default) if thing.expires %></td>
+                    <td><%= l(thing.discharged_at, format: :without_seg) if thing.discharged_at %></td>
+                    <td>
+                      <div class="mentions" contenteditable>
+                        <%= thing.description %>
+                      </div>
+                    </td>
+                    <td align='center'><%= boolean_check_mark(thing.published) %></td>
+                    <td><%= thing.gender %></td>
+                    <td class="table-actions">
+                      <%= render 'shared/action_icons', locals: {target: thing} %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="widget-footer">
+            <%= render 'shared/pagination', locals: {target: @things, model_index_path: things_path} %>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- Widgets en 2 columnas. Cada <article> con class col-sm-6 -->
+  <div class="row">
+    <article class="col-sm-6">
+      <div class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>" id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false">
+        <header>
+          <div class="jarviswidget-ctrls hidden-xs" role="menu">
+            <a href="javascript:export_list();" class="button-icon" rel="tooltip" title="" data-placement="bottom" data-original-title="<%= t('activerecord.actions.Export') %>"><i class="fa fa-file-excel-o"></i>
+            </a>
+          </div>
+
+          <span class="widget-icon"><i class="fa fa-table"></i></span>
+
+          <!-- <%= @filter_active ? t('simple_form.buttons.filtering') : '' %> Hay un issue con esta condición, se pinta el texto de los inputs en el titulo del widget -->
+          <%= @filter_active ? "<h3>Filtrando</h3>".html_safe : "".html_safe %>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_thing_path, class: 'btn btn-primary' if (can? :create, Thing) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-1" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %></a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <!-- La clase fitler-zone hace que se abra una caja de filtros a la vez, si se elimina esta clase se pueden mantener abiertas todas las zonas al mismo tiempo -->
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-1" style="display:none;">
+            <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+              <fieldset>
+                <!-- campos de filtros dentro de un row para que se muestren alineados -->
+                <div class="row">
+                  <!-- Para widgets en 2 columnas, poner las clases col-sm-6 col-xs-12, a los divs que contienen los inputs, selects, labels -->
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[name_cont]"><%= t('simple_form.labels.defaults.name') %></label>
+                    <%= f.search_field :name_cont, label: false, class: "form-control input-sm" %>
+                  </div>
+                  <div class="col-sm-6 col-xs-12 spanning">
+                    <label for="q[age_gteq]"><%= t('simple_form.labels.defaults.age') %></label>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :age_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :age_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12 spanning">
+                    <label for="q[price_gteq]"><%= t('simple_form.labels.defaults.price') %></label>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :price_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :price_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12 spanning">
+                    <label for="q[expires_gteq]"><%= t('simple_form.labels.defaults.expires') %></label>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :expires_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.expires_gteq) %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :expires_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.expires_lteq) %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12 spanning">
+                    <label for="q[discharged_at_gteq]"><%= t('simple_form.labels.defaults.discharged_at') %></label>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :discharged_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.discharged_at_gteq) %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :discharged_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.discharged_at_lteq) %>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[description_cont]"><%= t('simple_form.labels.defaults.description') %></label>
+                    <%= f.search_field :description_cont, label: false, class: "form-control input-sm" %>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[published_eq]"><%= t('simple_form.labels.defaults.published') %></label>
+                    <%= f.select :published_eq, options_for_select([[t('true'), 'true'], [t('false'), 'false']], @q.published_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[thing_category_id_eq]"><%= t('simple_form.labels.defaults.thing_category') %></label>
+                    <%= f.select :thing_category_id_eq, options_from_collection_for_select(ThingCategory.all, :id, :name, @q.thing_category_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[gender_cont]"><%= t('simple_form.labels.defaults.gender') %></label>
+                    <%= f.search_field :gender_cont, label: false, class: "form-control input-sm" %>
+                  </div>
+                </div>
+                <div class="row pull-right">
+                  <div class="col-sm-12">
+                    <%= render "shared/submit_filters" %>
+                  </div>
+                </div>
+              </fieldset>
+              <% end %>
+            </div>
+          </div>
+          <div class="widget-body no-margin-top-bottom" >
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+                <tr class="table-heading">
+                  <th class='all control'><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
+                  <th><%= sort_link(@q, :age, t('simple_form.labels.defaults.age')) %></th>
+                  <th><%= sort_link(@q, :price, t('simple_form.labels.defaults.price')) %></th>
+                  <th><%= sort_link(@q, :expires, t('simple_form.labels.defaults.expires')) %></th>
+                  <th><%= sort_link(@q, :discharged_at, t('simple_form.labels.defaults.discharged_at')) %></th>
+                  <th><%= sort_link(@q, :description, t('simple_form.labels.defaults.description')) %></th>
+                  <th><%= sort_link(@q, :published, t('simple_form.labels.defaults.published')) %></th>
+                  <th><%= sort_link(@q, :gender, t('simple_form.labels.defaults.gender')) %></th>
+                  <th class="all"><%= t('simple_form.screen.actions') %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @things.each do |thing| %>
+                <tr>
+                  <td><%= thing.name %></td>
+                  <td align='right'><%= thing.age %></td>
+                  <td align='right'><%= thing.price ? number_to_currency(thing.price, unit: '') : nil %></td>
+                  <td><%= l(thing.expires, format: :default) if thing.expires %></td>
+                  <td><%= l(thing.discharged_at, format: :without_seg) if thing.discharged_at %></td>
+                  <td>
+                    <div class="mentions" contenteditable>
+                      <%= thing.description %>
+                    </div>
+                  </td>
+                  <td align='center'><%= boolean_check_mark(thing.published) %></td>
+                  <td><%= thing.gender %></td>
+                  <td class="table-actions">
+                    <%= render 'shared/action_icons', locals: {target: thing} %>
+                  </td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="widget-footer">
+            <%= render 'shared/pagination', locals: {target: @things, model_index_path: things_path} %>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="row">
+    <!-- Widgets en 1 columna Abarca todo el ancho de la pantalla. <article> con class col-xs-12 -->
+    <!-- Widgets en 2 columnas. Cada <article> con class col-sm-6 -->
+    <article class="col-xs-12">
+      <div class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>" id="wid-id-2" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false">
+        <header>
+          <div class="jarviswidget-ctrls hidden-xs" role="menu">
+            <a href="javascript:export_list();" class="button-icon" rel="tooltip" title="" data-placement="bottom" data-original-title="<%= t('activerecord.actions.Export') %>"><i class="fa fa-file-excel-o"></i>
+            </a>
+          </div>
+
+          <span class="widget-icon"><i class="fa fa-table"></i></span>
+
+          <!-- <%= @filter_active ? t('simple_form.buttons.filtering') : '' %> Hay un issue con esta condición, se pinta el texto de los inputs en el titulo del widget -->
+          <%= @filter_active ? "<h3>Filtrando</h3>".html_safe : "".html_safe %>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_thing_path, class: 'btn btn-primary' if (can? :create, Thing) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-2" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
+            </a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <!-- La clase fitler-zone hace que se abra una caja de filtros a la vez, si se elimina esta clase se pueden mantener abiertas todas las zonas al mismo tiempo -->
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-2" style="display:none;">
+            <div class="col-xs-12"><%= search_form_for(@q, builder: SimpleForm::FormBuilder, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+              <fieldset>
+                <!-- campos de filtros dentro de un row para que se muestren alineados -->
+                <div class="row">
+                  <!-- Para widgets en 2 columnas, poner las clases col-sm-6 col-xs-12, a los divs que contienen los inputs, selects, labels -->
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[name_cont]"><%= t('simple_form.labels.defaults.name') %></label>
+                    <%= f.search_field :name_cont, label: false, class: "form-control input-sm" %>
+                  </div>
+                  <div class="col-sm-6 col-xs-12 spanning">
+                    <label for="q[age_gteq]"><%= t('simple_form.labels.defaults.age') %></label>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :age_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :age_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12 spanning">
+                    <label for="q[price_gteq]"><%= t('simple_form.labels.defaults.price') %></label>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :price_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :price_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12 spanning">
+                    <label for="q[expires_gteq]"><%= t('simple_form.labels.defaults.expires') %></label>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :expires_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.expires_gteq) %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :expires_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.expires_lteq) %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12 spanning">
+                    <label for="q[discharged_at_gteq]"><%= t('simple_form.labels.defaults.discharged_at') %></label>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :discharged_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.discharged_at_gteq) %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :discharged_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.discharged_at_lteq) %>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[description_cont]"><%= t('simple_form.labels.defaults.description') %></label>
+                    <%= f.search_field :description_cont, label: false, class: "form-control input-sm" %>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[published_eq]"><%= t('simple_form.labels.defaults.published') %></label>
+                    <%= f.select :published_eq, options_for_select(options_for_boolean, @q.published_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[thing_category_id_eq]"><%= t('simple_form.labels.defaults.thing_category') %></label>
+                    <%#= f.select :thing_category_id_eq, options_from_collection_for_select(ThingCategory.all, :id, :name, @q.thing_category_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                    <%= f.input :thing_category_id_eq, label: false, as: :ajax_select2, search_class: :thing_category, input_html: {'data-s2-limit' => 10} %>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-xs-12">
+                    <label for="q[gender_cont]"><%= t('simple_form.labels.defaults.gender') %></label>
+                    <%= f.search_field :gender_cont, label: false, class: "form-control input-sm" %>
+                  </div>
+
+
+                  <!-- (+) Dynamic Select Example -->
+                  <div class="col-md-3 col-sm-6 col-xs-12">
+                    <label for="q[id_eq]">Thing (dynamic select example)</label>
+                    <!-- Dropdown simple -->
+                    <%#= f.select :id_eq, options_from_collection_for_select(Thing.all, :id, :name, @q.id_eq), {include_blank: true},
+                                 { class: "form-control input-sm", data: {dynamic_selectable_url: dynamic_select_thing_contacts_path(':thing_id'), dynamic_selectable_target: '#q_gender_eq'}} %>
+                    <!-- dropdown Select2 sin ajax -->
+                    <%= f.input :id_eq, as: :select2, label: false, collection: Thing.all, input_html: { class: "form-control input-sm", data: {dynamic_selectable_url: dynamic_select_thing_contacts_path(':thing_id'), dynamic_selectable_target: '#q_gender_eq'}} %>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-xs-12">
+                    <label for="q[gender_eq]">Thing Contact (dynamic select example)</label>
+                    <!-- Dropdown simple -->
+                    <!-- <%= f.select :gender_eq, options_for_select([], @q.gender_eq), {include_blank: true}, {class: "form-control input-sm"} %> -->
+                    <!-- dropdown Select2 sin ajax -->
+                    <%= f.input :gender_eq, as: :select2, label: false, collection: Thing.all, input_html: {class: "form-control input-sm"} %>
+                  </div>
+                  <script>
+                      $('select[data-dynamic-selectable-url][data-dynamic-selectable-target]').dynamicSelectable();
+                  </script>
+                  <!-- (-) Dynamic Select Example -->
+
+
+                </div>
+                <div class="row pull-right">
+                  <div class="col-sm-12">
+                    <%= render "shared/submit_filters" %>
+                  </div>
+                </div>
+              </fieldset>
+              <% end %>
+            </div>
+          </div>
+          <div class="widget-body no-margin-top-bottom" >
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+                <tr class="table-heading">
+                  <th class='all control'><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
+                  <th><%= sort_link(@q, :age, t('simple_form.labels.defaults.age')) %></th>
+                  <th><%= sort_link(@q, :price, t('simple_form.labels.defaults.price')) %></th>
+                  <th><%= sort_link(@q, :expires, t('simple_form.labels.defaults.expires')) %></th>
+                  <th><%= sort_link(@q, :discharged_at, t('simple_form.labels.defaults.discharged_at')) %></th>
+                  <th><%= sort_link(@q, :description, t('simple_form.labels.defaults.description')) %></th>
+                  <th><%= sort_link(@q, :published, t('simple_form.labels.defaults.published')) %></th>
+                  <th><%= sort_link(@q, :gender, t('simple_form.labels.defaults.gender')) %></th>
+                  <th><%= sort_link(@q, :thing_category_name, 'Categoria') %></th>
+                  <th class="all"><%= t('simple_form.screen.actions') %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @things.each do |thing| %>
+                <tr>
+                  <td><%= thing.name %></td>
+                  <td align='right'><%= thing.age %></td>
+                  <td align='right'><%= thing.price ? number_to_currency(thing.price, unit: '') : nil %></td>
+                  <td><%= l(thing.expires, format: :default) if thing.expires %></td>
+                  <td><%= l(thing.discharged_at, format: :without_seg) if thing.discharged_at %></td>
+                  <td>
+                    <div class="mentions" contenteditable>
+                      <%= thing.description %>
+                    </div>
+                  </td>
+                  <td align='center'><%= boolean_check_mark(thing.published) %></td>
+                  <td><%= thing.gender %></td>
+                  <td><%= thing.thing_category.try(:name) %></td>
+                  <td class="table-actions">
+                    <%= render 'shared/action_icons', locals: {target: thing} %>
+                  </td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="widget-footer">
+            <%= render 'shared/pagination', locals: {target: @things, model_index_path: things_path} %>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+
+
+</section>
+<%= javascript_include_tag 'mentions' %>

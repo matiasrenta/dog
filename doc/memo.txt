@@ -1,0 +1,73 @@
+para deployar con capistrano:
+=============================
+bundle exec cap production deploy
+
+en config/deploy.rb comentar/descomentar para que no compile/compile los assets
+
+Run Delayed Jobs:
+=================
+bin/delayed_job start
+bin/delayed_job stop
+bin/delayed_job restart
+para borrar todos los jobs in the queue: rake jobs:clear
+disable delayed jobs (se ejecuta en realtime): Delayed::Worker.delay_jobs = false
+https://github.com/collectiveidea/delayed_job
+
+
+Imagamagic en ubuntu:
+==============================
+sudo apt-get install imagemagick --fix-missing
+si falla al instalar el gem rmagic probar: sudo apt-get install libmagickwand-dev imagemagick
+solucion publicada en http://stackoverflow.com/questions/16774501/rmagick-gem-installation-issue
+
+
+Memcached:
+==========
+Instalar en ubuntu 14.04 (aqui instala mysql y php, pero creo que eso no es necesario, solo instalar memcached):
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-memcache-on-ubuntu-14-04
+
+
+Assets en producción:
+=====================
+si no se refrescan los assets al deployar, entonces eliminar la carpeta shared/public/assets
+Esto debe ser porque no se eliminan los viejos assets, los nuevos se subern pero los viejos están alli.
+
+DB:SEED:DUMP:
+=============
+rake db:seed:dump APPEND=true EXCLUDE=created_at,updated_at MODELS=CatGenAxi,CatGenGoal...
+para ejecutarlo en produccion: rake db:seed
+Considerar usar pg_dump de PostgreSQL (ver abajo)
+
+PG_DUMP:
+========
+http://www.postgresql.org/docs/9.1/static/app-pgdump.html
+http://www.postgresql.org/docs/9.1/static/backup-dump.html
+http://www.thegeekstuff.com/2009/01/how-to-backup-and-restore-postgres-database-using-pg_dump-and-psql/
+http://stackoverflow.com/questions/18664074/getting-error-peer-authentication-failed-for-user-postgres-when-trying-to-ge
+TIP: le puse al archivo (sudo vim /etc/postgresql/9.3/main/pg_hba.conf) que dice el link de arriba para que no me de el error, luego "sudo service postgresql restart":
+local   all          usuario_del_database_yml           md5
+
+dumping: pg_dump -U dbname > outfile
+pg_dump -U pitagoras -o -O -C cuauh_development > cuauh_development_dump.txt
+
+restoring:
+psql -U web -d cuauh_production -f cuauh_development_dump.txt
+
+
+LOGS PRODUCCION:
+================
+Nginx: /var/log/nginx/nginx_error.log (hacer "sudo su" y luego ir al directorio)
+
+
+PROBLEMA DE DEPLOY EN MI MAC:
+=============================
+si desde mi mac el deploy de capistrano dice:
+DEBUG [bfa15479] 	Permission denied (publickey).
+DEBUG [bfa15479] 	fatal: Could not read from remote repository.
+entonces ejecutar (para agregar al agente la llave): ssh-add ~/.ssh/id_rsa
+ver link: http://stackoverflow.com/questions/22977714/capistrano-and-github-private-repo-permission-denied-publickey
+
+EJECUTAR CONSOLA EN PRODUCCION:
+===============================
+RAILS_ENV=production bundle exec rails c --sandbox
+

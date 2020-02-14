@@ -1,0 +1,4 @@
+<%= simple_form_for :catalog_cleaner, url: run_cleaner_dev_catalog_cleaners_path do |f| %>
+ <%= f.input :cleaner, as: :select, collection: CatalogCleaner.methods - Object.methods %>
+ <%= f.submit 'Run Cleaner' %>
+<% end %>

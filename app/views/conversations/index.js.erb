@@ -1,0 +1,6 @@
+$('#infinite-list').append('<%= j render(:partial => 'conversation', :object => @conversations) %>');
+<% if @conversations.next_page %>
+    $('.pagination').replaceWith('<%= j will_paginate(@conversations) %>');
+<% else %>
+    $('.pagination').remove();
+<% end %>

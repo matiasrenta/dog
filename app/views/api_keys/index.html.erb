@@ -1,0 +1,74 @@
+<section id="widget-grid">
+  <div class="row">
+    <article class="col-xs-12">
+      <div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+        <header><span class="widget-icon"><i class="fa fa-table"></i></span>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_api_key_path, class: 'btn btn-primary' if (can? :create, ApiKey) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn <%= @filter_active ? 'btn-danger' : 'btn-primary' %>"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
+            </a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+            <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+                  <fieldset>
+                    <div class="row">
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[application_cont]"><%= t('simple_form.labels.defaults.application') %></label>
+                        <%= f.search_field :application_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[access_token_cont]"><%= t('simple_form.labels.defaults.access_token') %></label>
+                        <%= f.search_field :access_token_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[note_cont]"><%= t('simple_form.labels.defaults.note') %></label>
+                        <%= f.search_field :note_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                    </div>
+                    <div class="row pull-right">
+                      <div class="col-sm-12">
+                        <%= render 'shared/submit_filters' %>
+                      </div>
+                    </div>
+                  </fieldset>
+              <% end %>
+            </div>
+          </div>
+          <div class="widget-body">
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+              <tr>
+                <th class='all control'><%= sort_link(@q, :application, t('simple_form.labels.defaults.application')) %></th>
+                <th><%= sort_link(@q, :access_token, t('simple_form.labels.defaults.access_token')) %></th>
+                <th><%= sort_link(@q, :access_only_with_token, t('simple_form.labels.defaults.access_only_with_token')) %></th>
+                <th><%= sort_link(@q, :note, t('simple_form.labels.defaults.note')) %></th>
+                <th class="all"><%= t('simple_form.screen.actions') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @api_keys.each do |api_key| %>
+                  <tr>
+                    <td><%= api_key.application %></td>
+                    <td><%= api_key.access_token %></td>
+                    <td><%= boolean_check_mark(api_key.access_only_with_token) %></td>
+                    <td><%= api_key.note %></td>
+                    <td class="table-actions">
+                      <%= render 'shared/action_icons', locals: {target: api_key} %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="widget-footer">
+            <%= render 'shared/pagination', locals: {target: @api_keys, model_index_path: api_keys_path} %>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+

@@ -1,0 +1,48 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ * require_tree .
+ * require_self
+ */
+
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap-custom";
+@import "compass";
+
+// @import "scss/library/fontawesome/font-awesome";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+@import "scss/smartadmin-production-plugins";
+@import "scss/smartadmin-production";
+@import "scss/smartadmin-production.min";
+@import "scss/smartadmin-skins";
+
+//Componente xdsoft datetimepicker. No es el mismo datetime incluido en el theme
+@import "datetimepicker";
+
+// select2 from gem select2-rails
+@import "select2";
+@import "select2-bootstrap";
+
+// Intro JS -> Tour de jquery
+@import "scss/intro-js/introjs.scss";
+
+// jquery-mentions
+@import "scss/library/jquery-mentions/jquery.mentions";
+
+// Photo Gallery
+@import "scss/smartadmin/_plugin-superbox.scss";
+
+// Sobreescribimos los estilos que hacen falta
+@import "overwrites";

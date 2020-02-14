@@ -1,0 +1,41 @@
+Sitio de tips: http://www.railstips.org
+==============
+Aclaración de include y extend (leer los comentarios al final)
+http://www.railstips.org/blog/archives/2009/05/15/include-vs-extend-in-ruby/
+
+en un select/collection se puede definir el :label_method y el :value_method inline con simple_form
+===================================================================================================
+<%= f.input :menu_category_id, :collection => @product.menu.menu_categories,
+  :label_method => :name, :value_method => :id, :label => "Category" %>
+
+
+Clean de assets para probar con algo fresh:
+===========================================
+[RAILS_ENV=development] rake assets:clobber assets:precompile (rake assets:clean no me funciona)  //esto debe ser usado con config.assets.prefix = '/dev-assets' en environment/development.rb
+
+Para ver el assets load path:
+=============================
+en la consola: Rails.application.config.assets.paths
+
+
+Obtener Class from string:
+==========================
+si tengo "things", entonces:
+"things".singularize.classify.constantize
+ejemplo:
+"things".singularize.classify.constantize.find(1)
+sería Igual a Thing.find(1)
+
+
+Listar multiples modelos en una sola lista (un solo index view con paginación)
+==============================================================================
+https://github.com/baldursson/listable
+
+
+STI Sigle Table Inheritance:
+============================
+en el formulario tuve que poner una cosa así:
+<%= simple_form_for @perro.becomes(Animal) %>
+la explicacion esta aqui: http://thepugautomatic.com/2012/08/rails-sti-and-form-for/
+en el proyecto de cuauhtemoc lo hice en el form de key_analytical
+

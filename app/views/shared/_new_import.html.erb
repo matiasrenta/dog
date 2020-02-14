@@ -1,0 +1,80 @@
+<%
+   entity = locals[:entity]
+   parent_entity = locals[:parent_entity] # si el entity está como nested resource se debe armar la url distinto
+   nested_string = ''
+   nested_string = "#{parent_entity.name.underscore}_" if parent_entity
+
+   download_import_file_path = eval("download_import_file_#{nested_string}#{entity.name.underscore.pluralize}_path(format: :xlsx)")
+   create_import_path = eval("create_import_#{nested_string}#{entity.name.underscore.pluralize}_path")
+   new_entity_path = eval("new_#{nested_string}#{entity.name.underscore}_path")#'/things/new'
+   i18n_entity_other = "activerecord.models.#{entity.name.underscore}.other"
+   i18n_entity_one = "activerecord.models.#{entity.name.underscore}.one"
+%>
+
+<section id="widget-grid">
+
+	<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-8">
+
+			<div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-fullscreenbutton="false" class="jarviswidget jarviswidget-color-darken">
+
+				<header>
+					<span class="widget-icon"><i class='fa fa-upload'></i></span>
+				</header>
+
+				<div class="widget-body">
+					<p>
+						Para lograr una correcta importación se recomienda descargar el archivo xslx a continuación. Este archivo servirá como plantilla, ya que contiene las columnas adecuadas que requiere el sistema. Es importante no modificar el formato ni agregar datos innecesarios para así evitar un error en la importación.
+					</p>
+					<div class="btn-toolbar pull-right">
+						<%= link_to 'Download import file', download_import_file_path, :class =>'btn btn-primary' %>
+					</div>
+					<br><br><hr>
+					<!-- <h5>Seleccionar archivo para importar:</h5> -->
+					<p>
+						Una vez que tenga su archivo xlsx con los registros en cada columna, seleccionelo desde su equipo y oprima el botón Importar.
+					</p>
+					<br>
+					<%= form_for @entity_import, url: create_import_path do |f| %>
+					<%= f.file_field :file %>
+					<div class="row">
+						<br><br><br>
+						<div class="col-sm-6">
+							<i class="fa fa-fw fa-list-ul text-warning"></i> Cantidad de registros: <%= f.select :quantity_records, [['Un par para probar', 'un_par'], ['Todos', 'todos']] %>
+						</div>
+						<div class="col-sm-6">
+							<i class="fa fa-fw fa-database text-primary"></i> Grabar en ddbb: <%= f.check_box :save_in_ddbb %>
+						</div>
+						<br><br><br>
+					</div>
+					<div class="btn-toolbar pull-right">
+						<a href="<%= new_entity_path %>" type="button" class="btn btn-default">Back</a>
+						<%= f.submit "Import", :class =>'btn btn-primary' %>
+					</div>
+					<br><br><br>
+				</div>
+
+			</div><!-- End jarvis -->
+
+		</article>
+
+		<div class="col-sm-4">
+			<div class="well well-light">
+				<h5>Datos informativos:</h5>
+				<hr>
+				<ul class="list-unstyled" style="line-height: 3;">
+					<li>
+						<i class="fa fa-fw fa-th-list text-success"></i> Cantidad de <%= t(i18n_entity_other) %>: <%= entity.count %>
+					</li>
+					<li>
+						<i class="fa fa-fw fa-slack text-danger"></i> Maximum <%= t(i18n_entity_one) %> ID: <%= entity.maximum(:id) %>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+	<% end %>
+</section>

@@ -1,0 +1,93 @@
+<!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+<aside id="left-panel">
+
+  <!-- NAVIGATION : This navigation is also responsive-->
+  <nav>
+    <ul>
+      <li data-step="1" data-intro="Este es el menú de dashboard.">
+        <a href="/dashboard"><i class="fa fa-lg fa-fw fa-dashboard"></i> <span class="menu-item-parent">Dashboard</span></a>
+      </li>
+
+
+      <% if can? :read, PublicActivity::Activity %>
+          <li data-step="3" data-intro="Este es el menú de Actividad de Usuarios.">
+            <a href="/public_activity"><i class="fa fa-lg fa-fw fa-video-camera"></i> <span class="menu-item-parent">Actividad de Usuarios</span></a>
+          </li>
+      <% end %>
+
+
+      <% if can? :read, :administrations %>
+        <li data-step="5" data-intro="Este es el menú de administración.">
+        <a href="#"><i class="fa fa-lg fa-fw fa-wrench"></i> <span class="menu-item-parent">Administración</span></a>
+        <ul>
+          <li>
+            <%= link_to t('activerecord.models.user.other'), users_path, {title: t('activerecord.models.user.other')}  %>
+          </li>
+          <li>
+            <%= link_to t('activerecord.models.api_user.other'), api_users_path, {title: t('activerecord.models.api_user.other')}  %>
+          </li>
+          <li>
+            <%= link_to t('activerecord.models.social_user.other'), social_users_path, {title: t('activerecord.models.social_user.other')}  %>
+          </li>
+        </ul>
+      </li>
+      <% end %>
+
+      <% if current_user.superuser? %>
+          <li data-step="6" data-intro="Este es el menú de Superuser.">
+            <a href="#"><i class="fa fa-lg fa-fw fa-code"></i> <span class="menu-item-parent">Superuser</span></a>
+            <ul>
+              <li>
+                <%= link_to 'Settings', '/admin/settings', {title: 'Settings'}  %>
+              </li>
+              <li>
+                <%= link_to 'Delayed Jobs', delayed_jobs_path, {title: 'Delayed Jobs'}  %>
+              </li>
+              <li>
+                <%= link_to t('activerecord.models.api_key.other'), api_keys_path, {title: t('activerecord.models.api_key.other')}  %>
+              </li>
+              <li>
+                <%= link_to 'Catalog Cleaner', dev_catalog_cleaners_path, {title: 'Catalog Cleaner'}  %>
+              </li>
+              <li>
+                  <a href="#">Development</a>
+                  <ul>
+                    <li>
+                      <%= link_to 'Chucky Bots', dev_chucky_bots_path, {title: 'Chucky Bots'}  %>
+                    </li>
+                    <li>
+                      <%= link_to 'Things', things_path, {title: 'Things'}  %>
+                    </li>
+                    <li data-no-turbolink>
+                      <%= link_to 'Chartkick', '/dev/examples/chartkick', {title: 'Chartkick'}  %>
+                    </li>
+                    <li>
+                      <%= link_to 'Pruebas', '/welcome/prueba', {title: 'Pruebas'}  %>
+                    </li>
+                  </ul>
+              </li>
+            </ul>
+          </li>
+      <% end %>
+
+    </ul>
+  </nav>
+			<span class="minifyme" data-action="minifyMenu">
+				<i class="fa fa-arrow-circle-left hit"></i>
+			</span>
+
+</aside>
+<!-- END NAVIGATION -->
+
+<script type="text/javascript">
+
+  var pathUrl = location.pathname.split("/")[1];
+  $( 'nav ul li a' ).each(function( index, value ) {
+    var href = $(this).attr('href').split("/")[1];
+    if ( href === pathUrl ) {
+      $(this).parent().addClass('active');
+    }
+  });
+
+</script>

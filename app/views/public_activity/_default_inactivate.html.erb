@@ -1,0 +1,20 @@
+<li>
+  <div class="actions-hover btn-group" role="group">
+    <a type="button" href="<%= trackable_history(activity) %>" class="btn btn-sm btn-default" rel="tooltip" data-placement="top" title="Historial del elemento">
+      <i class="fa fa-history"></i>
+    </a>
+  </div>
+  <div class="smart-timeline-icon">
+    <%= owner_avatar(activity) %>
+  </div>
+  <div class="smart-timeline-time">
+    <small><%= titled_time_ago_in_words(activity.created_at) %></small>
+  </div>
+  <div class="smart-timeline-content">
+    <p>
+      <%= user_label(activity) %>
+      <%= 'inactivó' %> <strong><%= t("activerecord.models.#{activity.trackable_type.underscore}.one") %></strong>
+      <%= trackable_label(activity, false) %>
+    </p>
+  </div>
+</li>

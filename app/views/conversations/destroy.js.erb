@@ -1,0 +1,7 @@
+$("#conversation_li_<%= @conversation.id.to_s %>").fadeOut(500);
+$this = $('#activity > .badge');
+$this.text( <%= @unread_notifications_count %> );
+if ( $this.text() == 0 ) {
+  $('#activity >.badge').fadeOut(1000);
+}
+$('#infinity_scrollable .pagination').addClass('hide');

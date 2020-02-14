@@ -1,0 +1,35 @@
+upstream chucky-template {
+    server unix:/home/deployer/railsapps/chucky-template/shared/tmp/sockets/puma.sock fail_timeout=0;
+}
+
+server {
+    listen 80;
+    root /home/deployer/railsapps/chucky-template/current/public;
+    index index.html index.htm;
+    if ($http_transfer_encoding ~* chunked) {
+        return 444;
+    }
+
+    server_name chucky.ml;
+
+    access_log off;
+
+    location ~ ^/assets/ {
+      gzip_static on;
+      expires max;
+      add_header Cache-Control public;
+    }
+
+    location / {
+      try_files $uri.html $uri @app;
+    }
+
+    location @app {
+      include proxy_params;
+      proxy_redirect off;
+
+      proxy_pass http://chucky-template;
+    }
+}
+
+# hacer symlink desde /etc/nginx/sites-enabled: sudo ln -s /etc/nginx/sites-available/chucky-template

@@ -1,0 +1,5 @@
+<p><%= t('pages.login.welcome') %> <%= @resource.name_or_email %>!</p>
+
+<p><%= t('pages.login.you_can_confirm_your_account') %>:</p>
+
+<p><%= link_to t('pages.login.confirm_my_account'), confirmation_url(@resource, confirmation_token: @token) %></p>

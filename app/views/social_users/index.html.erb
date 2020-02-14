@@ -1,0 +1,93 @@
+<section id="widget-grid">
+  <div class="row">
+    <article class="col-xs-12">
+      <div class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>" id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false">
+        <header>
+          <span class="widget-icon"><i class="fa fa-table"></i></span>
+
+          <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_social_user_path, class: 'btn btn-primary' if (can? :create, SocialUser) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
+            </a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+            <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+                  <fieldset>
+                    <div class="row">
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[provider_cont]"><%= t('simple_form.labels.defaults.provider') %></label>
+                        <%= f.search_field :provider_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[uid_gteq]"><%= t('simple_form.labels.defaults.uid') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :uid_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :uid_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[access_token_cont]"><%= t('simple_form.labels.defaults.access_token') %></label>
+                        <%= f.search_field :access_token_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[email_cont]"><%= t('simple_form.labels.defaults.email') %></label>
+                        <%= f.search_field :email_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[json_data_cont]"><%= t('simple_form.labels.defaults.json_data') %></label>
+                        <%= f.search_field :json_data_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                    </div>
+                    <div class="row pull-right">
+                      <div class="col-sm-12">
+                        <%= render 'shared/submit_filters' %>
+                      </div>
+                    </div>
+                  </fieldset>
+              <% end %>
+            </div>
+          </div>
+          <div class="widget-body">
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+              <tr>
+                <th class='all control'><%= sort_link(@q, :provider, t('simple_form.labels.defaults.provider')) %></th>
+                <th><%= sort_link(@q, :uid, t('simple_form.labels.defaults.uid')) %></th>
+                <th><%= sort_link(@q, :access_token, t('simple_form.labels.defaults.access_token')) %></th>
+                <th><%= sort_link(@q, :email, t('simple_form.labels.defaults.email')) %></th>
+                <th><%= sort_link(@q, :json_data, t('simple_form.labels.defaults.json_data')) %></th>
+                <th class="all"><%= t('simple_form.screen.actions') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @social_users.each do |social_user| %>
+                  <tr>
+                    <td><%= social_user.provider %></td>
+                    <td align='right'><%= social_user.uid %></td>
+                    <td><%= social_user.access_token %></td>
+                    <td><%= social_user.email %></td>
+                    <td><%= social_user.json_data %></td>
+                    <td class="table-actions">
+                      <%= render 'shared/action_icons', locals: {target: social_user} %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="widget-footer">
+            <%= render 'shared/pagination', locals: {target: @social_users, model_index_path: social_users_path} %>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+

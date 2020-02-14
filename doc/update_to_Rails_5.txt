@@ -1,0 +1,2 @@
+Una lista de cosas a revisar para pasar de una version a otra. Fundamental pantes de hacer un upgrade
+https://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html

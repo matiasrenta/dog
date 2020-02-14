@@ -1,0 +1,33 @@
+<% @conversations.each do |conversation| %>
+<% message = conversation.last_message %>
+<li id="<%= "conversation_li_#{conversation.id}" %>" class="notification_ind">
+  <span class="row padding_notification <%= conversation.is_unread?(current_user) ? 'unread' : '' %>">
+    <div class="subject_notification">
+      <%= message.subject.html_safe -%>
+    </div>
+    <div class="text-justify font_body_notification">
+      <%= message.body.html_safe -%>
+    </div>
+    <span class="pull-right icons_notification">
+      <%= link_to '', conversation_path(conversation), class: 'pull-right fa fa-times', title: t('activerecord.actions.move_to_trash'), 'data-toggle' => 'tooltip', 'data-placement' => 'top', :remote => true, method: :delete %>
+      <%= link_to '', mark_as_read_conversation_path(conversation), id: "conversation_link_#{conversation.id}", class: 'fa fa-check', title: t('activerecord.actions.mark_as_read'), 'data-toggle' => 'tooltip', 'data-placement' => 'top', :remote => true, method: :post if conversation.is_unread?(current_user) %>
+    </span>
+    <br/>
+    <span class="font-xs text-muted text-right padding_mute" title='<%= l(message.created_at, format: :without_seg) %>' data-toggle='tooltip' data-placement='top'><i><%= time_ago_in_words(message.created_at) %></i></span>
+  </span>
+</li>
+<% end %>
+<script type="text/javascript">
+  $this = $('#activity > .badge');
+  if ( $('.notification_ind').length == 0 ) {
+    container.html('<div class="alert alert-transparent"><h4>Usted no tiene notificaciones</h4>En este panel podrá visualizar las notificaciones que se generen en el sistema.</div><i class="fa fa-check fa-4x fa-border"></i><br><br>');
+  } else {
+    $this.addClass("bg-color-red bounceIn animated");
+    $this.text( <%= @unread_notifications_count %> );
+  };
+  if ( <%= @unread_notifications_count %> === 0 ) {
+    $this.hide();
+  } else {
+    $this.show();
+  }
+</script>

@@ -1,0 +1,9 @@
+#wb = xlsx_package.workbook
+#wb.add_worksheet(name: "Things") do |sheet|
+#  sheet.add_row ['Nombre', 'Edad']
+#  @things.each do |thing|
+#    sheet.add_row [thing.name, thing.age]
+#  end
+#end
+
+@things.to_xlsx(package: xlsx_package, i18n: 'simple_form.labels.defaults')

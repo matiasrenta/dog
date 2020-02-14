@@ -1,0 +1,24 @@
+<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { id: 'login-form', class: 'smart-form client-form', method: :post}) do |f| %>
+  <header>
+    <%= t('pages.login.forgot_password') %>
+  </header>
+
+  <fieldset>
+    <section>
+      <label class="label"><%= t('pages.login.enter_your_email_address') %></label>
+      <label class="input"> <i class="icon-append fa fa-envelope"></i>
+        <%= f.input :email, label: false, autofocus: true %>
+      </label>
+    </section>
+    <section>
+      <div class="note">
+        <%= render "devise/shared/links" %>
+      </div>
+    </section>
+  </fieldset>
+  <footer>
+    <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
+        <i class='fa fa-refresh'></i> <%= t('pages.login.reset_password') %>
+    <% end %>
+  </footer>
+<% end %>

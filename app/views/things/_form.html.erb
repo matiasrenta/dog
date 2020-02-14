@@ -1,0 +1,111 @@
+<div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+  <header>
+    <h2><%= creating? ? "<i class='fa fa-file'></i>".html_safe : "<i class='fa fa-pencil'></i>".html_safe %></h2>
+    <% if creating? %>
+    <div class='widget-toolbar hidden-xs'>
+      <a href='<%= new_import_things_path %>' role='button' class='btn btn-primary'>
+        <i class='fa fa-upload'></i> Carga masiva
+      </a>
+    </div>
+    <% end %>
+  </header>
+  <div class="widget-body">
+    <%= simple_nested_form_for @thing, html: {class: 'form-horizontal'},
+    wrapper: :horizontal_form,
+    wrapper_mappings: {
+      check_boxes: :horizontal_radio_and_checkboxes,
+      radio_buttons: :horizontal_radio_and_checkboxes,
+      attachment: :horizontal_file_input,
+      boolean: :horizontal_boolean
+      } do |f| %>
+
+      <div class="form-inputs edit">
+        <%= f.input :name, input_html: {class: 'field_with_popover_rt', data: {pop: 'popover-hover', placement: 'top', title: 'title', content: 'content', icon: 'fa fa-question'}} %>
+
+        <!-- ejemplo de "nuevo en modal para un select2 Ajax" -->
+        <%= f.association :thing_category, as: :ajax_select2, search_class: :thing_category, placeholder: 'Empiece escribiendo', input_html: {'data-s2-limit' => 10, 'data-s2-button-new' => true, 'data-s2-id-modal' => 'modal-form-1', 'data-s2-title' => 'Nueva categoría'} %>
+        <!-- Select 2 Simple -->
+        <%#= f.association :thing_category, as: :select2, placeholder: 'Empiece escribiendo', input_html: {'data-s2-limit' => 10, 'data-s2-button-new' => true, 'data-s2-id-modal' => 'modal-form-1', 'data-s2-title' => 'Nueva categoría'} %>
+        <!-- Dropdown con icono fuera para agregar más -->
+        <%#= f.association :thing_category, input_html: {class: 'field_with_tooltip_lf', 'data-title' => 'Agregar nuevo', 'data-icon' => 'fa fa-plus', 'data-id-modal' => 'modal-form-1'} %>
+
+        <%= f.association :thing_parts, as: :ajax_select2, search_class: :thing_part, placeholder: 'Empiece escribiendo', input_html: {'data-s2-limit' => 10, 'data-s2-button-new' => true, 'data-s2-id-modal' => 'modal-form-2', 'data-s2-title' => 'Nueva parte'} %>
+        <%= f.input :age %>
+        <!-- <div class="col-sm-10 col-sm-offset-1"> -->
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Fieldset</legend>
+            <div class="control-group">
+              <%= f.input :price %>
+              <%= f.input :expires, as: :string, input_html: {class: 'date-picker field_with_popover_lf', value: format_date_field(@thing.expires), 'data-pop' => 'popover-hover', 'data-placement' => 'top', 'data-title' => 'Fecha de expiración', 'data-content' => 'Introduce la fecha en que expira el elemento', 'data-icon' => 'fa fa-question'} %>
+              <%= f.input :discharged_at, as: :string, hint: 'timezone: Mexico City', input_html: {class: 'datetimepicker', value: format_datetime_field(@thing.discharged_at)} %>
+            </div>
+          </fieldset>
+        <!-- </div> -->
+
+        <%= f.input :description, input_html: {class: 'mentions'} %>
+        <%= f.input :published %>
+        <%= f.input :gender, collection: ['Masculino', 'Femenino'] %>
+        <%= f.association :user %>
+
+        <%= render 'shared/dropzone_multiple', locals: {f: f, field: :thing_attaches_files, max_filesize: Sett['REFILE_S3_AVATAR_MAX_FILESIZE'].to_i} %>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 control-label" for="">Contacts</label>
+          <div class="col-sm-9">
+            <div class="table-responsive">
+              <table id="contacts" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
+                <tr>
+                  <th class="all control">name</th>
+                  <th>field 1</th>
+                  <th>field 2</th>
+                  <th>field 3</th>
+                  <th class="all"></th>
+                </tr>
+                <%= f.fields_for :thing_contacts, :wrapper => false do |thing_contact_form| %>
+                <tr class="fields">
+                  <td><%= thing_contact_form.input :name, wrapper: :clean %></td>
+                  <td><%= thing_contact_form.input :field1, wrapper: :clean %></td>
+                  <td><%= thing_contact_form.input :field2, wrapper: :clean %></td>
+                  <td><%= thing_contact_form.input :field3, wrapper: :clean %></td>
+                  <td align="center">
+                    <%= thing_contact_form.link_to_remove do %>
+                    <i class="fa fa-trash-o" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
+                    <% end %>
+                  </td>
+                </tr>
+                <% end %>
+              </table>
+              <div class="well well-sm">
+                <span class="btn bg-color-blue txt-color-white btn-xs">
+                  <%= f.link_to_add raw("add <i class='fa fa-plus-square'></i>"), :thing_contacts, :data => {:target => "#contacts"} %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="widget-footer">
+          <div class="form-actions">
+            <div class="btn-group">
+              <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), things_path, class: 'btn btn-default btn-sm' if can?(:read, Thing) %>
+              <%= link_to raw("<i class='fa fa-binoculars'></i> #{t('simple_form.buttons.show')}"), @thing, class: 'btn btn-default btn-sm' if (can?(:read, Thing) && updating?) %>
+              <%= link_to raw("<i class='fa fa-trash'></i> #{t('simple_form.buttons.destroy')}"), @thing, class: 'btn btn-default btn-sm', method: :delete, data: {confirm: t('helpers.messages.are_you_sure'), 'original-title': 'Destroy'} if (can?(:destroy, Thing) && updating?) %>
+              <button type="submit" class="btn btn-primary btn-sm">
+                <i class='fa fa-check-circle'></i> <%= creating? ? t('simple_form.buttons.create') : t('simple_form.buttons.update') %>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <%= javascript_include_tag 'mentions' %>
+
+  <!-- Modal categoria -->
+  <div class="modal fade" id="modal-form-1" role="dialog" style="z-index:99999">
+    <%= render 'thing_categories/form_remote', locals: {:instance => ThingCategory.new } %>
+  </div>
+
+  <!-- Modal parte -->
+  <div class="modal fade" id="modal-form-2" role="dialog" style="z-index:99999">
+    <%= render 'thing_parts/form_remote', locals: {:instance => ThingPart.new } %>
+  </div>

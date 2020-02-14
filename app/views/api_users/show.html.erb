@@ -1,0 +1,159 @@
+<section id="widget-grid">
+  <article class="col-sm-6">
+    <div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+      <header><span class="widget-icon"><i class="fa fa-binoculars"></i></span>
+
+        <div class="widget-toolbar">
+          <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), api_users_path, class: 'btn btn-primary' %>
+          <%= link_to raw("<i class='fa fa-pencil'></i> #{t('simple_form.buttons.edit')}"), edit_api_user_path(@api_user), class: 'btn btn-primary' if can?(:update, ApiUser) %>
+        </div>
+      </header>
+      <div class="no-padding">
+        <!-- widget content -->
+        <div class="widget-body">
+
+          <div class="form-group">
+
+            <div class="row show-details">
+              <label class="col-lg-3 col-md-4 control-label">
+                <strong><%= t('simple_form.labels.defaults.email') %></strong>
+              </label>
+              <div class="col-lg-9 details-data"><%= @api_user.email %></div>
+            </div>
+
+            <div class="row show-details">
+              <label class="col-lg-3 col-md-4 control-label">
+                <strong><%= t('simple_form.labels.defaults.name') %></strong>
+              </label>
+              <div class="col-lg-9 details-data"><%= @api_user.name %></div>
+            </div>
+
+            <div class="row show-details">
+              <label class="col-lg-3 col-md-4 control-label">
+                <strong><%= t('simple_form.labels.defaults.role') %></strong>
+              </label>
+              <div class="col-lg-9 details-data"><%= @api_user.role.try(:name) %></div>
+            </div>
+
+            <div class="row show-details">
+              <label class="col-lg-3 col-md-4 control-label">
+                <strong><%= t('simple_form.labels.defaults.locale') %></strong>
+              </label>
+              <div class="col-lg-9 details-data"><%= @api_user.locale %></div>
+            </div>
+
+            <div class="row show-details">
+              <label class="col-lg-3 col-md-4 control-label">
+                <strong><%= t('simple_form.labels.defaults.time_zone') %></strong>
+              </label>
+              <div class="col-lg-9 details-data"><%= @api_user.time_zone %></div>
+            </div>
+
+            <div class="row show-details">
+              <label class="col-lg-3 col-md-4 control-label">
+                <strong><%= t('simple_form.labels.defaults.avatar') %></strong>
+              </label>
+              <div class="col-lg-9 details-data">
+                <%= image_tag attachment_url(@api_user, :avatar, :fill, 100, 100, fallback: "avatars/male.png") %>
+              </div>
+            </div>
+
+            <div class="row show-details">
+              <label class="col-lg-3 col-md-4 control-label">
+                <strong><%= t('simple_form.labels.defaults.created_at') %></strong>
+              </label>
+              <div class="col-lg-9 details-data">
+                <%= l(@api_user.created_at, :format => :long) if @api_user.created_at %>
+              </div>
+            </div>
+
+            <div class="row show-details">
+              <label class="col-lg-3 col-md-4 control-label">
+                <strong><%= t('simple_form.labels.defaults.updated_at') %></strong>
+              </label>
+              <div class="col-lg-9 details-data">
+                <%= l(@api_user.updated_at, :format => :long) if @api_user.updated_at %>
+              </div>
+            </div>
+
+            <% if current_user.superuser? %>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label">
+                  <strong><%= t('simple_form.labels.defaults.reset_password_token') %></strong>
+                </label>
+                <div class="col-lg-9 details-data"><%= @api_user.reset_password_token %></div>
+              </div>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label">
+                  <strong><%= t('simple_form.labels.defaults.reset_password_sent_at') %></strong>
+                </label>
+                <div class="col-lg-9 details-data">
+                  <%= l(@api_user.reset_password_sent_at, :format => :long) if @api_user.reset_password_sent_at %>
+                </div>
+              </div>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label">
+                  <strong><%= t('simple_form.labels.defaults.confirmation_token') %></strong>
+                </label>
+                <div class="col-lg-9 details-data"><%= @api_user.confirmation_token %></div>
+              </div>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label">
+                  <strong><%= t('simple_form.labels.defaults.confirmed_at') %></strong>
+                </label>
+                <div class="col-lg-9 details-data">
+                  <%= l(@api_user.confirmed_at, :format => :long) if @api_user.confirmed_at %>
+                </div>
+              </div>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label">
+                  <strong><%= t('simple_form.labels.defaults.confirmation_sent_at') %></strong>
+                </label>
+                <div class="col-lg-9 details-data">
+                  <%= l(@api_user.confirmation_sent_at, :format => :long) if @api_user.confirmation_sent_at %>
+                </div>
+              </div>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label">
+                  <strong><%= t('simple_form.labels.defaults.last_seen_at') %></strong>
+                </label>
+                <div class="col-lg-9 details-data">
+                  <%= l(@api_user.last_seen_at, :format => :long) if @api_user.last_seen_at %>
+                </div>
+              </div>
+
+            <% end %>
+
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!--
+  <article class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+      <header><span class="widget-icon"><i class="fa fa-info"></i></span>
+        <h2>Details</h2>
+      </header>
+      <div class="no-padding">
+        <div class="widget-body">
+
+        </div>
+      </div>
+    </div>
+  </article>
+  -->
+</section>
+
+<script type="text/javascript">
+  $('.show-details:even').addClass('striped-div');
+</script>
+

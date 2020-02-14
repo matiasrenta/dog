@@ -1,0 +1,105 @@
+<section id="widget-grid">
+	<!-- Widgets en 1 columna Abarca todo el ancho de la pantalla. <article> con class col-xs-12 -->
+	<div class="row">
+		<article class="col-xs-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+				<header>
+					<span class="widget-icon"><i class="fa fa-table"></i></span>
+					<div class="widget-toolbar filter-group">
+						<a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn  <%= @filter_active ? 'btn-danger' : 'btn-primary' %>"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %></a>
+					</div>
+				</header>
+				<!-- widget div-->
+				<div class="no-padding">
+					<div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+						<!-- This area used as dropdown edit box -->
+
+						<div class="col-xs-12">
+							<%= search_form_for(@q, url: public_activity_index_path, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+							<fieldset>
+								<div class="row">
+									<div class="col-md-3 col-sm-6 col-xs-12">
+										<label for="q[owner_id_eq]"><%= t('activerecord.models.user.one') %></label>
+										<%= f.select :owner_id_eq, options_from_collection_for_select(users_hide_or_show_superusers, :id, :name, @q.owner_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+									</div>
+									<div class="col-md-3 col-sm-6 col-xs-12">
+										<label for="q[trackable_type_eq]"><%= t('simple_form.labels.defaults.trackable_type') %></label>
+										<%= f.select :trackable_type_eq, options_from_collection_for_select(trackables, :id, :name, @q.trackable_type_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+									</div>
+									<div class="col-md-3 col-sm-6 col-xs-12">
+										<label for="q[key_cont]"><%= t('simple_form.labels.defaults.action') %></label>
+										<%= f.select :key_cont, keyables, {include_blank: true}, {class: "form-control input-sm"} %>
+									</div>
+									<div class="col-md-3 col-sm-6 col-xs-12 spanning ">
+										<label for="q[created_at_gteq]"><%= t('simple_form.labels.defaults.happened_at') %></label>
+										<div class="input-group input-group-sm block">
+											<%= f.search_field :created_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.created_at_gteq) %>
+										</div>
+										<div class="input-group input-group-sm block">
+											<%= f.search_field :created_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.created_at_lteq) %>
+										</div>
+									</div>
+								</div>
+								<div class="row pull-right">
+									<div class="col-sm-12">
+										<%= render "shared/submit_filters" %>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+						<% end %>
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body no-margin-top-bottom">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- Timeline Content -->
+								<div class="smart-timeline">
+									<ul class="smart-timeline-list no-padding">
+                                      <% link_change_details = false %>
+                                      <% @activities.each do |activity| %>
+                                          <%
+                                             if activity.key.include?('create')
+                                               fallback = 'default_create'
+                                             elsif activity.key.include?('update')
+                                               link_change_details = true
+                                               fallback = 'default_update'
+                                             elsif activity.key.include?('destroy')
+                                               fallback = 'default_destroy'
+                                             elsif activity.key.include?('inactivate')
+                                               fallback = 'default_inactivate'
+                                             end
+                                          %>
+                                          <% if !activity.trackable_type.blank? && exists_class?(activity.trackable_type) %>
+                                              <%= render_activity(activity, fallback: fallback) %>
+                                          <% end %>
+                                      <% end %>
+									</ul>
+								</div>
+								<!-- END Timeline Content -->
+							</div>
+						</div>
+					</div>
+					<!-- end widget content -->
+
+					<div class="widget-footer">
+						<%= render 'shared/pagination', locals: {target: @activities, model_index_path: public_activity_index_path} %>
+					</div>
+				</div>
+				<!-- end widget div -->
+			</div>
+		</article>
+	</div>
+</section>
+<script type="text/javascript">
+	$( ".actions-hover" ).hide();
+	$( ".smart-timeline-list li" ).hover( function() {
+		$( ".smart-timeline-list" ).find( ".actions-hover" ).hide();
+		$( this ).find( ".actions-hover" ).show();
+		$(".btn[rel='tooltip']").tooltip();
+	}, function() {
+		$( this ).find( ".actions-hover:last" ).hide();
+	});
+</script>

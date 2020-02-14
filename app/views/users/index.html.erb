@@ -1,0 +1,198 @@
+<section id="widget-grid">
+  <article class="col-xs-12">
+    <div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+      <header>
+        <span class="widget-icon"><i class="fa fa-table"></i></span>
+        <div class="widget-toolbar filter-group">
+          <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_user_path, class: 'btn btn-primary' if (can? :create, User) %>
+          <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn <%= @filter_active ? 'btn-danger' : 'btn-primary' %>"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
+          </a>
+        </div>
+      </header>
+      <div class="no-padding">
+        <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+          <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+            <fieldset>
+              <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                  <label for="q[email_cont]"><%= t('simple_form.labels.defaults.email') %></label>
+                  <%= f.search_field :email_cont, label: false, class: "form-control input-sm" %>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                  <label for="q[name_cont]"><%= t('simple_form.labels.defaults.name') %></label>
+                  <%= f.search_field :name_cont, label: false, class: "form-control input-sm" %>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                  <label for="q[role_id_cont]"><%= t('simple_form.labels.defaults.role') %></label>
+                  <%= f.select :role_id_eq, options_from_collection_for_select(roles_for_dropdown, :id, :name, @q.role_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                </div>
+                <!--
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                  <label for="q[locale_cont]"><%#= t('simple_form.labels.defaults.locale') %></label>
+                  <%#= f.select :locale_cont, options_for_select(available_locales_for_dropdown, @q.locale_cont), {include_blank: true}, class: "form-control input-sm" %>
+                </div>
+                -->
+
+                <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                  <label for="q[created_at_gteq]"><%= t('simple_form.labels.defaults.created_at') %></label>
+                  <div class="input-group input-group-sm block">
+                    <%= f.search_field :created_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.created_at_gteq) %>
+                  </div>
+                  <div class="input-group input-group-sm block">
+                    <%= f.search_field :created_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.created_at_lteq) %>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                  <label for="q[updated_at_gteq]"><%= t('simple_form.labels.defaults.updated_at') %></label>
+                  <div class="input-group input-group-sm block">
+                    <%= f.search_field :updated_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.updated_at_gteq) %>
+                  </div>
+                  <div class="input-group input-group-sm block">
+                    <%= f.search_field :updated_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.updated_at_lteq) %>
+                  </div>
+                </div>
+
+                <% if current_user.superuser? %>
+                    <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                      <label for="q[sign_in_count_gteq]"><%= t('simple_form.labels.defaults.sign_in_count') %></label>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :sign_in_count_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :sign_in_count_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                      <label for="q[failed_attempts_gteq]"><%= t('simple_form.labels.defaults.failed_attempts') %></label>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :failed_attempts_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :failed_attempts_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                      <label for="q[current_sign_in_ip_cont]"><%= t('simple_form.labels.defaults.current_sign_in_ip') %></label>
+                      <%= f.search_field :current_sign_in_ip_cont, label: false, class: "form-control input-sm" %>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                      <label for="q[last_sign_in_ip_cont]"><%= t('simple_form.labels.defaults.last_sign_in_ip') %></label>
+                      <%= f.search_field :last_sign_in_ip_cont, label: false, class: "form-control input-sm" %>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                      <label for="q[reset_password_sent_at_gteq]"><%= t('simple_form.labels.defaults.reset_password_sent_at') %></label>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :reset_password_sent_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.reset_password_sent_at_gteq) %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :reset_password_sent_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.reset_password_sent_at_lteq) %>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                      <label for="q[remember_created_at_gteq]"><%= t('simple_form.labels.defaults.remember_created_at') %></label>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :remember_created_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.remember_created_at_gteq) %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :remember_created_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.remember_created_at_lteq) %>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                      <label for="q[current_sign_in_at_gteq]"><%= t('simple_form.labels.defaults.current_sign_in_at') %></label>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :current_sign_in_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.current_sign_in_at_gteq) %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :current_sign_in_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.current_sign_in_at_lteq) %>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                      <label for="q[last_sign_in_at_gteq]"><%= t('simple_form.labels.defaults.last_sign_in_at') %></label>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :last_sign_in_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.last_sign_in_at_gteq) %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :last_sign_in_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.last_sign_in_at_lteq) %>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                      <label for="q[locked_at_gteq]"><%= t('simple_form.labels.defaults.locked_at') %></label>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :locked_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.locked_at_gteq) %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :locked_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.locked_at_lteq) %>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                      <label for="q[last_seen_at_gteq]"><%= t('simple_form.labels.defaults.last_seen_at') %></label>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :last_seen_at_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.last_seen_at_gteq) %>
+                      </div>
+                      <div class="input-group input-group-sm block">
+                        <%= f.search_field :last_seen_at_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.last_seen_at_lteq) %>
+                      </div>
+                    </div>
+                <% end %>
+              </div>
+              <div class="row pull-right">
+                <div class="col-sm-12">
+                  <%= render "shared/submit_filters" %>
+                </div>
+              </div>
+            </fieldset>
+            <% end %>
+          </div>
+        </div>
+        <div class="widget-body">
+          <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+            <thead>
+              <tr>
+                <% if current_user.superuser? %>
+                    <th class='all control'><%= sort_link(@q, :id, t('simple_form.labels.defaults.id')) %></th>
+                <% end %>
+                <th class='all control'><%= sort_link(@q, :email, t('simple_form.labels.defaults.email')) %></th>
+                <th><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
+                <th><%= sort_link(@q, :role_name, t('simple_form.labels.defaults.role')) %></th>
+                <!--<th><%#= sort_link(@q, :locale, t('simple_form.labels.defaults.locale')) %></th>-->
+                <th><%= sort_link(@q, :time_zone, t('simple_form.labels.defaults.time_zone')) %></th>
+                <th class="all"><%= t('simple_form.screen.actions') %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @users.each do |user| %>
+              <tr>
+                <% if current_user.superuser? %>
+                    <td><%= user.id %></td>
+                <% end %>
+                <td><%= user.email %></td>
+                <td><%= user.name %></td>
+                <td><%= user.role.try(:name) %></td>
+                <!--<td><%#= user.locale %></td>-->
+                <td><%= user.time_zone %></td>
+                <td class="table-actions">
+                  <% # variables para el extra action
+                  if user.sign_in_count == 0
+                    fa_icon = 'fa-envelope'
+                    tooltip = t('devise.labels.resend_wellcome_mail')
+                  else
+                    fa_icon = 'fa-key'
+                    tooltip = t('devise.labels.send_reset_pass_mail')
+                  end
+                  url = "/users/resend_password_instructions/#{user.id}"
+                  name = 'resend_password_instructions'
+                  %>
+                  <%= render 'shared/action_icons', locals: {target: user, model_edit_path: edit_user_path(user), extra_actions: [{name: name, fa_icon: fa_icon, url: url, tooltip: tooltip}] } %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="widget-footer">
+          <%= render 'shared/pagination', locals: {target: @users, model_index_path: users_path} %>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>

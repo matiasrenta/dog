@@ -1,0 +1,77 @@
+<section id="widget-grid">
+  <div class="row">
+
+    <!-- Nuevo show ahora con divs, ya no existe tabla -->
+    <article class="col-sm-6">
+
+      <div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+        <header><span class="widget-icon"><i class="fa fa-binoculars"></i></span>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), social_users_path, class: 'btn btn-primary' %>
+            <%= link_to raw("<i class='fa fa-pencil'></i> #{t('simple_form.buttons.edit')}"), edit_social_user_path(@social_user), class: 'btn btn-primary' if can?(:update, SocialUser) %>
+          </div>
+        </header>
+        <!-- widget div-->
+        <div class="no-padding">
+
+          <!-- widget content -->
+          <div class="widget-body">
+
+            <div class="form-group">
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.provider') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @social_user.provider %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.uid') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @social_user.uid %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.access_token') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @social_user.access_token %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.email') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @social_user.email %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.json_data') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @social_user.json_data %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!--
+    <article class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+        <header><span class="widget-icon"><i class="fa fa-info"></i></span>
+          <h2>Details</h2>
+        </header>
+        <div class="no-padding">
+          <div class="widget-body">
+
+          </div>
+        </div>
+      </div>
+    </article>
+  -->
+</div>
+</section>
+
+<script type="text/javascript">
+  $('.show-details:even').addClass('striped-div');
+</script>

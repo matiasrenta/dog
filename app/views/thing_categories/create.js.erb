@@ -1,0 +1,6 @@
+$('.modal').modal('hide');
+//esto seria el codigo para el ejemplo con el select 2
+$('#thing_thing_category_id').select2('data', {id:<%= @thing_category.id %>, text:'<%= @thing_category.name %>'});
+
+//esto seria el codigo para el ejemplo con el select común
+//$('#thing_thing_category_id').append('<option value="<%= @thing_category.id %>" selected="selected"><%= @thing_category.name %></option>');

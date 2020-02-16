@@ -9,6 +9,12 @@
         <a href="/dashboard"><i class="fa fa-lg fa-fw fa-dashboard"></i> <span class="menu-item-parent">Dashboard</span></a>
       </li>
 
+      <% if can? :read, Product %>
+          <li data-step="2" data-intro="Este es el menú de Productos.">
+            <a href="<%= products_path %>"><i class="fa fa-lg fa-fw fa-barcode"></i> <span class="menu-item-parent"><%= t('activerecord.models.product.other') %></span></a>
+          </li>
+      <% end %>
+
 
       <% if can? :read, PublicActivity::Activity %>
           <li data-step="3" data-intro="Este es el menú de Actividad de Usuarios.">

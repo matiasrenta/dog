@@ -1,0 +1,177 @@
+<section id="widget-grid">
+  <div class="row">
+    <article class="col-xs-12">
+      <div class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>" id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false">
+        <header>
+          <span class="widget-icon"><i class="fa fa-table"></i></span>
+
+          <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_product_path, class: 'btn btn-primary' if (can? :create, Product) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
+            </a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+            <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+                  <fieldset>
+                    <div class="row">
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[code_cont]"><%= t('simple_form.labels.defaults.code') %></label>
+                        <%= f.search_field :code_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[name_cont]"><%= t('simple_form.labels.defaults.name') %></label>
+                        <%= f.search_field :name_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[quantity_stock_gteq]"><%= t('simple_form.labels.defaults.quantity_stock') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :quantity_stock_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :quantity_stock_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[quantity_min_gteq]"><%= t('simple_form.labels.defaults.quantity_min') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :quantity_min_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :quantity_min_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[quantity_max_gteq]"><%= t('simple_form.labels.defaults.quantity_max') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :quantity_max_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :quantity_max_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[product_cost_gteq]"><%= t('simple_form.labels.defaults.product_cost') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :product_cost_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :product_cost_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[cargo_cost_gteq]"><%= t('simple_form.labels.defaults.cargo_cost') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :cargo_cost_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :cargo_cost_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[total_cost_gteq]"><%= t('simple_form.labels.defaults.total_cost') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :total_cost_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :total_cost_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[sale_price_gteq]"><%= t('simple_form.labels.defaults.sale_price') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :sale_price_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :sale_price_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[profit_percent_gteq]"><%= t('simple_form.labels.defaults.profit_percent') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :profit_percent_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :profit_percent_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[saleman_fee_percent_gteq]"><%= t('simple_form.labels.defaults.saleman_fee_percent') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :saleman_fee_percent_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :saleman_fee_percent_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row pull-right">
+                      <div class="col-sm-12">
+                        <%= render 'shared/submit_filters' %>
+                      </div>
+                    </div>
+                  </fieldset>
+              <% end %>
+            </div>
+          </div>
+          <div class="widget-body">
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+              <tr>
+                <th class='all control'><%= sort_link(@q, :code, t('simple_form.labels.defaults.code')) %></th>
+                <th><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
+                <th><%= sort_link(@q, :quantity_stock, t('simple_form.labels.defaults.quantity_stock')) %></th>
+                <th><%= sort_link(@q, :quantity_min, t('simple_form.labels.defaults.quantity_min')) %></th>
+                <th><%= sort_link(@q, :quantity_max, t('simple_form.labels.defaults.quantity_max')) %></th>
+                <th><%= sort_link(@q, :product_cost, t('simple_form.labels.defaults.product_cost')) %></th>
+                <th><%= sort_link(@q, :cargo_cost, t('simple_form.labels.defaults.cargo_cost')) %></th>
+                <th><%= sort_link(@q, :total_cost, t('simple_form.labels.defaults.total_cost')) %></th>
+                <th><%= sort_link(@q, :sale_price, t('simple_form.labels.defaults.sale_price')) %></th>
+                <th><%= sort_link(@q, :profit_percent, t('simple_form.labels.defaults.profit_percent')) %></th>
+                <th><%= sort_link(@q, :saleman_fee_percent, t('simple_form.labels.defaults.saleman_fee_percent')) %></th>
+                <th class="all"><%= t('simple_form.screen.actions') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @products.each do |product| %>
+                  <tr>
+                    <td><%= product.code %></td>
+                    <td><%= product.name %></td>
+                    <td align='right'><%= product.quantity_stock %></td>
+                    <td align='right'><%= product.quantity_min %></td>
+                    <td align='right'><%= product.quantity_max %></td>
+                    <td align='right'><%= product.product_cost %></td>
+                    <td align='right'><%= product.cargo_cost %></td>
+                    <td align='right'><%= product.total_cost %></td>
+                    <td align='right'><%= product.sale_price %></td>
+                    <td align='right'><%= product.profit_percent %></td>
+                    <td align='right'><%= product.saleman_fee_percent %></td>
+                    <td class="table-actions">
+                      <%= render 'shared/action_icons', locals: {target: product} %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="widget-footer">
+            <%= render 'shared/pagination', locals: {target: @products, model_index_path: products_path} %>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+

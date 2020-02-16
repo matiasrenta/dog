@@ -38,6 +38,7 @@ class Ability
   end
 
   def superuser
+		can [:manage], Product
 		can :manage, :all
 	end
 
@@ -45,6 +46,13 @@ class Ability
 		can [:manage], User
 		can :read, :administrations
 		can :change_user_role, User
+
+		can :manage, Product
+	end
+
+	def vendedor
+		can [:read], Product
+
 	end
 
 

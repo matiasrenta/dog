@@ -293,6 +293,10 @@ es:
         format: "%{attribute} %{message}"
 
       models:
+      product:
+        one: Producto
+        other: Productos
+        fa_icon: 'fa-fw fa fa-barcode'
         user:
           attributes:
             reset_password_token: 'El token debe haber expirado o no es válido'
@@ -303,14 +307,10 @@ es:
       comment_successfully_added: 'El comentario fue agregado exitosamente'
 
     models:
-      nomina_document:
-        one: Reporte de Nómina
-        other: Reportes de Nómina
-        fa_icon: 'fa-fw fa fa-file-text'
-      open_datum:
-        one: Datos Abiertos
-        other: Datos Abiertos
-        fa_icon: 'fa-fw fa fa-database'
+      product:
+        one: Producto
+        other: Productos
+        fa_icon: 'fa-fw fa fa-barcode'
       social_user:
         one: Usuario Social
         other: Usuarios Sociales
@@ -325,191 +325,10 @@ es:
       api_user:
         one: Usuario API
         other: Usuarios API
-      verification:
-        one: Verificación
-        other: Verificaciones
-        fa_icon: 'fa-fw fa fa-camera'
-      ley_fraccion:
-        one: Fracción de Artículo
-        other: Fracciones de Artículos
-      ley_articulo:
-        one: Artículo de Transparencia
-        other: Artículos de Transparencia
-        fa_icon: 'fa-fw fa fa-eye'
-      staff:
-        one: Trabajador
-        other: Trabajadores
-        fa_icon: 'fa-fw fa fa-male'
-      job_title:
-        one: Denominación de Puesto
-        other: Denominaciones de Puestos
-      ascription:
-        one: Adscripción
-        other: Adscripciones
-      project_activity_adquisicion:
-        one: Actividad de Adquisición
-        other: Actividades de Adquisición
-        fa_icon: 'fa-fw fa fa-shopping-cart '
-      beneficiary:
-        one: Beneficiario
-        other: Beneficiarios
-        fa_icon: 'fa-fw fa fa-male'
-      territorial_unit:
-        one: Unidad Territorial
-        other: Unidades Territoriales
-      project_activity_social:
-        one: Actividad Social
-        other: Actividades Sociales
-        fa_icon: 'fa-fw fa fa-child'
-      social_development_program:
-        one: Programa de Desarrollo Social
-        other: Programas de Desarrollo Social
-      project_activity_obra:
-        one: Actividad de Obra
-        other: Actividades de Obra
-        fa_icon: 'fa-fw fa fa-building'
-      project_nomina:
-        one: Proyecto de Nómina
-        other: Proyectos de Nóminas
-        fa_icon: ''
-      project_adquisicion:
-        one: Proyecto de Adquisición
-        other: Proyectos de Adquisiciones
-        fa_icon: ''
-      project_social:
-        one: Proyecto Social
-        other: Proyectos Sociales
-        fa_icon: ''
-      project_obra:
-        one: Proyecto de Obra
-        other: Proyectos de Obra
-        fa_icon: 'fa-fw fa fa-building'
       supplier:
         one: Proveedor
         other: Proveedores
         fa_icon: 'fa-fw fa fa-truck'
-      town:
-        one: Municipio / Delegación
-        other: Municipios / Delegaciones
-        fa_icon: 'fa-fw fa fa-map-marker'
-      state:
-        one: Estado
-        other: Estados
-        fa_icon: 'fa-fw fa fa-globe'
-      financial_document_type:
-        one: Tipo de Documento Financiero
-        other: Tipos de Documentos Financieros
-      financial_document:
-        one: Documento Financiero
-        other: Documentos Financieros
-        fa_icon: 'fa-fw fa fa-file-pdf-o'
-      project:
-        one: Proyecto
-        other: Proyectos
-        fa_icon: 'fa-fw fa fa-list-ol'
-      key_analytical:
-        one: Afectación
-        other: Afectaciones
-        fa_icon: 'fa-fw fa fa-money'
-      cat_ppr_spending_destination:
-        one: Destino de Gasto
-        other: Destinos de Gasto
-      cat_uni_measure_unit:
-        one: Unidad de Medida
-        other: Unidades de Medida
-      cat_are_area:
-        one: Área
-        other: Áreas
-      cat_ppr_digit_identifier:
-        one: Dígito Identificador
-        other: Dígitos Identificadores
-      cat_ppr_par_partida_especifica:
-        one: Partida Específica
-        other: Partidas Específicas
-      cat_ppr_par_partida_generica:
-        one: Partida Genérica
-        other: Partidas Genéricas
-      cat_ppr_par_concept:
-        one: Concepto
-        other: Conceptos
-      cat_ppr_par_chapter:
-        one: Capítulo
-        other: Capítulos
-      cat_ppr_expense_type:
-        one: Tipo de Gasto
-        other: Tipos de Gasto
-      cat_aci_institutional_activity:
-        one: Actividad Institucional
-        other: Actividades Institucionales
-      cat_ere_subresult:
-        one: Subresultado
-        other: Subresultados
-      cat_ere_result:
-        one: Resultado
-        other: Resultados
-      cat_ere_expending_focu:
-        one: Enfoque del Gasto
-        other: Enfoques de los Gastos
-      cat_cfu_subfunction:
-        one: Subfunción
-        other: Subfunciones
-      cat_cfu_function:
-        one: Función
-        other: Funciones
-      cat_cfu_finality:
-        one: Finalidad
-        other: Finalidades
-      cat_fon_fund:
-        one: Fondo
-        other: Fondos
-      cat_fon_origin_resource:
-        one: Origen del Recurso
-        other: Orígenes de los Recursos
-      cat_fon_year_document:
-        one: Año del Documento
-        other: Años de los Documentos
-      cat_fon_specific_source:
-        one: Fuente Específica
-        other: Fuentes Específicas
-      cat_fon_generic_source:
-        one: Fuente Genérica
-        other: Fuentes Genéricas
-      cat_pgd_line_of_action:
-        one: Línea de Acción PGDDF
-        other: Líneas de Acción PGDDF
-      cat_pgd_goal:
-        one: Meta PGDDF
-        other: Metas PGDDF
-      cat_pgd_objective:
-        one: Objetivo PGDDF
-        other: Objetivos PGDDF
-      cat_pgd_area_of_opportunity:
-        one: Área de Oportunidad
-        other: Áreas de Oportunidad
-      cat_fon_funding_source:
-        one: Fuente de Financiamiento
-        other: Fuentes de Financiamiento
-      cat_pgd_axi:
-        one: Eje PGDDF
-        other: Ejes PGDDF
-      cat_gen_line_of_action:
-        one: Línea de Acción Género
-        other: Líneas de Acción Género
-      cat_gen_strategy:
-        one: Estrategia Género
-        other: Estrategias Género
-      cat_gen_axi:
-        one: Eje Género
-        other: Ejes Género
-      cat_der_line_of_action:
-        one: Línea de Acción Derechos Humanos
-        other: Líneas de Acción Derechos Humanos
-      cat_der_strategy:
-        one: Estrategia Derechos Humanos
-        other: Estrategias Derechos Humanos
-      cat_der_human_right:
-        one: Derecho Humano
-        other: Derechos Humanos
       delayed_job:
         one: Delayed job
         other: Delayed jobs

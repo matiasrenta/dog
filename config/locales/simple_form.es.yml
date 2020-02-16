@@ -77,7 +77,8 @@ es:
         total_cost: 'Costo Total'
         sale_price: 'Precio de venta'
         profit_percent: 'Porcentaje de ganancia'
-        saleman_fee_percent: 'Comisión para vendedor'
+        saleman_fee_percent:
+        notes: 'Notas'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

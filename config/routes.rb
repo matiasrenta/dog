@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :customers
   resources :products
   resources :dashboard
   resources :social_users

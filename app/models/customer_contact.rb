@@ -13,8 +13,7 @@ class CustomerContact < ActiveRecord::Base
 
   belongs_to :customer
 
-  validates :name, :customer_id, presence: true
-  validates :customer_id, numericality: true
+  validates :name, presence: true
 
 
 

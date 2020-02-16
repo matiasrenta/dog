@@ -8,7 +8,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   # GET <%= route_url %>
   def index
-    @<%= plural_table_name %> = do_index(<%= class_name %>, params)
+    @<%= plural_table_name %> = indexize(<%= class_name %>)
   end
 
   # GET <%= route_url %>/1

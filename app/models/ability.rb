@@ -43,6 +43,7 @@ class Ability
 	end
 
 	def administrador
+		can [:manage], CustomerBranch
 		can [:manage], CustomerContact
 		can :manage, Customer
 		can :manage, Product

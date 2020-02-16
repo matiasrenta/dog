@@ -8,6 +8,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/1
   def show
+    @customer_branches = indexize(CustomerBranch, collection: @customer.customer_branches, query_param: :branch)
     @customer_contacts = indexize(CustomerContact, collection: @customer.customer_contacts)
   end
 
@@ -25,6 +26,7 @@ class CustomersController < ApplicationController
       redirect_to @customer, notice: t("simple_form.flash.successfully_created")
     else
       generate_flash_msg_no_keep(@customer)
+      puts "DEBUG 1: #{@customer.errors.messages}"
       render :new
     end
   end
@@ -53,6 +55,6 @@ class CustomersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def customer_params
-      params.require(:customer).permit(:code, :name, :notes, {customer_contacts_attributes: [:_destroy, :id, :name, :phones, :email, :notes]})
+      params.require(:customer).permit(:code, :name, :notes, {customer_branches_attributes: [:_destroy, :id, :name, :address, :notes]}, {customer_contacts_attributes: [:_destroy, :id, :name, :phones, :email, :notes]})
     end
 end

@@ -20,6 +20,41 @@
 
 
             <div class="form-group">
+              <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.branches') %></label>
+              <div class="col-sm-9">
+                <div class="table-responsive">
+                  <table id="branches" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
+                    <tr>
+                      <th class="all control"><%= t('simple_form.labels.defaults.name') %></th>
+                      <th><%= t('simple_form.labels.defaults.address') %></th>
+                      <th><%= t('simple_form.labels.defaults.notes') %></th>
+                      <th class="all"></th>
+                    </tr>
+                    <%= f.fields_for :customer_branches, :wrapper => false do |customer_branch_form| %>
+                        <tr class="fields">
+                          <td><%= customer_branch_form.input :name, wrapper: :clean %></td>
+                          <td><%= customer_branch_form.input :address, wrapper: :clean %></td>
+                          <td><%= customer_branch_form.input :notes, wrapper: :clean %></td>
+                          <td align="center">
+                            <%= customer_branch_form.link_to_remove do %>
+                                <i class="fa fa-trash-o" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
+                            <% end %>
+                          </td>
+                        </tr>
+                    <% end %>
+                  </table>
+                  <div class="well well-sm">
+                <span class="btn bg-color-blue txt-color-white btn-xs">
+                  <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :customer_branches, :data => {:target => "#branches"} %>
+                </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="form-group">
               <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.contacts') %></label>
               <div class="col-sm-9">
                 <div class="table-responsive">

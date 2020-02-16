@@ -3,7 +3,6 @@ class CustomerContactsController < ApplicationController
 
   # GET /customer_contacts
   def index
-    @customer_contacts = do_index(CustomerContact, params)
   end
 
   # GET /customer_contacts/1

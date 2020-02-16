@@ -297,12 +297,21 @@ es:
           attributes:
             reset_password_token: 'El token debe haber expirado o no es válido'
             unlock_token: 'El token debe haber expirado o no es válido'
+        customer:
+          attributes:
+            customer_branches:
+              empty: 'al menos una sucursal'
+
 
     messages:
       imported_successfuly: 'Se importaron %{count} registros exitosamente'
       comment_successfully_added: 'El comentario fue agregado exitosamente'
 
     models:
+      customer_branch:
+        one: Sucursal
+        other: Sucursales
+        fa_icon: 'fa-fw fa fa-user'
       customer_contact:
         one: Contacto
         other: Contactos

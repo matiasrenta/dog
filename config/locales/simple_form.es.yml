@@ -81,6 +81,8 @@ es:
         saleman_fee_percent:
         notes: 'Notas'
         phones: 'Teléfonos'
+        address: 'Domicilio'
+        branches: 'Sucursales'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

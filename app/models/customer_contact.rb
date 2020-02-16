@@ -1,5 +1,5 @@
-class Customer < ActiveRecord::Base
-  include PublicActivity::Model
+class CustomerContact < ActiveRecord::Base
+	include PublicActivity::Model
   tracked only: [:create, :update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
   tracked owner: ->(controller, model) {controller.try(:current_user)}
@@ -10,11 +10,11 @@ class Customer < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-  has_many :customer_contacts, dependent: :destroy
-  accepts_nested_attributes_for :customer_contacts, allow_destroy: true
 
-  validates :code, :name, presence: true
-  validates :code, :name, uniqueness: true
+  belongs_to :customer
+
+  validates :name, :customer_id, presence: true
+  validates :customer_id, numericality: true
 
 
 

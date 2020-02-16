@@ -293,24 +293,20 @@ es:
         format: "%{attribute} %{message}"
 
       models:
-        customer:
-          one: Cliente
-          other: Clientes
-          fa_icon: 'fa-fw fa fa-users'
-        product:
-          one: Producto
-          other: Productos
-          fa_icon: 'fa-fw fa fa-tags'
-          user:
-            attributes:
-              reset_password_token: 'El token debe haber expirado o no es válido'
-              unlock_token: 'El token debe haber expirado o no es válido'
+        user:
+          attributes:
+            reset_password_token: 'El token debe haber expirado o no es válido'
+            unlock_token: 'El token debe haber expirado o no es válido'
 
     messages:
       imported_successfuly: 'Se importaron %{count} registros exitosamente'
       comment_successfully_added: 'El comentario fue agregado exitosamente'
 
     models:
+      customer_contact:
+        one: Contacto
+        other: Contactos
+        fa_icon: 'fa-fw fa fa-users'
       customer:
         one: Cliente
         other: Clientes

@@ -3,11 +3,12 @@ class CustomersController < ApplicationController
 
   # GET /customers
   def index
-    @customers = do_index(Customer, params)
+    @customers = indexize(Customer)
   end
 
   # GET /customers/1
   def show
+    @customer_contacts = indexize(CustomerContact, collection: @customer.customer_contacts)
   end
 
   # GET /customers/new
@@ -52,6 +53,6 @@ class CustomersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def customer_params
-      params.require(:customer).permit(:code, :name, :notes)
+      params.require(:customer).permit(:code, :name, :notes, {customer_contacts_attributes: [:_destroy, :id, :name, :phones, :email, :notes]})
     end
 end

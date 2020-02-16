@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
-  resources :customers
+  #resources :customer_contacts
+  resources :customers, shallow: true do
+    resources :customer_contacts
+  end
   resources :products
   resources :dashboard
   resources :social_users

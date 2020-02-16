@@ -19,44 +19,39 @@
           <div class="widget-body">
 
             <div class="form-group">
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.code') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= @customer.code %>
-                                          </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.name') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= @customer.name %>
-                                          </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.notes') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= @customer.notes %>
-                                          </div>
-                  </div>
-                          </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.code') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= @customer.code %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.name') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= @customer.name %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.notes') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= @customer.notes %>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </article>
 
-    <!--
-    <article class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-      <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
-        <header><span class="widget-icon"><i class="fa fa-info"></i></span>
-          <h2>Details</h2>
-        </header>
-        <div class="no-padding">
-          <div class="widget-body">
+    <%= render 'index_contacts' %>
 
-          </div>
-        </div>
-      </div>
-    </article>
-    -->
   </div>
 </section>
 
+
+<script type="text/javascript">
+    $('.show-details:even').addClass('striped-div');
+</script>

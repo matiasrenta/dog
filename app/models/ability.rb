@@ -38,23 +38,24 @@ class Ability
   end
 
   def superuser
-		can [:manage], Customer
-		can [:manage], Product
+		can [:manage], CustomerContact
 		can :manage, :all
 	end
 
 	def administrador
+		can [:manage], CustomerContact
+		can :manage, Customer
+		can :manage, Product
+
 		can [:manage], User
 		can :read, :administrations
 		can :change_user_role, User
-
-		can :manage, Product
 	end
 
 	def vendedor
+		can [:manage], CustomerContact
 		can [:create, :read, :update], Customer
 		can [:read], Product
-
 	end
 
 

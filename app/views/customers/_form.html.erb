@@ -5,7 +5,7 @@
   </header>
   <div>
     <div class="widget-body">
-      <%= simple_form_for @customer, html: { class: 'form-horizontal' },
+      <%= simple_nested_form_for @customer, html: {class: 'form-horizontal'},
                           wrapper: :horizontal_form,
                           wrapper_mappings: {
                                   check_boxes: :horizontal_radio_and_checkboxes,
@@ -14,17 +14,55 @@
                                   boolean: :horizontal_boolean
                           } do |f| %>
           <div class="form-inputs edit">
-                                    <%= f.input :code %>
-                                                    <%= f.input :name %>
-                                                    <%= f.input :notes, :input_html => { :rows => 4, :cols => 30 } %>
-                
+            <%= f.input :code %>
+            <%= f.input :name %>
+            <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
+
+
+            <div class="form-group">
+              <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.contacts') %></label>
+              <div class="col-sm-9">
+                <div class="table-responsive">
+                  <table id="contacts" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
+                    <tr>
+                      <th class="all control"><%= t('simple_form.labels.defaults.name') %></th>
+                      <th><%= t('simple_form.labels.defaults.phones') %></th>
+                      <th><%= t('simple_form.labels.defaults.email') %></th>
+                      <th><%= t('simple_form.labels.defaults.notes') %></th>
+                      <th class="all"></th>
+                    </tr>
+                    <%= f.fields_for :customer_contacts, :wrapper => false do |customer_contact_form| %>
+                        <tr class="fields">
+                          <td><%= customer_contact_form.input :name, wrapper: :clean %></td>
+                          <td><%= customer_contact_form.input :phones, wrapper: :clean %></td>
+                          <td><%= customer_contact_form.input :email, wrapper: :clean %></td>
+                          <td><%= customer_contact_form.input :notes, wrapper: :clean %></td>
+                          <td align="center">
+                            <%= customer_contact_form.link_to_remove do %>
+                                <i class="fa fa-trash-o" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
+                            <% end %>
+                          </td>
+                        </tr>
+                    <% end %>
+                  </table>
+                  <div class="well well-sm">
+                <span class="btn bg-color-blue txt-color-white btn-xs">
+                  <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :customer_contacts, :data => {:target => "#contacts"} %>
+                </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="widget-footer">
               <div class="form-actions">
                 <div class="btn-group">
                   <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), customers_path, class: 'btn btn-default btn-sm' if can?(:read, Customer) %>
                   <%= link_to raw("<i class='fa fa-binoculars'></i> #{t('simple_form.buttons.show')}"), @customer, class: 'btn btn-default btn-sm' if can?(:read, Customer) && updating? %>
                   <%= link_to raw("<i class='fa fa-trash'></i> #{t('simple_form.buttons.destroy')}"), @customer, class: 'btn btn-default btn-sm', method: :delete, data: {confirm: t('helpers.messages.are_you_sure'), 'original-title': 'Destroy'} if can?(:destroy, Customer) && updating? %>
-                  <button type="submit" class="btn btn-primary btn-sm"><i class='fa fa-check-circle'></i> <%= creating? ? t('simple_form.buttons.create') : t('simple_form.buttons.update') %></button>
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    <i class='fa fa-check-circle'></i> <%= creating? ? t('simple_form.buttons.create') : t('simple_form.buttons.update') %>
+                  </button>
                 </div>
               </div>
             </div>

@@ -69,6 +69,7 @@ es:
         supplier: 'Proveedor'
         file: 'Archivo'
         contact: 'Contacto'
+        contacts: 'Contactos'
         quantity_stock: 'Stock'
         quantity_min: 'Stock mínimo'
         quantity_max: 'Stock máximo'
@@ -79,6 +80,7 @@ es:
         profit_percent: 'Porcentaje de ganancia'
         saleman_fee_percent:
         notes: 'Notas'
+        phones: 'Teléfonos'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'
@@ -128,6 +130,7 @@ es:
       cancel: 'Cancelar'
       post_reply: 'Responder'
       post_comment: 'Comentar'
+      add: 'Agregar'
 
     tooltips:
       show: 'Ver'

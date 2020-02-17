@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+
+  resources :orders, shallow: true do
+    resources :order_details
+  end
   resources :customers, shallow: true do
     resources :customer_branches
     resources :customer_contacts

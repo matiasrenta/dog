@@ -21,6 +21,12 @@
           </li>
       <% end %>
 
+      <% if can? :read, Order %>
+          <li data-step="2" data-intro="Este es el menú de Pedidos.">
+            <a href="<%= orders_path %>"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent"><%= t('activerecord.models.order.other') %></span></a>
+          </li>
+      <% end %>
+
       <% if can? :read, PublicActivity::Activity %>
           <li data-step="3" data-intro="Este es el menú de Actividad de Usuarios.">
             <a href="/public_activity"><i class="fa fa-lg fa-fw fa-video-camera"></i> <span class="menu-item-parent">Actividad de Usuarios</span></a>

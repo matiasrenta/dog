@@ -12,6 +12,7 @@ class CustomerBranch < ActiveRecord::Base
 
 
   belongs_to :customer
+  has_many :orders, dependent: :nullify
 
   validates :name, :address, presence: true
   validates :name, uniqueness: { scope: :customer_id }

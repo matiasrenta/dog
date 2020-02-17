@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200216184442) do
+ActiveRecord::Schema.define(version: 20200217021636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,6 +205,28 @@ ActiveRecord::Schema.define(version: 20200216184442) do
 
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
+
+  create_table "order_details", force: :cascade do |t|
+    t.integer  "order_id"
+    t.integer  "product_id"
+    t.float    "unit_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float    "subtotal"
+    t.integer  "quantity"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.integer  "user_id"
+    t.float    "total_amount"
+    t.string   "status"
+    t.boolean  "comisionado"
+    t.datetime "delivery_date"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "customer_branch_id"
+  end
 
   create_table "products", force: :cascade do |t|
     t.string   "code"

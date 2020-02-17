@@ -38,11 +38,12 @@ class Ability
   end
 
   def superuser
-		can [:manage], CustomerContact
 		can :manage, :all
 	end
 
 	def administrador
+		can [:manage], OrderDetail
+		can [:manage], Order
 		can [:manage], CustomerBranch
 		can [:manage], CustomerContact
 		can :manage, Customer
@@ -54,6 +55,8 @@ class Ability
 	end
 
 	def vendedor
+		can [:create, :read, :update, :destroy], OrderDetail
+		can [:create, :read, :update, :destroy], Order
 		can [:manage], CustomerContact
 		can [:create, :read, :update], Customer
 		can [:read], Product

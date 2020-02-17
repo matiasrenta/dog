@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
           }
 
   belongs_to :role
+  has_many :orders, dependent: :restrict_with_error
+
   has_many :things, dependent: :restrict_with_error
   # Include default devise modules. Others available are:
   # :registerable, :confirmable and :omniauthable

@@ -1,5 +1,4 @@
-class Supplier < ActiveRecord::Base
-  has_many :purchase_orders, dependent: :restrict_with_error
+class PurchaseOrder < ActiveRecord::Base
 	include PublicActivity::Model
   tracked only: [:create, :update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
@@ -12,8 +11,10 @@ class Supplier < ActiveRecord::Base
           }
 
 
-  validates :name, presence: true
-  validates :name, uniqueness: true
+  belongs_to :supplier
+
+  validates :supplier_id, :total_amount, :status, presence: true
+  validates :supplier_id, :total_amount, numericality: true
 
 
 

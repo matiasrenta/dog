@@ -33,6 +33,12 @@
           </li>
       <% end %>
 
+      <% if can? :read, PurchaseOrder %>
+          <li data-step="2" data-intro="Este es el menú de Cajas.">
+            <a href="<%= purchase_orders_path %>"><i class="fa fa-lg fa-fw fa-file-text"></i> <span class="menu-item-parent"><%= t('activerecord.models.purchase_order.other') %></span></a>
+          </li>
+      <% end %>
+
       <% if can? :read, Box %>
           <li data-step="2" data-intro="Este es el menú de Cajas.">
             <a href="<%= boxes_path %>"><i class="fa fa-lg fa-fw fa-archive"></i> <span class="menu-item-parent"><%= t('activerecord.models.box.other') %></span></a>

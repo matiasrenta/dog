@@ -1,0 +1,83 @@
+<section id="widget-grid">
+  <div class="row">
+    <article class="col-xs-12">
+      <div class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>" id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false">
+        <header>
+          <span class="widget-icon"><i class="fa fa-table"></i></span>
+          <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_purchase_order_path, class: 'btn btn-primary' if(can? :create, PurchaseOrder) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %></a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+            <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+                  <fieldset>
+                    <div class="row">
+                                                                                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                  <label for="q[supplier_id_cont]"><%= t('simple_form.labels.supplier') %></label>
+                                  <%= f.select :supplier_id_eq, options_from_collection_for_select(Supplier.all, :id, :name, @q.supplier_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                                </div>
+                                                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                                  <label for="q[total_amount_gteq]"><%= t('simple_form.labels.defaults.total_amount') %></label>
+                                  <div class="input-group input-group-sm block">
+                                    <%= f.search_field :total_amount_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                                  </div>
+                                  <div class="input-group input-group-sm block">
+                                    <%= f.search_field :total_amount_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                                  </div>
+                                </div>
+                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                              <label for="q[status_cont]"><%= t('simple_form.labels.defaults.status') %></label>
+                              <%= f.search_field :status_cont, label: false, class: "form-control input-sm" %>
+                            </div>
+                                                                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                              <label for="q[notes_cont]"><%= t('simple_form.labels.defaults.notes') %></label>
+                              <%= f.search_field :notes_cont, label: false, class: "form-control input-sm" %>
+                            </div>
+                                                                  </div>
+                    <div class="row pull-right">
+                      <div class="col-sm-12">
+                        <%= render 'shared/submit_filters' %>
+                      </div>
+                    </div>
+                  </fieldset>
+              <% end %>
+              </div>
+            </div>
+          <div class="widget-body">
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+              <tr>
+                                                            <th class='all control'><%= sort_link(@q, :supplier_name, t('simple_form.labels.defaults.supplier')) %></th>
+                                                                                <th><%= sort_link(@q, :total_amount, t('simple_form.labels.defaults.total_amount')) %></th>
+                                                                                <th><%= sort_link(@q, :status, t('simple_form.labels.defaults.status')) %></th>
+                                                                                <th><%= sort_link(@q, :notes, t('simple_form.labels.defaults.notes')) %></th>
+                                                    <th class="all"><%= t('simple_form.screen.actions') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @purchase_orders.each do |purchase_order| %>
+              <tr>
+                                                                        <td><%= purchase_order.supplier.try(:name) %></td>
+                                                                                          <td align='right'><%= purchase_order.total_amount %></td>
+                                                                                          <td><%= purchase_order.status %></td>
+                                                                                          <td><%= purchase_order.notes %></td>
+                                              <td class="table-actions">
+                <%= render 'shared/action_icons', locals: {target: purchase_order} %>
+              </td>
+              </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="widget-footer">
+            <%= render 'shared/pagination', locals: {target: @purchase_orders, model_index_path: purchase_orders_path} %>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+

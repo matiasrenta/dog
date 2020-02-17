@@ -42,6 +42,7 @@ class Ability
 	end
 
 	def administrador
+		can [:manage], Supplier
 		can [:manage], OrderDetail
 		can [:manage], Order
 		can [:manage], CustomerBranch

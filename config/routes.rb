@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :suppliers
   resources :orders, shallow: true do
     resources :order_details
   end

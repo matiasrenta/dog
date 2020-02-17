@@ -3,15 +3,15 @@ lock '3.7.2'
 
 require 'seed-fu/capistrano3'
 
-set :application, 'chucky-template'
-set :repo_url, 'git@github.com:matiasrenta/chucky-template.git'
+set :application, 'dogstribuidora'
+set :repo_url, 'git@github.com:matiasrenta/dog.git'
 #set :branch, 'puma' # change branch as needed
 
 # Default branch is :master
 #ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/deployer/railsapps/chucky-template'
+set :deploy_to, '/home/deployer/railsapps/dog'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -90,10 +90,10 @@ namespace :deploy do
   desc 'Restart application by restarting puma service'
   task :restart do
     on roles(:app) do
-      server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/chucky-template/shared/puma.rb phased-restart"
-      app_current = '/home/deployer/railsapps/chucky-template/current'
+      server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog/shared/puma.rb phased-restart"
+      app_current = '/home/deployer/railsapps/dog/current'
       execute "cd '#{app_current}'; #{server_command}"
-      #execute "sudo service puma-chucky-template restart"
+      #execute "sudo service puma-dog restart"
     end
   end
 

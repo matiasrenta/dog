@@ -1,0 +1,63 @@
+upstream puma-dog {
+  server unix:///home/deployer/railsapps/dog/shared/tmp/sockets/puma.sock;
+}
+
+server {
+    if ($host = sys.dogstribuidora.ga) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    listen [::]:80;
+
+    server_name sys.dogstribuidora.ga;
+    return 404; # managed by Certbot
+}
+
+server {
+  #listen 80; # default_server deferred;
+
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  # listen [::]:443 ssl ipv6only=on; # managed by Certbot
+  # listen 443 ssl; # managed by Certbot
+  # include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+  # ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+
+
+  # If you're planning on using SSL (which you should), you can also go ahead and fill out the following server_name variable:
+  server_name sys.dogstribuidora.ga;
+
+  # Don't forget to update these, too
+  root /home/deployer/railsapps/dog/current/public;
+  access_log /home/deployer/railsapps/dog/current/log/nginx.access.log;
+  error_log /home/deployer/railsapps/dog/current/log/nginx.error.log info;
+
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
+  try_files $uri/index.html $uri @puma;
+  location @puma {
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+
+    proxy_pass http://puma-dog;
+  }
+
+  error_page 500 502 503 504 /500.html;
+  client_max_body_size 10M;
+  keepalive_timeout 10;
+
+  ssl_certificate /etc/letsencrypt/live/dogstribuidora.ga/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/dogstribuidora.ga/privkey.pem; # managed by Certbot
+
+}
+
+# hacer symlink desde /etc/nginx/sites-enabled: sudo ln -s /etc/nginx/sites-available/dog

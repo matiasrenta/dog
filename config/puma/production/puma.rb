@@ -36,21 +36,21 @@
 
 
 #!/usr/bin/env puma
-directory '/home/deployer/railsapps/chucky-template/current'
-rackup "/home/deployer/railsapps/chucky-template/current/config.ru"
+directory '/home/deployer/railsapps/dog/current'
+rackup "/home/deployer/railsapps/dog/current/config.ru"
 environment 'production'
 
 tag ''
 
-pidfile "/home/deployer/railsapps/chucky-template/shared/tmp/pids/puma.pid"
-state_path "/home/deployer/railsapps/chucky-template/shared/tmp/pids/puma.state"
-stdout_redirect '/home/deployer/railsapps/chucky-template/shared/log/puma_access.log', '/home/deployer/railsapps/chucky-template/shared/log/puma_error.log', true
+pidfile "/home/deployer/railsapps/dog/shared/tmp/pids/puma.pid"
+state_path "/home/deployer/railsapps/dog/shared/tmp/pids/puma.state"
+stdout_redirect '/home/deployer/railsapps/dog/shared/log/puma_access.log', '/home/deployer/railsapps/dog/shared/log/puma_error.log', true
 
-threads 0,16
+threads 2,3
 
-bind 'unix:///home/deployer/railsapps/chucky-template/shared/tmp/sockets/puma.sock'
+bind 'unix:///home/deployer/railsapps/dog/shared/tmp/sockets/puma.sock'
 
-workers 1
+workers 2
 
 restart_command 'bundle exec puma'
 
@@ -58,5 +58,5 @@ prune_bundler
 
 on_restart do
   puts 'Refreshing Gemfile'
-  ENV["BUNDLE_GEMFILE"] = "/home/deployer/railsapps/chucky-template/current/Gemfile"
+  ENV["BUNDLE_GEMFILE"] = "/home/deployer/railsapps/dog/current/Gemfile"
 end

@@ -1,6 +1,4 @@
-class Product < ActiveRecord::Base
-  has_many :boxes, dependent: :restrict_with_error
-  has_many :order_details, dependent: :restrict_with_error
+class Box < ActiveRecord::Base
 	include PublicActivity::Model
   tracked only: [:create, :update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
@@ -13,9 +11,11 @@ class Product < ActiveRecord::Base
           }
 
 
-  validates :code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :sale_price, :profit_percent, :saleman_fee_percent, presence: true
-  validates :code, :name, uniqueness: true
-  validates :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :sale_price, :profit_percent, :saleman_fee_percent, numericality: true
+  belongs_to :product
+
+  validates :code, :product_id, :quantity, presence: true
+  validates :code, uniqueness: true
+  validates :product_id, :quantity, numericality: true
 
 
 

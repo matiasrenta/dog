@@ -293,6 +293,10 @@ es:
         format: "%{attribute} %{message}"
 
       models:
+      purchase_order:
+        one: Orden de Compra
+        other: Ordenes de Compra
+        fa_icon: 'fa-fw fa fa-file-text'
       box:
         one: Caja
         other: Cajas
@@ -320,6 +324,10 @@ es:
       comment_successfully_added: 'El comentario fue agregado exitosamente'
 
     models:
+      purchase_order:
+        one: Orden de Compra
+        other: Ordenes de Compra
+        fa_icon: 'fa-fw fa fa-file-text'
       box:
         one: Caja
         other: Cajas

@@ -42,9 +42,24 @@ class Ability
 	end
 
 	def administrador
+		can [:manage], OrderDetail
+		can [:manage], Order
+		can [:manage], CustomerBranch
+		can [:manage], CustomerContact
+		can :manage, Customer
+		can :manage, Product
+
 		can [:manage], User
 		can :read, :administrations
 		can :change_user_role, User
+	end
+
+	def vendedor
+		can [:create, :read, :update, :destroy], OrderDetail
+		can [:create, :read, :update, :destroy], Order
+		can [:manage], CustomerContact
+		can [:create, :read, :update], Customer
+		can [:read], Product
 	end
 
 

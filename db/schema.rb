@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200211150122) do
+ActiveRecord::Schema.define(version: 20200217021636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,33 @@ ActiveRecord::Schema.define(version: 20200211150122) do
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
+  create_table "customer_branches", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.string   "name"
+    t.string   "address"
+    t.text     "notes"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "customer_contacts", force: :cascade do |t|
+    t.string   "name"
+    t.string   "phones"
+    t.string   "email"
+    t.text     "notes"
+    t.integer  "customer_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string   "code"
+    t.string   "name"
+    t.text     "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
@@ -178,6 +205,44 @@ ActiveRecord::Schema.define(version: 20200211150122) do
 
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
+
+  create_table "order_details", force: :cascade do |t|
+    t.integer  "order_id"
+    t.integer  "product_id"
+    t.float    "unit_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float    "subtotal"
+    t.integer  "quantity"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.integer  "user_id"
+    t.float    "total_amount"
+    t.string   "status"
+    t.boolean  "comisionado"
+    t.datetime "delivery_date"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "customer_branch_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string   "code"
+    t.string   "name"
+    t.integer  "quantity_stock"
+    t.integer  "quantity_min"
+    t.integer  "quantity_max"
+    t.float    "product_cost"
+    t.float    "cargo_cost"
+    t.float    "total_cost"
+    t.float    "sale_price"
+    t.integer  "profit_percent"
+    t.integer  "saleman_fee_percent"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"

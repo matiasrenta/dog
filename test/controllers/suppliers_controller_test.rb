@@ -18,7 +18,7 @@ class SuppliersControllerTest < ActionController::TestCase
 
   test "should create supplier" do
     assert_difference('Supplier.count') do
-      post :create, supplier: { calle: @supplier.calle, codigo_postal: @supplier.codigo_postal, entre_calles: @supplier.entre_calles, name: @supplier.name, nro_exterior: @supplier.nro_exterior, nro_interior: @supplier.nro_interior, observaciones: @supplier.observaciones, razon_social: @supplier.razon_social, rfc: @supplier.rfc, state_id: @supplier.state_id, town_id: @supplier.town_id }
+      post :create, supplier: { address: @supplier.address, name: @supplier.name, notes: @supplier.notes }
     end
 
     assert_redirected_to supplier_path(assigns(:supplier))
@@ -35,7 +35,7 @@ class SuppliersControllerTest < ActionController::TestCase
   end
 
   test "should update supplier" do
-    patch :update, id: @supplier, supplier: { calle: @supplier.calle, codigo_postal: @supplier.codigo_postal, entre_calles: @supplier.entre_calles, name: @supplier.name, nro_exterior: @supplier.nro_exterior, nro_interior: @supplier.nro_interior, observaciones: @supplier.observaciones, razon_social: @supplier.razon_social, rfc: @supplier.rfc, state_id: @supplier.state_id, town_id: @supplier.town_id }
+    patch :update, id: @supplier, supplier: { address: @supplier.address, name: @supplier.name, notes: @supplier.notes }
     assert_redirected_to supplier_path(assigns(:supplier))
   end
 

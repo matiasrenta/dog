@@ -4,10 +4,13 @@
       <div class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>" id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false">
         <header>
           <span class="widget-icon"><i class="fa fa-table"></i></span>
+
           <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
+
           <div class="widget-toolbar filter-group">
-            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_order_path, class: 'btn btn-primary' if(can? :create, Order) %>
-            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %></a>
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_order_path, class: 'btn btn-primary' if (can? :create, Order) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
+            </a>
           </div>
         </header>
         <div class="no-padding">
@@ -15,41 +18,43 @@
             <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
                   <fieldset>
                     <div class="row">
-                                                                                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                  <label for="q[customer_id_cont]"><%= t('simple_form.labels.customer') %></label>
-                                  <%= f.select :customer_id_eq, options_from_collection_for_select(Customer.all, :id, :name, @q.customer_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
-                                </div>
-                                                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                  <label for="q[user_id_cont]"><%= t('simple_form.labels.user') %></label>
-                                  <%= f.select :user_id_eq, options_from_collection_for_select(User.all, :id, :name, @q.user_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
-                                </div>
-                                                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                                  <label for="q[total_amount_gteq]"><%= t('simple_form.labels.defaults.total_amount') %></label>
-                                  <div class="input-group input-group-sm block">
-                                    <%= f.search_field :total_amount_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
-                                  </div>
-                                  <div class="input-group input-group-sm block">
-                                    <%= f.search_field :total_amount_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
-                                  </div>
-                                </div>
-                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12">
-                              <label for="q[status_cont]"><%= t('simple_form.labels.defaults.status') %></label>
-                              <%= f.search_field :status_cont, label: false, class: "form-control input-sm" %>
-                            </div>
-                                                                                                <div class="col-md-3 col-sm-6 col-xs-12">
-                              <label for="q[comisionado_eq]"><%= t('simple_form.labels.defaults.comisionado') %></label>
-                              <%= f.select :comisionado_eq, options_for_select([[t('true'), 'true'], [t('false'), 'false']], @q.comisionado_eq), {include_blank: true}, {class: "form-control input-sm"} %>
-                            </div>
-                                                                                                <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                              <label for="q[delivery_date_gteq]"><%= t('simple_form.labels.defaults.delivery_date') %></label>
-                              <div class="input-group input-group-sm block">
-                                <%= f.search_field :delivery_date_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.delivery_date_gteq) %>
-                              </div>
-                              <div class="input-group input-group-sm block">
-                                <%= f.search_field :delivery_date_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.delivery_date_lteq) %>
-                              </div>
-                            </div>
-                                                                  </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[customer_id_cont]"><%= t('simple_form.labels.customer') %></label>
+                        <%= f.select :customer_id_eq, options_from_collection_for_select(Customer.all, :id, :name, @q.customer_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[user_id_cont]"><%= t('simple_form.labels.user') %></label>
+                        <%= f.select :user_id_eq, options_from_collection_for_select(User.all, :id, :name, @q.user_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[total_amount_gteq]"><%= t('simple_form.labels.defaults.total_amount') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :total_amount_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :total_amount_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[status_cont]"><%= t('simple_form.labels.defaults.status') %></label>
+                        <%= f.select :status_eq, options_for_select(Order::STATUS_TYPES, @q.status_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[comisionado_eq]"><%= t('simple_form.labels.defaults.comisionado') %></label>
+                        <%= f.select :comisionado_eq, options_for_select([[t('true'), 'true'], [t('false'), 'false']], @q.comisionado_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[delivery_date_gteq]"><%= t('simple_form.labels.defaults.delivery_date') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :delivery_date_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.delivery_date_gteq) %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :delivery_date_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.delivery_date_lteq) %>
+                        </div>
+                      </div>
+                    </div>
                     <div class="row pull-right">
                       <div class="col-sm-12">
                         <%= render 'shared/submit_filters' %>
@@ -57,34 +62,34 @@
                     </div>
                   </fieldset>
               <% end %>
-              </div>
             </div>
+          </div>
           <div class="widget-body">
             <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
               <thead>
               <tr>
-                                                            <th class='all control'><%= sort_link(@q, :customer_name, t('simple_form.labels.defaults.customer')) %></th>
-                                                                                <th><%= sort_link(@q, :user_name, t('simple_form.labels.defaults.user')) %></th>
-                                                                                <th><%= sort_link(@q, :total_amount, t('simple_form.labels.defaults.total_amount')) %></th>
-                                                                                <th><%= sort_link(@q, :status, t('simple_form.labels.defaults.status')) %></th>
-                                                                                <th><%= sort_link(@q, :comisionado, t('simple_form.labels.defaults.comisionado')) %></th>
-                                                                                <th><%= sort_link(@q, :delivery_date, t('simple_form.labels.defaults.delivery_date')) %></th>
-                                                    <th class="all"><%= t('simple_form.screen.actions') %></th>
+                <th class='all control'><%= sort_link(@q, :customer_name, t('simple_form.labels.defaults.customer')) %></th>
+                <th><%= sort_link(@q, :user_name, t('simple_form.labels.defaults.user')) %></th>
+                <th><%= sort_link(@q, :total_amount, t('simple_form.labels.defaults.total_amount')) %></th>
+                <th><%= sort_link(@q, :status, t('simple_form.labels.defaults.status')) %></th>
+                <th><%= sort_link(@q, :comisionado, t('simple_form.labels.defaults.comisionado')) %></th>
+                <th><%= sort_link(@q, :delivery_date, t('simple_form.labels.defaults.delivery_date')) %></th>
+                <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
               </thead>
               <tbody>
               <% @orders.each do |order| %>
-              <tr>
-                                                                        <td><%= order.customer.try(:name) %></td>
-                                                                                          <td><%= order.user.try(:name) %></td>
-                                                                                          <td align='right'><%= order.total_amount %></td>
-                                                                                          <td><%= order.status %></td>
-                                                                                          <td align='center'><%= boolean_check_mark(order.comisionado) %></td>
-                                                                                          <td><%= l(order.delivery_date, format: :without_seg) %></td>
-                                              <td class="table-actions">
-                <%= render 'shared/action_icons', locals: {target: order} %>
-              </td>
-              </tr>
+                  <tr>
+                    <td><%= order.customer.try(:name) %></td>
+                    <td><%= order.user.try(:name) %></td>
+                    <td align='right'><%= order.total_amount %></td>
+                    <td><%= order.status %></td>
+                    <td align='center'><%= boolean_check_mark(order.comisionado) %></td>
+                    <td><%= l(order.delivery_date, format: :without_seg) if order.delivery_date %></td>
+                    <td class="table-actions">
+                      <%= render 'shared/action_icons', locals: {target: order} %>
+                    </td>
+                  </tr>
               <% end %>
               </tbody>
             </table>

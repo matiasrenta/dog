@@ -13,12 +13,19 @@
                                   boolean: :horizontal_boolean
                           } do |f| %>
           <div class="form-inputs edit">
-            <%= f.association :customer %>
+
+            <%= f.association :customer, input_html: { data: {dynamic_selectable_url: dynamic_select_customer_branches_path(':customer_id'), dynamic_selectable_target: '#order_customer_branch_id'}}%>
+            <%#= f.association :customer %>
             <%= f.association :customer_branch %>
             <%= f.association :user %>
-            <%= f.input :total_amount %>
+            <%#= f.input :total_amount %>
             <%= f.input :delivery_date, as: :string, placeholder: 'dd/mm/aaaa HH:MM', input_html: {class: 'datetimepicker', value: format_datetime_field(@order.delivery_date)} %>
+            <%= f.input :status, as: :select, collection: Order::STATUS_TYPES, include_blank: true %>
 
+
+            <script>
+                $('select[data-dynamic-selectable-url][data-dynamic-selectable-target]').dynamicSelectable();
+            </script>
 
             <div class="form-group">
               <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.order_details') %></label>
@@ -27,6 +34,7 @@
                   <table id="order_details" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
                     <tr>
                       <th class="all control"><%= t('simple_form.labels.defaults.product') %></th>
+                      <th class="all control"><%= t('simple_form.labels.defaults.stock') %></th>
                       <th><%= t('simple_form.labels.defaults.quantity') %></th>
                       <th><%= t('simple_form.labels.defaults.unit_price') %></th>
                       <th class="all"></th>
@@ -34,6 +42,7 @@
                     <%= f.fields_for :order_details, :wrapper => false do |order_detail_form| %>
                         <tr class="fields">
                           <td><%= order_detail_form.association :product, wrapper: :clean %></td>
+                          <td></td>
                           <td><%= order_detail_form.input :quantity, wrapper: :clean %></td>
                           <td><%= order_detail_form.input :unit_price, wrapper: :clean %></td>
                           <td align="center">

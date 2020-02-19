@@ -86,14 +86,14 @@
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.profit_percent') %></strong></label>
 
                 <div class="col-lg-9 details-data">
-                  <%= @product.profit_percent %>
+                  <%= @product.profit_percent %> <%= @product.profit_percent.present? ? '%' : '' %>
                 </div>
               </div>
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.saleman_fee_percent') %></strong></label>
 
                 <div class="col-lg-9 details-data">
-                  <%= @product.saleman_fee_percent %>
+                  <%= @product.saleman_fee_percent %> <%= @product.saleman_fee_percent.present? ? '%' : '' %>
                 </div>
               </div>
             </div>

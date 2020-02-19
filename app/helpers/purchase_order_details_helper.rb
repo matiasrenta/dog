@@ -1,0 +1,2 @@
+module PurchaseOrderDetailsHelper
+end

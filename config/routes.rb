@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
 
-
-  resources :purchase_orders
+  resources :purchase_orders, shallow: true do
+    resources :purchase_order_details
+  end
   resources :boxes
   resources :suppliers
   resources :orders, shallow: true do
     resources :order_details
   end
+
   resources :customers, shallow: true do
     resources :customer_branches
     resources :customer_contacts
@@ -36,6 +38,7 @@ Rails.application.routes.draw do
 
   namespace :dynamic_select do
     get ':thing_id/thing_contacts', to: 'thing_contacts#index', as: 'thing_contacts' # el as: es para que el helper method sea 'dynamic_select_thing_contacts_path' y no 'dynamic_select_path'
+    get ':customer_id/customer_branches', to: 'customer_branches#index', as: 'customer_branches' # el as: es para que el helper method sea 'dynamic_select_thing_contacts_path' y no 'dynamic_select_path'
   end
 
   namespace :dev do

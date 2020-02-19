@@ -53,7 +53,8 @@
                 <td><%= customer_branch.address %></td>
                 <td><%= customer_branch.notes %></td>
                 <td class="table-actions">
-                  <%= render 'shared/action_icons', locals: {target: customer_branch} %>
+                  <%= link_to raw('<i class="fa fa-binoculars fa-lg"></i>'), customer_branch, rel: 'tooltip', title: t('simple_form.tooltips.show'), data: { toggle: 'toggle', placement: 'top', 'original-title' => t('simple_form.tooltips.show')} if can? :read, customer_branch %>
+                  <%= link_to raw('<i class="fa fa-pencil fa-lg"></i>'), edit_model_path(customer_branch), rel: 'tooltip', title: t('simple_form.tooltips.edit'), data: { toggle: 'toggle', placement: 'top', 'original-title' => t('simple_form.tooltips.edit')} if can? :update, customer_branch %>
                 </td>
               </tr>
           <% end %>

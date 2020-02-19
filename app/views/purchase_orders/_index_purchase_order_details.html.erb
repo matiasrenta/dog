@@ -1,0 +1,97 @@
+<article class="col-sm-6">
+  <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>">
+
+    <header>
+      <%= "<h3>#{t('activerecord.models.purchase_order_detail.other')}</h3>".html_safe %>
+      <div class="widget-toolbar filter-group">
+      </div>
+    </header>
+
+
+    <div class="no-padding">
+      <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-1" style="display:none;">
+        <div class="col-md-9 col-sm-12 no-padding">
+
+          <%= search_form_for(@q, url: purchase_order_path(@purchase_order), html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+              <fieldset>
+                <div class="row">
+                  <div class="col-md-3 col-sm-6 col-xs-12">
+                    <label for="q[box_id_cont]"><%= t('simple_form.labels.box') %></label>
+                    <%= f.select :box_id_eq, options_from_collection_for_select(Box.all, :id, :code, @q.box_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                    <label for="q[quantity_gteq]"><%= t('simple_form.labels.defaults.quantity') %></label>
+
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :quantity_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :quantity_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                    <label for="q[product_unit_cost_gteq]"><%= t('simple_form.labels.defaults.product_unit_cost') %></label>
+
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :product_unit_cost_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :product_unit_cost_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                    <label for="q[box_unit_cost_gteq]"><%= t('simple_form.labels.defaults.box_unit_cost') %></label>
+
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :box_unit_cost_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                    </div>
+                    <div class="input-group input-group-sm block">
+                      <%= f.search_field :box_unit_cost_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row pull-right">
+                  <div class="col-sm-12">
+                    <%= render 'shared/submit_filters' %>
+                  </div>
+                </div>
+              </fieldset>
+
+          <% end %>
+        </div>
+      </div>
+      <div class="widget-body">
+        <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+          <thead>
+          <tr>
+            <th class='all control'><%= sort_link(@q, :box_name, t('simple_form.labels.defaults.box')) %></th>
+            <th><%= sort_link(@q, :quantity, t('simple_form.labels.defaults.quantity')) %></th>
+            <th><%= sort_link(@q, :product_unit_cost, t('simple_form.labels.defaults.product_unit_cost')) %></th>
+            <th><%= sort_link(@q, :box_unit_cost, t('simple_form.labels.defaults.box_unit_cost')) %></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @purchase_order_details.each do |purchase_order_detail| %>
+              <tr>
+                <td><%= purchase_order_detail.box.try(:code) %></td>
+                <td align='right'><%= purchase_order_detail.quantity %></td>
+                <td align='right'><%= purchase_order_detail.product_unit_cost %></td>
+                <td align='right'><%= purchase_order_detail.box_unit_cost %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <div class="widget-footer">
+          <%= render 'shared/pagination', locals: {target: @purchase_order_details, model_index_path: purchase_order_purchase_order_details_path(@purchase_order)} %>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+

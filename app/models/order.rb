@@ -10,6 +10,10 @@ class Order < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
+  STATUS_TYPES = [['Creado', 'Creado'],
+                  ['Empaquetado', 'Empaquetado'],
+                  ['Entregado', 'Entregado'],
+                  ['Cobrado', 'Cobrado']]
 
   belongs_to :user
   belongs_to :customer
@@ -18,7 +22,7 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :order_details, allow_destroy: true
 
   before_validation on: :create do
-    self.status = 'creado'
+    self.status = STATUS_TYPES[0][1]
   end
 
   validates :customer_id, :customer_branch_id, :user_id, :total_amount, :status, presence: true

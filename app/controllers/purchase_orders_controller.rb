@@ -8,6 +8,7 @@ class PurchaseOrdersController < ApplicationController
 
   # GET /purchase_orders/1
   def show
+    @purchase_order_details = indexize(PurchaseOrderDetail, collection: @purchase_order.purchase_order_details)
   end
 
   # GET /purchase_orders/new
@@ -25,6 +26,7 @@ class PurchaseOrdersController < ApplicationController
       redirect_to @purchase_order, notice: t("simple_form.flash.successfully_created")
     else
       generate_flash_msg_no_keep(@purchase_order)
+      puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ DEBUG 1: #{@purchase_order.errors.messages}"
       render :new
     end
   end
@@ -53,6 +55,6 @@ class PurchaseOrdersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def purchase_order_params
-      params.require(:purchase_order).permit(:supplier_id, :total_amount, :status, :notes)
+      params.require(:purchase_order).permit(:supplier_id, :total_amount, :status, :notes, {purchase_order_details_attributes: [:_destroy, :id, :box_id, :quantity, :product_unit_cost, :box_unit_cost, :purchase_order_id]})
     end
 end

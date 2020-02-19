@@ -26,7 +26,6 @@ class OrdersController < ApplicationController
       redirect_to @order, notice: t("simple_form.flash.successfully_created")
     else
       generate_flash_msg_no_keep(@order)
-      puts "DEBUG 1: #{@order.errors.messages}"
       render :new
     end
   end
@@ -37,7 +36,6 @@ class OrdersController < ApplicationController
       redirect_to @order, notice: t("simple_form.flash.successfully_updated")
     else
       generate_flash_msg_no_keep(@order)
-      puts "DEBUG 2: #{@order.errors.messages}"
       render :edit
     end
   end

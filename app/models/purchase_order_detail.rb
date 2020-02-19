@@ -1,7 +1,6 @@
-class Box < ActiveRecord::Base
-  has_many :purchase_order_details, dependent: :restrict_with_error
+class PurchaseOrderDetail < ActiveRecord::Base
 	include PublicActivity::Model
-  tracked only: [:create, :update, :destroy]
+  tracked only: [:update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
   tracked owner: ->(controller, model) {controller.try(:current_user)}
   #tracked recipient: ->(controller, model) { model.xxxx }
@@ -12,11 +11,12 @@ class Box < ActiveRecord::Base
           }
 
 
-  belongs_to :product
+  belongs_to :purchase_order
 
-  validates :code, :product_id, :quantity, presence: true
-  validates :code, uniqueness: true
-  validates :product_id, :quantity, numericality: true
+  belongs_to :box
+
+  validates :box_id, :quantity, :product_unit_cost, :box_unit_cost, presence: true
+  validates :box_id, :quantity, :product_unit_cost, :box_unit_cost, numericality: true
 
 
 

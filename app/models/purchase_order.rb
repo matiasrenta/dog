@@ -12,6 +12,8 @@ class PurchaseOrder < ActiveRecord::Base
 
 
   belongs_to :supplier
+  has_many :purchase_order_details, dependent: :destroy
+  accepts_nested_attributes_for :purchase_order_details, allow_destroy: true
 
   validates :supplier_id, :total_amount, :status, presence: true
   validates :supplier_id, :total_amount, numericality: true

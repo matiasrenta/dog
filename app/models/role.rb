@@ -8,28 +8,18 @@ class Role < ActiveRecord::Base
     find_by_name 'superuser'
   end
 
-  def self.revisor
-    find_by_name 'Revisor'
-  end
+
 
   def superuser?
     name == 'superuser'
   end
 
-  def ejecutor_adquisicion?
-    name == 'Ejecutor Adquisición'
+  def admin?
+    name == 'Administrador'
   end
 
-  def ejecutor_nomina?
-    name == 'Ejecutor Nómina'
-  end
-
-  def ejecutor_obra?
-    name == 'Ejecutor Obra'
-  end
-
-  def ejecutor_social?
-    name == 'Ejecutor Social'
+  def vendedor?
+    name == 'Vendedor'
   end
 
 

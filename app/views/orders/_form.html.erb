@@ -15,12 +15,11 @@
           <div class="form-inputs edit">
 
             <%= f.association :customer, input_html: { data: {dynamic_selectable_url: dynamic_select_customer_branches_path(':customer_id'), dynamic_selectable_target: '#order_customer_branch_id'}}%>
-            <%#= f.association :customer %>
             <%= f.association :customer_branch %>
-            <%= f.association :user %>
-            <%#= f.input :total_amount %>
+            <%= f.association :user if current_user.superuser? || current_user.admin? %>
+            <%= f.input :total_amount, input_html: {disabled: true} %>
             <%= f.input :delivery_date, as: :string, placeholder: 'dd/mm/aaaa HH:MM', input_html: {class: 'datetimepicker', value: format_datetime_field(@order.delivery_date)} %>
-            <%= f.input :status, as: :select, collection: Order::STATUS_TYPES, include_blank: true %>
+            <%= f.input :status, as: :select, collection: Order::STATUS_TYPES, include_blank: true if updating? %>
 
 
             <script>
@@ -34,17 +33,17 @@
                   <table id="order_details" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
                     <tr>
                       <th class="all control"><%= t('simple_form.labels.defaults.product') %></th>
-                      <th class="all control"><%= t('simple_form.labels.defaults.stock') %></th>
+                      <th><%= t('simple_form.labels.defaults.stock') %></th>
                       <th><%= t('simple_form.labels.defaults.quantity') %></th>
                       <th><%= t('simple_form.labels.defaults.unit_price') %></th>
                       <th class="all"></th>
                     </tr>
                     <%= f.fields_for :order_details, :wrapper => false do |order_detail_form| %>
                         <tr class="fields">
-                          <td><%= order_detail_form.association :product, wrapper: :clean %></td>
-                          <td></td>
-                          <td><%= order_detail_form.input :quantity, wrapper: :clean %></td>
-                          <td><%= order_detail_form.input :unit_price, wrapper: :clean %></td>
+                          <td><%= order_detail_form.association :product, wrapper: :clean, input_html: {disabled: true, class: :enable_me, onchange: 'change_product(this);'} %></td>
+                          <td>Stock</td>
+                          <td><%= order_detail_form.input :quantity, wrapper: :clean, input_html: {disabled: true, class: :enable_me} %></td>
+                          <td><%= order_detail_form.input :unit_price, wrapper: :clean, input_html: {disabled: true, class: :enable_me} %></td>
                           <td align="center">
                             <%= order_detail_form.link_to_remove do %>
                                 <i class="fa fa-trash-o" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
@@ -81,3 +80,17 @@
     </div>
   </div>
 </div>
+
+<script>
+    $(document).on('nested:fieldAdded', function(event){
+        // this field was just inserted into your form
+        var field = event.field;
+        // it's a jQuery object already! Now you can find date input
+        var fields_disabled = field.find('.enable_me');
+        fields_disabled.prop("disabled", false);
+    })
+
+    function change_product(element){
+        //alert(element.id);
+    }
+</script>

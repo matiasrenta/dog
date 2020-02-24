@@ -23,6 +23,7 @@ class Order < ActiveRecord::Base
 
   before_validation on: :create do
     self.status = STATUS_TYPES[0][1]
+    calculate_total_amount
   end
 
   validates :customer_id, :customer_branch_id, :user_id, :total_amount, :status, presence: true
@@ -35,11 +36,16 @@ class Order < ActiveRecord::Base
   end
 
   before_save do
-    self.total_amount = order_details.collect { |od| od.valid? ? (od.quantity * od.unit_price) : 0 }.sum
+    calculate_total_amount
   end
-
 
   def except_attr_in_public_activity
     [:id, :updated_at]
+  end
+
+  private
+
+  def calculate_total_amount
+    self.total_amount = order_details.collect { |od| (od.valid? && !od.marked_for_destruction?) ? (od.quantity * od.unit_price) : 0 }.sum
   end
 end

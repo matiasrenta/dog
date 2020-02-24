@@ -76,17 +76,17 @@
                 </div>
               </div>
               <div class="row show-details">
-                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.sale_price') %></strong></label>
-
-                <div class="col-lg-9 details-data">
-                  <%= @product.sale_price  ? number_to_currency(@product.sale_price, unit: '') : nil %>
-                </div>
-              </div>
-              <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.profit_percent') %></strong></label>
 
                 <div class="col-lg-9 details-data">
                   <%= @product.profit_percent %> <%= @product.profit_percent.present? ? '%' : '' %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.sale_price') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= @product.sale_price  ? number_to_currency(@product.sale_price, unit: '') : nil %>
                 </div>
               </div>
               <div class="row show-details">
@@ -96,6 +96,7 @@
                   <%= @product.saleman_fee_percent %> <%= @product.saleman_fee_percent.present? ? '%' : '' %>
                 </div>
               </div>
+
             </div>
           </div>
         </div>

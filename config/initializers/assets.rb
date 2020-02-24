@@ -9,4 +9,10 @@ Rails.application.config.assets.version = '1.3'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
-Rails.application.config.assets.precompile += %w( js/common.js js/app.js chucky_config.js mentions.js)
+Rails.application.config.assets.precompile += %w(
+js/common.js
+js/app.js
+chucky_config.js
+mentions.js
+products.js
+)

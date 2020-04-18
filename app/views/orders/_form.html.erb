@@ -40,7 +40,7 @@
                     </tr>
                     <%= f.fields_for :order_details, :wrapper => false do |order_detail_form| %>
                         <tr class="fields">
-                          <td><%= order_detail_form.association :product, wrapper: :clean, input_html: {disabled: true, class: :enable_me, onchange: 'change_product(this);'} %></td>
+                          <td><%= order_detail_form.association :product, wrapper: :clean, input_html: {disabled: true, class: [:enable_me, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info'} } %></td>
                           <td><span id="stock_span"></span>Stock</td>
 
                           <td><%= order_detail_form.input :quantity, wrapper: :clean, input_html: {disabled: true, class: :enable_me} %></td>
@@ -84,22 +84,7 @@
 
 
 <% content_for :javascript_per_page do %>
-    <%#= javascript_include_tag "products", 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag "orders", 'data-turbolinks-track' => true %>
 <% end %>
 
-<script>
-    $(document).on('nested:fieldAdded', function(event){
-        // this field was just inserted into your form
-        var field = event.field;
-        // it's a jQuery object already! Now you can find date input
-        var fields_disabled = field.find('.enable_me');
-        fields_disabled.prop("disabled", false);
-    })
 
-    function change_product(element){
-        //alert(element.id);
-        alert(element.value);
-        //$('#product_profit_percent')
-
-    }
-</script>

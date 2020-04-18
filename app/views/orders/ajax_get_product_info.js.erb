@@ -1,0 +1,11 @@
+<% if @product %>
+$('<%=@unit_price_html_input_id%>').val(<%= number_to_currency(@product.sale_price, unit: "") %>);
+<% else %>
+$('<%=@unit_price_html_input_id%>').val('');
+<% end %>
+
+
+
+
+
+

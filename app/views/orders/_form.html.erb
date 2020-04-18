@@ -41,8 +41,7 @@
                     <%= f.fields_for :order_details, :wrapper => false do |order_detail_form| %>
                         <tr class="fields">
                           <td><%= order_detail_form.association :product, wrapper: :clean, input_html: {disabled: true, class: [:enable_me, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info'} } %></td>
-                          <td><span id="stock_span"></span>Stock</td>
-
+                          <td><%= order_detail_form.input :stock_at_create, wrapper: :clean, input_html: {disabled: true} %></td>
                           <td><%= order_detail_form.input :quantity, wrapper: :clean, input_html: {disabled: true, class: :enable_me} %></td>
                           <td><%= order_detail_form.input :unit_price, wrapper: :clean, input_html: {disabled: true, class: :enable_me} %></td>
                           <td align="center">

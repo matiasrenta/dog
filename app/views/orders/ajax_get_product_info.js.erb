@@ -1,7 +1,9 @@
 <% if @product %>
-$('<%=@unit_price_html_input_id%>').val(<%= number_to_currency(@product.sale_price, unit: "") %>);
+    $('<%=@unit_price_html_input_id%>').val(<%= number_to_currency(@product.sale_price, unit: "") %>);
+    $('<%=@stock_at_create_html_input_id%>').val(<%= @product.quantity_stock %>);
 <% else %>
-$('<%=@unit_price_html_input_id%>').val('');
+    $('<%=@unit_price_html_input_id%>').val('');
+    $('<%=@stock_at_create_html_input_id%>').val('');
 <% end %>
 
 

@@ -16,7 +16,7 @@
 
             <%= f.association :customer, input_html: { data: {dynamic_selectable_url: dynamic_select_customer_branches_path(':customer_id'), dynamic_selectable_target: '#order_customer_branch_id'}}%>
             <%= f.association :customer_branch %>
-            <%= f.association :user if current_user.superuser? || current_user.admin? %>
+            <%= f.association :user, collection: users_hide_or_show_superusers if current_user.superuser? || current_user.admin? %>
             <%= f.input :delivery_date, as: :string, placeholder: 'dd/mm/aaaa HH:MM', input_html: {class: 'datetimepicker', value: format_datetime_field(@order.delivery_date)} %>
 
             <script>

@@ -25,7 +25,6 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   # POST <%= route_url %>
   def create
-
     if @<%= orm_instance.save %>
       redirect_to @<%= singular_table_name %>, notice: t("simple_form.flash.successfully_created")
     else

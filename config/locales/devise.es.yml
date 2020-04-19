@@ -33,7 +33,7 @@ es:
       welcome:
         subject: "Tu cuenta ha sido creada"
         hi: "Hola, %{name_or_email}!"
-        content: "Tu cuenta para el Sistema de Segumiento y Transparencia de la Delegación Cuauhtémoc ha sido creada. Ahora tienes que ingresar al siguiente link para generar tu nueva contraseña:"
+        content: "Tu cuenta en Dogstribuidora ha sido creada. Ahora puedes ingresar al siguiente link para generar tu nueva contraseña:"
         link: "Cambiar mi contraseña"
         footer: "Tu cuenta fue creada por un administrador del sistema."
         bie: "Saludos."

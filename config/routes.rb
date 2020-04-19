@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :suppliers
   resources :orders, shallow: true do
     resources :order_details
+    get :ajax_get_product_info, :on => :collection
   end
 
   resources :customers, shallow: true do

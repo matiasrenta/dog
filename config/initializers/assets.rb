@@ -15,4 +15,5 @@ js/app.js
 chucky_config.js
 mentions.js
 products.js
+orders.js
 )

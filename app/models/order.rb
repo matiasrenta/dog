@@ -39,6 +39,10 @@ class Order < ActiveRecord::Base
     calculate_total_amount
   end
 
+  def created?
+    self.status == 'Creado'
+  end
+
   def except_attr_in_public_activity
     [:id, :updated_at]
   end

@@ -16,7 +16,7 @@ class OrderDetail < ActiveRecord::Base
 
   before_validation do
     if self.quantity.to_i > 0 && self.unit_price.to_i > 0
-      self.subtotal = (self.quantity.to_f * self.unit_price.to_f).round(4)
+      self.subtotal = (self.quantity.to_i * self.unit_price.to_f).round(4)
     end
   end
 
@@ -24,14 +24,6 @@ class OrderDetail < ActiveRecord::Base
   validates :product_id, :quantity, :unit_price, :subtotal, numericality: true
   validates :product_id, uniqueness: { scope: :order_id }
 
-  before_save do
-    self.stock_at_create = Product.find(self.product_id).try(:quantity_stock)
-  end
-
-
-  after_save do
-    #self.order.total_amount = self.order.order_details.sum(:subtotal)
-  end
 
   after_save on: :create do
     product = Product.find(self.product_id)

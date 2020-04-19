@@ -19,11 +19,11 @@
                   <fieldset>
                     <div class="row">
                       <div class="col-md-3 col-sm-6 col-xs-12">
-                        <label for="q[customer_id_cont]"><%= t('simple_form.labels.customer') %></label>
+                        <label for="q[customer_id_cont]"><%= t('simple_form.labels.defaults.customer') %></label>
                         <%= f.select :customer_id_eq, options_from_collection_for_select(Customer.all, :id, :name, @q.customer_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
                       </div>
                       <div class="col-md-3 col-sm-6 col-xs-12">
-                        <label for="q[user_id_cont]"><%= t('simple_form.labels.user') %></label>
+                        <label for="q[user_id_cont]"><%= t('simple_form.labels.defaults.user') %></label>
                         <%= f.select :user_id_eq, options_from_collection_for_select(users_hide_or_show_superusers, :id, :name, @q.user_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
                       </div>
                       <div class="col-md-3 col-sm-6 col-xs-12 spanning">

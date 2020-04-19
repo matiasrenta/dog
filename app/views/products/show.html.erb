@@ -9,7 +9,7 @@
 
           <div class="widget-toolbar filter-group">
             <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), products_path, class: 'btn btn-primary' %>
-            <%= link_to raw("<i class='fa fa-pencil'></i> #{t('simple_form.buttons.edit')}"), edit_product_path(@product), class: 'btn btn-primary' if can?(:update, Product) %>
+            <%= link_to raw("<i class='fa fa-pencil'></i> #{t('simple_form.buttons.edit')}"), edit_product_path(@product), class: 'btn btn-primary' if can?(:update, @product) %>
           </div>
         </header>
         <!-- widget div-->

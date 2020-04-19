@@ -61,7 +61,8 @@ class Ability
 	def vendedor
 		can [:create, :read, :update, :destroy], PurchaseOrderDetail
 		can [:create, :read, :update, :destroy], OrderDetail
-		can [:create, :read, :update, :destroy], Order
+		can :read, Order
+		can [:create, :update, :destroy, :ajax_get_product_info], Order, user_id: @user.id
 		can [:manage], CustomerContact
 		can [:create, :read, :update], Customer
 		can [:read], Product
@@ -82,13 +83,15 @@ class Ability
 		end
 	end
 
-	def read_edit_own_user
-		can [:read, :update], User, id: @user.id
-	end
-
 	def everybody_can_do
+		can [:read, :update], User, id: @user.id
 		can :read, :dashboard
 		can :read, PublicActivity::Activity
 	end
+
+	# esto lo comenté porque lo puse en el metodo "everybody_can_do"
+	#def read_edit_own_user
+	#	can [:read, :update], User, id: @user.id
+	#end
 
 end

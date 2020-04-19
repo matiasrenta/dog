@@ -5,7 +5,7 @@
 
         <div class="widget-toolbar">
           <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), users_path, class: 'btn btn-primary' %>
-          <%= link_to raw("<i class='fa fa-pencil'></i> #{t('simple_form.buttons.edit')}"), edit_user_path(@user), class: 'btn btn-primary' if can?(:update, User) %>
+          <%= link_to raw("<i class='fa fa-pencil'></i> #{t('simple_form.buttons.edit')}"), edit_user_path(@user), class: 'btn btn-primary' if can?(:update, @user) %>
         </div>
       </header>
       <div class="no-padding">

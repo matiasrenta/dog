@@ -68,7 +68,8 @@
             <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
               <thead>
               <tr>
-                <th class='all control'><%= sort_link(@q, :customer_name, t('simple_form.labels.defaults.customer')) %></th>
+                <th class='all control'><%= sort_link(@q, :id, t('simple_form.labels.defaults.id')) %></th>
+                <th><%= sort_link(@q, :customer_name, t('simple_form.labels.defaults.customer')) %></th>
                 <th><%= sort_link(@q, :user_name, t('simple_form.labels.defaults.user')) %></th>
                 <th><%= sort_link(@q, :total_amount, t('simple_form.labels.defaults.total_amount')) %></th>
                 <th><%= sort_link(@q, :status, t('simple_form.labels.defaults.status')) %></th>
@@ -80,6 +81,7 @@
               <tbody>
               <% @orders.each do |order| %>
                   <tr>
+                    <td><%= order.id %></td>
                     <td><%= order.customer.try(:name) %></td>
                     <td><%= order.user.try(:name) %></td>
                     <td align='right'><%= order.total_amount %></td>

@@ -63,6 +63,7 @@ es:
         code: 'Código'
         user: 'Usuario'
         status: 'Status'
+        happened_at: 'Sucedió'
         # (+) chucky
 
 

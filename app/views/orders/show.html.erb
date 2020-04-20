@@ -20,6 +20,14 @@
 
             <div class="form-group">
               <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.id') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= @order.id %>
+                </div>
+              </div>
+
+              <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.customer') %></strong></label>
 
                 <div class="col-lg-9 details-data">
@@ -61,6 +69,23 @@
                   <%= l(@order.delivery_date, :format => :long) if @order.delivery_date %>
                 </div>
               </div>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.created_at') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= l(@order.created_at, :format => :long) if @order.created_at %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.updated_at') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= l(@order.updated_at, :format => :long) if @order.created_at %>
+                </div>
+              </div>
+
+
             </div>
           </div>
         </div>

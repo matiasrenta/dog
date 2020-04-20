@@ -332,8 +332,8 @@ es:
 
     models:
       product_price:
-        one: Precio de producto
-        other: Precio de productos
+        one: Precio
+        other: Precios
       customer_category:
         one: Categoría de Cliente
         other: Categorías de Cliente

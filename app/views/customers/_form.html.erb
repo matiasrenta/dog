@@ -16,6 +16,7 @@
           <div class="form-inputs edit">
             <%= f.input :code %>
             <%= f.input :name %>
+            <%= f.association :customer_category %>
             <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
 
 

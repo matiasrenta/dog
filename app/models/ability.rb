@@ -42,6 +42,7 @@ class Ability
 	end
 
 	def administrador
+		can [:manage], CustomerCategory
 		can [:manage], PurchaseOrderDetail
 		can [:manage], PurchaseOrder
 		can [:manage], Box
@@ -59,6 +60,7 @@ class Ability
 	end
 
 	def vendedor
+		can [:read], CustomerCategory
 		can [:create, :read, :update, :destroy], PurchaseOrderDetail
 		can [:create, :read, :update, :destroy], OrderDetail
 		can :read, Order

@@ -54,12 +54,15 @@
 
       <% if can? :read, :administrations %>
         <li data-step="5" data-intro="Este es el menú de administración.">
-        <a href="#"><i class="fa fa-lg fa-fw fa-wrench"></i> <span class="menu-item-parent">Administración</span></a>
-        <ul>
-          <li>
-            <%= link_to t('activerecord.models.user.other'), users_path, {title: t('activerecord.models.user.other')}  %>
-          </li>
-        </ul>
+          <a href="#"><i class="fa fa-lg fa-fw fa-wrench"></i> <span class="menu-item-parent">Administración</span></a>
+          <ul>
+            <li>
+              <%= link_to t('activerecord.models.user.other'), users_path, {title: t('activerecord.models.user.other')} %>
+            </li>
+            <li>
+              <%= link_to t('activerecord.models.customer_category.other'), customer_categories_path, {title: t('activerecord.models.customer_category.other')} %>
+            </li>
+          </ul>
       </li>
       <% end %>
 

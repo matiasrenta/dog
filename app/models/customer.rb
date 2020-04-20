@@ -10,6 +10,7 @@ class Customer < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
+  belongs_to :customer_category
   has_many :orders, dependent: :restrict_with_error
   has_many :customer_contacts, dependent: :destroy
   has_many :customer_branches, dependent: :destroy
@@ -17,7 +18,7 @@ class Customer < ActiveRecord::Base
   accepts_nested_attributes_for :customer_contacts, allow_destroy: true
   accepts_nested_attributes_for :customer_branches, allow_destroy: true
 
-  validates :code, :name, presence: true
+  validates :code, :name, :customer_category_id, presence: true
   validates :code, :name, uniqueness: true
 
   # todo: esta validacion no muestra un mensaje bueno. la otra validacion no funciona al crearse

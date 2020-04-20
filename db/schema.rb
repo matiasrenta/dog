@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200420202202) do
+ActiveRecord::Schema.define(version: 20200420230835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,8 +262,6 @@ ActiveRecord::Schema.define(version: 20200420202202) do
     t.float    "product_cost"
     t.float    "cargo_cost"
     t.float    "total_cost"
-    t.float    "sale_price"
-    t.integer  "profit_percent"
     t.integer  "saleman_fee_percent"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false

@@ -89,29 +89,9 @@
                               <%= f.search_field :total_cost_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
                             </div>
                           </div>
-                          <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                            <label for="q[profit_percent_gteq]"><%= t('simple_form.labels.defaults.profit_percent') %></label>
-
-                            <div class="input-group input-group-sm block">
-                              <%= f.search_field :profit_percent_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
-                            </div>
-                            <div class="input-group input-group-sm block">
-                              <%= f.search_field :profit_percent_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
-                            </div>
-                          </div>
 
                       <% end %>
 
-                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                        <label for="q[sale_price_gteq]"><%= t('simple_form.labels.defaults.sale_price') %></label>
-
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :sale_price_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
-                        </div>
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :sale_price_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
-                        </div>
-                      </div>
                       <div class="col-md-3 col-sm-6 col-xs-12 spanning">
                         <label for="q[saleman_fee_percent_gteq]"><%= t('simple_form.labels.defaults.saleman_fee_percent') %></label>
 
@@ -146,9 +126,7 @@
                     <th><%= sort_link(@q, :product_cost, t('simple_form.labels.defaults.product_cost')) %></th>
                     <th><%= sort_link(@q, :cargo_cost, t('simple_form.labels.defaults.cargo_cost')) %></th>
                     <th><%= sort_link(@q, :total_cost, t('simple_form.labels.defaults.total_cost')) %></th>
-                    <th><%= sort_link(@q, :profit_percent, t('simple_form.labels.defaults.profit_percent')) %></th>
                 <% end %>
-                <th><%= sort_link(@q, :sale_price, t('simple_form.labels.defaults.sale_price')) %></th>
                 <th><%= sort_link(@q, :saleman_fee_percent, t('simple_form.labels.defaults.saleman_fee_percent')) %></th>
                 <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
@@ -165,9 +143,7 @@
                         <td align='right'><%= product.product_cost %></td>
                         <td align='right'><%= product.cargo_cost %></td>
                         <td align='right'><%= product.total_cost %></td>
-                        <td align='right'><%= product.profit_percent %></td>
                     <% end %>
-                    <td align='right'><%= product.sale_price %></td>
                     <td align='right'><%= product.saleman_fee_percent %></td>
                     <td class="table-actions">
                       <%= render 'shared/action_icons', locals: {target: product} %>

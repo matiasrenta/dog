@@ -10,17 +10,43 @@ class CustomerCategory < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-  has_many :customers, dependent: :restrict_with_error
+  has_many :customers, dependent: :nullify #:restrict_with_error
   has_many :product_prices, dependent: :delete_all
 
   validates :name, :profit_percent, presence: true
   validates :name, uniqueness: true
   validates :profit_percent, numericality: true
 
+  after_create do
+    Product.transaction do
+      Product.all.each do |product|
+        product.product_prices.build(product_id: product.id, customer_category_id: self.id, price: calculate_product_price(product))
+        product.save!
+      end
+    end
+  end
+
+  after_update do
+    if self.profit_percent_changed?
+      Product.transaction do
+        Product.all.each do |product|
+          product_price = ProductPrice.where(product_id: product.id, customer_category_id: self.id).first
+          product_price.price = calculate_product_price(product)
+          product_price.save!
+        end
+      end
+    end
+  end
 
 
 
   def except_attr_in_public_activity
     [:id, :updated_at]
+  end
+
+  private
+
+  def calculate_product_price(product)
+    product.total_cost + (product.total_cost * (self.profit_percent.to_f / 100))
   end
 end

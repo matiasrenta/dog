@@ -8,6 +8,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
+    @product_prices = indexize(ProductPrice, collection: @product.product_prices)
   end
 
   # GET /products/new
@@ -53,6 +54,6 @@ class ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.require(:product).permit(:code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :sale_price, :profit_percent, :saleman_fee_percent)
+      params.require(:product).permit(:code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :sale_price, :profit_percent, :saleman_fee_percent, {product_prices_attributes: [:id, :price]})
     end
 end

@@ -10,7 +10,7 @@ class CustomerCategory < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-  has_many :customers, dependent: :nullify #:restrict_with_error
+  has_many :customers, dependent: :restrict_with_error
   has_many :product_prices, dependent: :delete_all
 
   validates :name, :profit_percent, presence: true

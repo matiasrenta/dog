@@ -12,6 +12,8 @@ class Product < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
+  has_many :product_prices, dependent: :delete_all
+  accepts_nested_attributes_for :product_prices
 
   validates :code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :sale_price, :profit_percent, :saleman_fee_percent, presence: true
   validates :code, :name, uniqueness: true

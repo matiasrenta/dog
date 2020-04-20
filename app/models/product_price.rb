@@ -1,6 +1,6 @@
-class CustomerCategory < ActiveRecord::Base
+class ProductPrice < ActiveRecord::Base
 	include PublicActivity::Model
-  tracked only: [:create, :update, :destroy]
+  tracked only: [:update]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
   tracked owner: ->(controller, model) {controller.try(:current_user)}
   #tracked recipient: ->(controller, model) { model.xxxx }
@@ -10,12 +10,13 @@ class CustomerCategory < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-  has_many :customers, dependent: :restrict_with_error
-  has_many :product_prices, dependent: :delete_all
 
-  validates :name, :profit_percent, presence: true
-  validates :name, uniqueness: true
-  validates :profit_percent, numericality: true
+  belongs_to :product
+  belongs_to :customer_category
+
+
+  validates :product_id, :customer_category_id, :price, presence: true
+  validates :product_id, :customer_category_id, :price, numericality: true
 
 
 

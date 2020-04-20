@@ -99,6 +99,7 @@ es:
         box: 'Caja'
         product_unit_cost: 'Costo unitario producto'
         box_unit_cost: 'Costo unitario caja'
+        customer_category: 'Categoría'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

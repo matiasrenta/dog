@@ -33,6 +33,15 @@
                   <%= @customer.name %>
                 </div>
               </div>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.customer_category') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= @customer.customer_category.try(:name) %>
+                </div>
+              </div>
+
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.notes') %></strong></label>
 

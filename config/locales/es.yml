@@ -293,6 +293,9 @@ es:
         format: "%{attribute} %{message}"
 
       models:
+      product_price:
+        one: Precio de producto
+        other: Precio de productos
       purchase_order_detail:
         one: Detalle
         other: Detalles
@@ -328,6 +331,9 @@ es:
       comment_successfully_added: 'El comentario fue agregado exitosamente'
 
     models:
+      product_price:
+        one: Precio de producto
+        other: Precio de productos
       customer_category:
         one: Categoría de Cliente
         other: Categorías de Cliente

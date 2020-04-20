@@ -42,6 +42,7 @@ class Ability
 	end
 
 	def administrador
+		can [:manage], ProductPrice
 		can [:manage], CustomerCategory
 		can [:manage], PurchaseOrderDetail
 		can [:manage], PurchaseOrder

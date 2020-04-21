@@ -22,5 +22,10 @@ Sett.seed_once(:var) do |s|
   s.description = 'El titulo que muestra el navegador. Esta en layouts/header.erb'
 end
 
+Sett.seed_once(:var) do |s|
+  s.var = 'IVA'
+  s.value = 21
+  s.description = 'El impuesto de IVA. Ejemplo: 21 (significa 21%). Podría ser una variable que maneje el administrador del sistema pero chucky no tiene variables para el administrador'
+end
 
 

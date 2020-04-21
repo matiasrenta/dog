@@ -102,6 +102,7 @@ es:
         customer_category: 'Categoría'
         prices: 'Precios'
         product_price: 'Precio'
+        iva: 'IVA'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

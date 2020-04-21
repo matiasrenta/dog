@@ -51,5 +51,6 @@ class Order < ActiveRecord::Base
 
   def calculate_total_amount
     self.total_amount = order_details.collect { |od| (od.valid? && !od.marked_for_destruction?) ? (od.quantity * od.unit_price) : 0 }.sum
+    self.total_amount = self.total_amount * ((Sett['IVA'].to_f/100) + 1) if self.iva # ((Sett['IVA']/100) + 1) == 1.21
   end
 end

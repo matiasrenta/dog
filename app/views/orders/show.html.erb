@@ -42,6 +42,13 @@
                 </div>
               </div>
               <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.iva') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= boolean_check_mark(@order.iva) %>
+                </div>
+              </div>
+              <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.total_amount') %></strong></label>
 
                 <div class="col-lg-9 details-data">
@@ -56,20 +63,19 @@
                 </div>
               </div>
               <div class="row show-details">
-                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.comisionado') %></strong></label>
-
-                <div class="col-lg-9 details-data">
-                  <%= boolean_check_mark(@order.comisionado) %>
-                </div>
-              </div>
-              <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.delivery_date') %></strong></label>
 
                 <div class="col-lg-9 details-data">
                   <%= l(@order.delivery_date, :format => :long) if @order.delivery_date %>
                 </div>
               </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.comisionado') %></strong></label>
 
+                <div class="col-lg-9 details-data">
+                  <%= boolean_check_mark(@order.comisionado) %>
+                </div>
+              </div>
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.created_at') %></strong></label>
 

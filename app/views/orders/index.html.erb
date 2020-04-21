@@ -26,6 +26,10 @@
                         <label for="q[user_id_cont]"><%= t('simple_form.labels.defaults.user') %></label>
                         <%= f.select :user_id_eq, options_from_collection_for_select(users_hide_or_show_superusers, :id, :name, @q.user_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
                       </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[published_eq]"><%= t('simple_form.labels.defaults.iva') %></label>
+                        <%= f.select :iva_eq, options_for_select(options_for_boolean, @q.iva_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                      </div>
                       <div class="col-md-3 col-sm-6 col-xs-12 spanning">
                         <label for="q[total_amount_gteq]"><%= t('simple_form.labels.defaults.total_amount') %></label>
 
@@ -71,10 +75,11 @@
                 <th class='all control'><%= sort_link(@q, :id, t('simple_form.labels.defaults.id')) %></th>
                 <th><%= sort_link(@q, :customer_name, t('simple_form.labels.defaults.customer')) %></th>
                 <th><%= sort_link(@q, :user_name, t('simple_form.labels.defaults.user')) %></th>
+                <th><%= sort_link(@q, :iva, t('simple_form.labels.defaults.iva')) %></th>
                 <th><%= sort_link(@q, :total_amount, t('simple_form.labels.defaults.total_amount')) %></th>
                 <th><%= sort_link(@q, :status, t('simple_form.labels.defaults.status')) %></th>
-                <th><%= sort_link(@q, :comisionado, t('simple_form.labels.defaults.comisionado')) %></th>
                 <th><%= sort_link(@q, :delivery_date, t('simple_form.labels.defaults.delivery_date')) %></th>
+                <th><%= sort_link(@q, :comisionado, t('simple_form.labels.defaults.comisionado')) %></th>
                 <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
               </thead>
@@ -84,10 +89,11 @@
                     <td><%= order.id %></td>
                     <td><%= order.customer.try(:name) %></td>
                     <td><%= order.user.try(:name) %></td>
+                    <td><%= boolean_check_mark(order.iva) %></td>
                     <td align='right'><%= order.total_amount %></td>
                     <td><%= order.status %></td>
-                    <td align='center'><%= boolean_check_mark(order.comisionado) %></td>
                     <td><%= l(order.delivery_date, format: :without_seg) if order.delivery_date %></td>
+                    <td align='center'><%= boolean_check_mark(order.comisionado) %></td>
                     <td class="table-actions">
                       <%= render 'shared/action_icons', locals: {target: order} %>
                     </td>

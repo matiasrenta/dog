@@ -14,6 +14,9 @@ $(document).on('nested:fieldRemoved', function(event){
     calculate_total_amount();
 });
 
+$('#order_iva').change(function() {
+    calculate_total_amount();
+});
 
 // cuando ingreso la cantidad calculo el subtotal y sumo todos los subtotales para obtener el total
 $(document).on("input", ".quantity", function() {
@@ -27,6 +30,11 @@ function calculate_total_amount(){
     $(".subtotal").each(function(){
         sum += ( +$(this).val() );
     });
+
+    if (document.getElementById("order_iva").checked){
+        // todo: quitar el hardcoded del 1.21 y usar la sett variable de IVA
+        sum = sum * 1.21;
+    }
     $("#order_total_amount").val(sum);
 
 }

@@ -64,6 +64,7 @@
               </div>
             </div>
 
+            <%= f.input :iva %>
             <%= f.input :total_amount, input_html: {disabled: true} %>
             <%= f.input :status, as: :select, collection: Order::STATUS_TYPES, include_blank: true if updating? %>
 

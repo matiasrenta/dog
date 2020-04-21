@@ -34,14 +34,23 @@ $(document).on('nested:fieldAdded', function(event){
         if (params_string == undefined){
             params_string = this.id // si no existe data-parameter porque no lo setee en el html, pues por defecto usa el id de this
         }
+
+        // el siguiente if es porque no puedo poner el nombre del parametro en parameter porque justamete
+        // no sé como se llama debido a que es dinamico del nested form. por eso agregue este otro llamado extraparams
+        if ($('#' + this.id).data('extraparams') != undefined) {
+            params_string = params_string + ',' + $('#' + this.id).data("extraparams");
+        }
+
         var paramsToRetrieve = params_string.split(',');
         //$('#' + this.id).data("parameter") === this.id;
+
         var obj = {};
-        for (var i = 0; i < paramsToRetrieve.length; i++){
+        obj["the_id"] = $("#" + paramsToRetrieve[0]).val(); // solo por conveniencia algunas veces puede ser mejor desde rails obtener un id desde este param llamado "the_id", solo funciona para uno solo no para varios ids
+        obj["the_this_html_id"] = this.id; // para lo que es nested form necesito el id de quien dispara el ajax, con ese id puedo conseguir los ids de los otros campos hermanos
+
+        for (var i = 1; i < paramsToRetrieve.length; i++){
             var paramSelector = "#" + $.trim(paramsToRetrieve[i]);
             obj[$(paramSelector).attr('name')] = $(paramSelector).val(); // aqui pongo como debe de ser el nombre del parametro
-            obj["the_id"] = $(paramSelector).val(); // solo por conveniencia algunas veces puede ser mejor desde rails obtener un id desde este param llamado "the_id", solo funciona para uno solo no para varios ids
-            obj["the_this_html_id"] = this.id; // para lo que es nested form necesito el id de quien dispara el ajax, con ese id puedo conseguir los ids de los otros campos hermanos
         }
 
         $.ajax({url: this.getAttribute("data-url"),

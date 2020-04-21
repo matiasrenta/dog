@@ -19,10 +19,36 @@ class Product < ActiveRecord::Base
   validates :code, :name, uniqueness: true
   validates :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, numericality: true
 
+  after_create do
+    ProductPrice.transaction do
+      CustomerCategory.all.each do |customer_category|
+        product_price = ProductPrice.new(product_id: self.id, customer_category_id: customer_category.id, price: calculate_product_price(customer_category))
+        product_price.save!
+      end
+    end
+  end
 
+  after_update do
+    if self.total_cost_changed?
+      ProductPrice.transaction do
+        CustomerCategory.all.each do |customer_category|
+          product_price = ProductPrice.where(product_id: self.id, customer_category_id: customer_category.id).first
+          product_price.price = calculate_product_price(customer_category)
+          product_price.save!
+        end
+      end
+    end
+  end
 
 
   def except_attr_in_public_activity
     [:id, :updated_at]
   end
+
+  private
+
+  def calculate_product_price(customer_category)
+    self.total_cost + (self.total_cost * (customer_category.profit_percent.to_f / 100))
+  end
+
 end

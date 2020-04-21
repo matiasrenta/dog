@@ -18,17 +18,17 @@ class CustomerCategory < ActiveRecord::Base
   validates :profit_percent, numericality: true
 
   after_create do
-    Product.transaction do
+    ProductPrice.transaction do
       Product.all.each do |product|
-        product.product_prices.build(product_id: product.id, customer_category_id: self.id, price: calculate_product_price(product))
-        product.save!
+        product_price = ProductPrice.new(product_id: product.id, customer_category_id: self.id, price: calculate_product_price(product))
+        product_price.save!
       end
     end
   end
 
   after_update do
     if self.profit_percent_changed?
-      Product.transaction do
+      ProductPrice.transaction do
         Product.all.each do |product|
           product_price = ProductPrice.where(product_id: product.id, customer_category_id: self.id).first
           product_price.price = calculate_product_price(product)

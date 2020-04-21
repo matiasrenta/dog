@@ -91,4 +91,40 @@ module ApplicationHelper
     end
   end
 
+
+  # Este metodo sirve para cuando estamos editando un formulario, y en un dropdown de por ejemplo "categorias" tenemos
+  # todas las categorías menos las que hemos eliminado (soft_delete, o inactivo, etc.). Pero como estamos editando
+  # tal vez la entidad tenga una categoría que ya hemos eliminado y tendrá que ser mostrada. Si estuviéramos creando una
+  # nueva entidad no necesitaríamos que aparezcan las categorías que han sido soft_delete y entonces no llamamos a este método
+  #model_or_relation: no tiene sentido enviar un model (ej: LifeCycle) porque cuando se haga .all obviamente contendra al actual
+  #attribute_name es el atributo con el cual sera sort la collection
+  def collection_with_actual(model_or_relation, actual = nil, attribute_name = :name, sortable = true)
+    collection = model_or_relation     if model_or_relation.class == Array
+    collection = model_or_relation.all unless model_or_relation.class == Array
+
+    if actual.respond_to?(:each) #si envio un array de valores actuales, como en relaciones many_to_many como la del project_dashboard con users
+      actual.each do |act|
+        collection << act if !collection.include?(act)
+      end
+      if sortable
+        if actual.respond_to?(:downcase)
+          collection.sort! { |a, b| a.try(attribute_name).downcase <=> b.try(attribute_name).downcase }
+        else
+          collection.sort! { |a, b| a.try(attribute_name) <=> b.try(attribute_name) }
+        end
+      end
+    elsif actual && !collection.include?(actual)
+      collection << actual
+      if sortable
+        if actual.respond_to?(:downcase)
+          collection.sort! { |a, b| a.try(attribute_name).downcase <=> b.try(attribute_name).downcase }
+        else
+          collection.sort! { |a, b| a.try(attribute_name) <=> b.try(attribute_name) }
+        end
+      end
+    end
+
+    return collection
+  end
+
 end

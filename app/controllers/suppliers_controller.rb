@@ -12,7 +12,6 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers/new
   def new
-    eval('con error')
   end
 
   # GET /suppliers/1/edit

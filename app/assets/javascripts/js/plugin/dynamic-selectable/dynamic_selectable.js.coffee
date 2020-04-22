@@ -16,9 +16,16 @@ class DynamicSelectable
       url = @constructUrl($select.val())
       if url
         $.getJSON url, (data) =>
-          $.each data, (index, el) =>
-            @$targetSelect.append "<option value='#{el.id}'>#{el.name}</option>"
-            # reinitialize target select
+
+          #este if lo puse yo @matiasrenta, para que si viene un solo valor lo ponga como selected
+          if data.length == 1
+            $.each data, (index, el) =>
+              @$targetSelect.append "<option value='#{el.id}' selected>#{el.name}</option>"
+          else
+            $.each data, (index, el) =>
+              @$targetSelect.append "<option value='#{el.id}'>#{el.name}</option>"
+              # reinitialize target select
+
           @reinitializeTarget()
       else
         @reinitializeTarget()

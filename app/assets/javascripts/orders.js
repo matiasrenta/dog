@@ -41,4 +41,8 @@ function calculate_total_amount(){
     $("#order_total_amount").val(sum);
 }
 
+// Tuve que cambiar una cosita en esta librería para que si habia una sola sucursal la pusiera como selected directamente
+// el archivo que cambie es: js/plugin/dynamic-selectable/dynamic_selectable
+$('#order_customer_id').dynamicSelectable();
+//$('[data-dynamic-selectable-url][data-dynamic-selectable-target]').dynamicSelectable();
 

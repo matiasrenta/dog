@@ -19,10 +19,6 @@
             <%= f.association :user, collection: users_hide_or_show_superusers if current_user.superuser? || current_user.admin? %>
             <%= f.input :delivery_date, as: :string, placeholder: 'dd/mm/aaaa HH:MM', input_html: {class: 'datetimepicker', value: format_datetime_field(@order.delivery_date)} %>
 
-            <script>
-                $('[data-dynamic-selectable-url][data-dynamic-selectable-target]').dynamicSelectable();
-            </script>
-
             <div class="form-group">
               <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.order_details') %></label>
               <div class="col-sm-9">

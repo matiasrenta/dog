@@ -1,3 +1,4 @@
+// cuando agrego item en el formulario le quito los campos disabled
 $(document).on('nested:fieldAdded', function(event){
     // this field was just inserted into your form
     var field = event.field;
@@ -6,6 +7,7 @@ $(document).on('nested:fieldAdded', function(event){
     fields_disabled.prop("disabled", false);
 });
 
+// cuando elimino un item del formulario calculo el total_amount
 $(document).on('nested:fieldRemoved', function(event){
     // this field was just removed from your form
     var field = event.field;
@@ -14,6 +16,7 @@ $(document).on('nested:fieldRemoved', function(event){
     calculate_total_amount();
 });
 
+// cuando se selecciona iva calcula el total_amount
 $('#order_iva').change(function() {
     calculate_total_amount();
 });
@@ -36,7 +39,6 @@ function calculate_total_amount(){
         sum = sum * 1.21;
     }
     $("#order_total_amount").val(sum);
-
 }
 
 

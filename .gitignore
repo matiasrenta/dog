@@ -56,9 +56,10 @@ config/database.yml
 # aptana ignore
 .project
 
-# ignore production and development environment variables
+# ignore production, development and staging environment variables
 .env.production
 .env.development
+.env.production-in-staging
 
 #ignorar .directory no sabemos que es
 .directory

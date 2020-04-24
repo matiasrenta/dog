@@ -16,44 +16,23 @@ role :db,   %w{deployer@138.197.74.226}
 # extended properties on the server.
 server '138.197.74.226', user: 'deployer', roles: %w{web app}, my_property: :my_value
 
-
 # Default branch is :master
-#ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+#set :branch, :staging
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/deployer/railsapps/dog'
+set :deploy_to, '/home/deployer/railsapps/dog_staging'
 
 # Default value for keep_releases is 5
-set :keep_releases, 2
-
-# you can set custom ssh options
-# it's possible to pass any option but you need to keep in mind that net/ssh understand limited list of options
-# you can see them in [net/ssh documentation](http://net-ssh.github.io/net-ssh/classes/Net/SSH.html#method-c-start)
-# set it globally
-#  set :ssh_options, {
-#    keys: %w(/home/rlisowski/.ssh/id_rsa),
-#    forward_agent: false,
-#    auth_methods: %w(password)
-#  }
-# and/or per server
-# server 'example.com',
-#   user: 'user_name',
-#   roles: %w{web app},
-#   ssh_options: {
-#     user: 'user_name', # overrides user setting above
-#     keys: %w(/home/user_name/.ssh/id_rsa),
-#     forward_agent: false,
-#     auth_methods: %w(publickey password)
-#     # password: 'please use keys'
-#   }
-# setting per server overrides global ssh_options
+set :keep_releases, 1
 
 desc 'Restart application by restarting puma service'
 task :restart do
   on roles(:app) do
-    server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog/shared/puma.rb phased-restart"
-    app_current = '/home/deployer/railsapps/dog/current'
+    server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog_staging/shared/puma.rb phased-restart"
+    app_current = '/home/deployer/railsapps/dog_staging/current'
     execute "cd '#{app_current}'; #{server_command}"
     #execute "sudo service puma-dog restart"
   end
 end
+
+

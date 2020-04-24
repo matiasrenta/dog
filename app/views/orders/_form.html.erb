@@ -34,7 +34,7 @@
                     </tr>
                     <%= f.fields_for :order_details, :wrapper => false do |order_detail_form| %>
                         <tr class="fields">
-                          <td><%= order_detail_form.association :product, wrapper: :clean, input_html: {disabled: true, class: [:enable_me, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info', extraparams: 'order_customer_id'} } %></td>
+                          <td><%= order_detail_form.association :product, collection: Product.all.map{ |p| ["#{p.code}- #{p.name}", p.id] }, wrapper: :clean, input_html: {disabled: true, class: [:enable_me, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info', extraparams: 'order_customer_id'} } %></td>
                           <td><%= order_detail_form.input :quantity, wrapper: :clean, input_html: {disabled: true, class: [:enable_me, :quantity]} %></td>
                           <td><%= order_detail_form.input :stock_at_create, wrapper: :clean, input_html: {readonly: true} %></td>
                           <td><%= order_detail_form.input :unit_price, wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>

@@ -71,24 +71,6 @@ namespace :deploy do
   #  end
   #end
 
-  #desc 'Restart application'
-  #task :restart do
-  #  on roles(:app), in: :sequence, wait: 5 do
-  #    # Your restart mechanism here, for example:
-  #    execute :touch, release_path.join('tmp/restart.txt')
-  #  end
-  #end
-
-  desc 'Restart application by restarting puma service'
-  task :restart do
-    on roles(:app) do
-      server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog/shared/puma.rb phased-restart"
-      app_current = '/home/deployer/railsapps/dog/current'
-      execute "cd '#{app_current}'; #{server_command}"
-      #execute "sudo service puma-dog restart"
-    end
-  end
-
   before 'deploy:publishing', 'db:seed_fu'
 
   after :publishing, :restart

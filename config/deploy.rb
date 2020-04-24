@@ -7,11 +7,6 @@ set :application, 'dogstribuidora'
 set :repo_url, 'git@github.com:matiasrenta/dog.git'
 #set :branch, 'puma' # change branch as needed
 
-# Default branch is :master
-#ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-
-# Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/deployer/railsapps/dog'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -44,9 +39,6 @@ set :linked_dirs, %w{uploads log tmp/pids tmp/cache tmp/sockets vendor/bundle pu
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
-
-# Default value for keep_releases is 5
-set :keep_releases, 2
 
 set :bundle_flags, '--deployment'
 

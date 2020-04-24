@@ -17,15 +17,14 @@ role :db,   %w{deployer@138.197.74.226}
 server '138.197.74.226', user: 'deployer', roles: %w{web app}, my_property: :my_value
 
 
-# esto es para staging. Comentar si se quiere poner en produccion
-# Se puse hacer otro archivo staging.rb para hacer: cap staging deploy
-# pero eso implica tener completo ese entorno (database.yml con staging, environment con staging)
-# y lo peor sería llevarse una sorpresa que al no ser production los assets se comporten distintos etc.
-#role :app, %w{deployer@104.236.104.0}
-#role :web, %w{deployer@104.236.104.0}
-#role :db,  %w{deployer@104.236.104.0}
-#server '104.236.104.0', user: 'deployer', roles: %w{web app}, my_property: :my_value
+# Default branch is :master
+#ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
+# Default deploy_to directory is /var/www/my_app
+set :deploy_to, '/home/deployer/railsapps/dog'
+
+# Default value for keep_releases is 5
+set :keep_releases, 2
 
 # you can set custom ssh options
 # it's possible to pass any option but you need to keep in mind that net/ssh understand limited list of options

@@ -8,9 +8,9 @@
     comentar linked_files
     que no compile los assets la primera vez para que se cree la estructura y luego descomentar y hacer otro deploy
 
+- copiar .env.production de otra app a shared/  (cambiar las variables de domain, mailers, etc.)
 - copiar database.yml y secrets.yml de otra app a shared/config/
 - cambiar database.yml con solo production y la base de la app
-- copiar .env.production al directorio shared/
 - comentar las lineas donde se aparezca Settings (o Sett) en los initializers delayed_job_config.rb y refile.rb, comentar el bloque entero para no pensar
 - RAILS_ENV=production bundle exec rake db:create
 - RAILS_ENV=production bundle exec rake db:schema:load
@@ -19,6 +19,5 @@
 - /etc/nginx/sites-enabled   (para agregar el server de la app)
 - sudo service nginx restart
 - habilitar herders con underscore en nginx
-- cambiar .env.production con las variables de domain, mailers, etc. (poner el bucket y las claves s3)
-- el el server (/etc/nginx/sites-enabled) agregar la linea 'underscores_in_headers on' (puede ser antes de la linea de 'passenger on')
+- en el server (/etc/nginx/sites-enabled) agregar la linea 'underscores_in_headers on' (puede ser antes de la linea de 'passenger on')
 - ejecutar bin/delayed_job start (ver memo.txt para mas opciones)

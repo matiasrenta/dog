@@ -23,7 +23,7 @@ server '138.197.74.226', user: 'deployer', roles: %w{web app}, my_property: :my_
 set :deploy_to, '/home/deployer/railsapps/dog_staging'
 
 # Default value for keep_releases is 5
-set :keep_releases, 1
+set :keep_releases, 2
 
 desc 'Restart application by restarting puma service'
 task :restart do

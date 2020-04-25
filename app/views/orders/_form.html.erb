@@ -31,7 +31,7 @@
                               <tr>
                                 <td colspan="4" style="padding-bottom: 10px;">
                                   <% if order_detail_form.object.new_record? %>
-                                    <%= order_detail_form.association :product, as: :select2, collection: Product.all.map{ |p| ["#{p.code} #{p.name}", p.id] }, wrapper: :clean, placeholder: 'Buscar', input_html: { data:{s2:{limit: 10}}, disabled: true, class: [:enable_me, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info', extraparams: 'order_customer_id'} } %>
+                                    <%= order_detail_form.association :product, as: :select2, collection: Product.all.map{ |p| ["#{p.code} #{p.name}", p.id] }, wrapper: :clean, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}}, disabled: true, class: [:enable_me, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info', extraparams: 'order_customer_id'} } %>
                                   <% else %>
                                     <%= order_detail_form.object.product.code %> <%= order_detail_form.object.product.name %>
                                   <% end %>

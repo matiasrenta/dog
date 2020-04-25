@@ -23,9 +23,9 @@
         <%= f.input :name, input_html: {class: 'field_with_popover_rt', data: {pop: 'popover-hover', placement: 'top', title: 'title', content: 'content', icon: 'fa fa-question'}} %>
 
         <!-- ejemplo de "nuevo en modal para un select2 Ajax" -->
-        <%= f.association :thing_category, as: :ajax_select2, search_class: :thing_category, placeholder: 'Empiece escribiendo', input_html: {'data-s2-limit' => 10, 'data-s2-button-new' => true, 'data-s2-id-modal' => 'modal-form-1', 'data-s2-title' => 'Nueva categoría'} %>
+        <%#= f.association :thing_category, as: :ajax_select2, search_class: :thing_category, placeholder: 'Empiece escribiendo', input_html: {'data-s2-limit' => 10, 'data-s2-button-new' => true, 'data-s2-id-modal' => 'modal-form-1', 'data-s2-title' => 'Nueva categoría'} %>
         <!-- Select 2 Simple -->
-        <%#= f.association :thing_category, as: :select2, placeholder: 'Empiece escribiendo', input_html: {'data-s2-limit' => 10, 'data-s2-button-new' => true, 'data-s2-id-modal' => 'modal-form-1', 'data-s2-title' => 'Nueva categoría'} %>
+        <%= f.association :thing_category, as: :select2, placeholder: 'Empiece escribiendo', input_html: {'data-s2-limit' => 10, 'data-s2-button-new' => true, 'data-s2-id-modal' => 'modal-form-1', 'data-s2-title' => 'Nueva categoría'} %>
         <!-- Dropdown con icono fuera para agregar más -->
         <%#= f.association :thing_category, input_html: {class: 'field_with_tooltip_lf', 'data-title' => 'Agregar nuevo', 'data-icon' => 'fa fa-plus', 'data-id-modal' => 'modal-form-1'} %>
 

@@ -33,7 +33,7 @@
                     </tr>
                     <%= f.fields_for :purchase_order_details, :wrapper => false do |purchase_order_detail| %>
                         <tr class="fields">
-                          <td><%= purchase_order_detail.association :box, label_method: :code, wrapper: :clean %></td>
+                          <td><%= purchase_order_detail.association :box, collection: Box.all.map{ |b| ["#{b.code} #{b.product.name} (#{b.quantity})", b.id] }, wrapper: :clean %></td>
                           <td><%= purchase_order_detail.input :quantity, wrapper: :clean %></td>
                           <td><%= purchase_order_detail.input :product_unit_cost, wrapper: :clean %></td>
                           <td><%= purchase_order_detail.input :box_unit_cost, wrapper: :clean %></td>

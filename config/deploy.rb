@@ -5,8 +5,12 @@ require 'seed-fu/capistrano3'
 
 set :application, 'dogstribuidora'
 set :repo_url, 'git@github.com:matiasrenta/dog.git'
-#set :branch, 'puma' # change branch as needed
 
+# Default branch is :master
+set :branch, :staging
+
+# Default deploy_to directory is /var/www/my_app
+set :deploy_to, '/home/deployer/railsapps/dog_staging'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -40,6 +44,9 @@ set :linked_dirs, %w{uploads log tmp/pids tmp/cache tmp/sockets vendor/bundle pu
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
+# Default value for keep_releases is 5
+set :keep_releases, 2
+
 set :bundle_flags, '--deployment'
 
 namespace :deploy do
@@ -70,6 +77,16 @@ namespace :deploy do
   #    end
   #  end
   #end
+
+  desc 'Restart application by restarting puma service'
+  task :restart do
+    on roles(:app) do
+      server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog_staging/shared/puma.rb phased-restart"
+      app_current = '/home/deployer/railsapps/dog_staging/current'
+      execute "cd '#{app_current}'; #{server_command}"
+      #execute "sudo service puma-chucky-template restart"
+    end
+  end
 
   before 'deploy:publishing', 'db:seed_fu'
 

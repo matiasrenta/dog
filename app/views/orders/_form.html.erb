@@ -27,7 +27,7 @@
                     <%= f.fields_for :order_details, :wrapper => false do |order_detail_form| %>
                         <tr class="fields">
                           <td colspan="4">
-                            <table border="0" width="100%">
+                            <table>
                               <tr>
                                 <td colspan="4" style="padding-bottom: 10px;">
                                   <% if order_detail_form.object.new_record? %>
@@ -39,16 +39,13 @@
                               </tr>
                               <tr>
                                 <td><%= order_detail_form.input :quantity,        placeholder: t('simple_form.labels.defaults.quantity'),   wrapper: :clean, input_html: {disabled: true, class: [:enable_me, :quantity]} %></td>
-
-
                                 <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'),      wrapper: :clean, input_html: {readonly: true} %></td>
-
                                 <td><%= order_detail_form.input :unit_price,      placeholder: t('simple_form.labels.defaults.unit_price'), wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>
                                 <td><%= order_detail_form.input :subtotal,        placeholder: t('simple_form.labels.defaults.subtotal'),   wrapper: :clean, input_html: {disabled: true, class: :subtotal} %></td>
                               </tr>
                             </table>
                           </td>
-                          <td align="center">
+                          <td align="center" style="vertical-align:middle">
                             <% if @order.created? || creating? %>
                                 <%= order_detail_form.link_to_remove do %>
                                     <i class="fa fa-trash-o" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>

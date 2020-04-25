@@ -5,8 +5,18 @@ $(document).on('nested:fieldAdded', function(event){
     // it's a jQuery object already! Now you can find date input
     var fields_disabled = field.find('.enable_me');
     fields_disabled.prop("disabled", false);
-    field.find("select").select2();
+    field.find("select").select2({matcher: function(params, data) {return matchStart(params, data);}});
 });
+
+function matchStart(term, text) {
+    var has = true;
+    var words = term.toUpperCase().split(" ");
+    for (var i =0; i < words.length; i++){
+        var word = words[i];
+        has = has && (text.toUpperCase().indexOf(word) >= 0);
+    }
+    return has;
+}
 
 // cuando elimino un item del formulario calculo el total_amount
 $(document).on('nested:fieldRemoved', function(event){

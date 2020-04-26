@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   resources :purchase_orders, shallow: true do
     resources :purchase_order_details
   end
-  resources :boxes
   resources :suppliers
   resources :orders, shallow: true do
     resources :order_details

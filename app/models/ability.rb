@@ -46,7 +46,6 @@ class Ability
 		can [:manage], CustomerCategory
 		can [:manage], PurchaseOrderDetail
 		can [:manage], PurchaseOrder
-		can [:manage], Box
 		can [:manage], Supplier
 		can [:manage], OrderDetail
 		can [:manage], Order

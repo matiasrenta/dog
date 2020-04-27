@@ -1,3 +1,10 @@
+<style>
+    .select_editable { position:relative; background-color:white; border:solid grey 1px;  width:120px; height:18px; }
+    .select_editable select { position:absolute; top:0px; left:0px; font-size:14px; border:none; width:120px; margin:0; }
+    .select_editable input { position:absolute; top:0px; left:0px; width:100px; padding:1px; font-size:12px; border:none; }
+    .select_editable select:focus, .select-editable input:focus { outline:none; }
+</style>
+
 <div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
   <header>
     <h2><%= creating? ? "<i class='fa fa-file'></i>".html_safe : "<i class='fa fa-pencil'></i>".html_safe %></h2>
@@ -14,7 +21,7 @@
                           } do |f| %>
           <div class="form-inputs edit">
 
-            <%= f.association :customer, as: :ajax_select2, search_class: :customer, placeholder: 'Empiece escribiendo', input_html: {data:{ dynamic_selectable_url: dynamic_select_customer_branches_path(':customer_id'), dynamic_selectable_target: '#order_customer_branch_id' } } %>
+            <%= f.association :customer, as: :ajax_select2, search_class: :customer, placeholder: 'Buscar', input_html: {data:{ dynamic_selectable_url: dynamic_select_customer_branches_path(':customer_id'), dynamic_selectable_target: '#order_customer_branch_id' } } %>
             <%= f.association :customer_branch, collection: creating? ? [] : @order.customer.customer_branches %>
             <%= f.association :user, collection: users_hide_or_show_superusers if current_user.superuser? || current_user.admin? %>
             <%= f.input :delivery_date, as: :string, placeholder: 'dd/mm/aaaa HH:MM', input_html: {class: 'datetimepicker', value: format_datetime_field(@order.delivery_date)} %>
@@ -38,6 +45,11 @@
                                 </td>
                               </tr>
                               <tr>
+                                <td colspan="4" style="padding-bottom: 10px;">
+                                  <%= order_detail_form.association :product_boxes, wrapper: :clean, placeholder: 'Elejir Caja', input_html: { style: 'max-width:100%;', disabled: true, class: [:enable_me] } %>
+                                </td>
+                              </tr>
+                              <tr>
                                 <td><%= order_detail_form.input :quantity,        placeholder: t('simple_form.labels.defaults.quantity'),   wrapper: :clean, input_html: {disabled: true, class: [:enable_me, :quantity]} %></td>
                                 <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'),      wrapper: :clean, input_html: {readonly: true} %></td>
                                 <td><%= order_detail_form.input :unit_price,      placeholder: t('simple_form.labels.defaults.unit_price'), wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>
@@ -48,7 +60,7 @@
                           <td align="center" style="vertical-align:middle">
                             <% if @order.created? || creating? %>
                                 <%= order_detail_form.link_to_remove do %>
-                                    <i class="fa fa-trash-o" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
+                                    <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
                                 <% end %>
                             <% end %>
                           </td>

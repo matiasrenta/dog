@@ -26,7 +26,6 @@ class CustomersController < ApplicationController
       redirect_to @customer, notice: t("simple_form.flash.successfully_created")
     else
       generate_flash_msg_no_keep(@customer)
-      puts "DEBUG 1: #{@customer.errors.messages}"
       render :new
     end
   end

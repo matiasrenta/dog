@@ -293,29 +293,6 @@ es:
         format: "%{attribute} %{message}"
 
       models:
-      product_price:
-        one: Precio de producto
-        other: Precio de productos
-      purchase_order_detail:
-        one: Detalle
-        other: Detalles
-        fa_icon: 'fa-fw fa fa-file-text'
-      purchase_order:
-        one: Orden de Compra
-        other: Ordenes de Compra
-        fa_icon: 'fa-fw fa fa-file-text'
-      box:
-        one: Caja
-        other: Cajas
-        fa_icon: 'fa-fw fa fa-archive'
-      order_detail:
-        one: Detalle de Pedido
-        other: Detalles de Pedido
-        fa_icon: 'fa-fw fa fa-shopping-cart'
-      order:
-        one: Pedido
-        other: Pedidos
-        fa_icon: 'fa-fw fa fa-shopping-cart'
         user:
           attributes:
             reset_password_token: 'El token debe haber expirado o no es válido'

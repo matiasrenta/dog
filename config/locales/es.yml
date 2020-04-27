@@ -293,6 +293,9 @@ es:
         format: "%{attribute} %{message}"
 
       models:
+      product_box:
+        one: Caja
+        other: Cajas
         user:
           attributes:
             reset_password_token: 'El token debe haber expirado o no es válido'
@@ -308,6 +311,9 @@ es:
       comment_successfully_added: 'El comentario fue agregado exitosamente'
 
     models:
+      product_box:
+        one: Caja
+        other: Cajas
       product_price:
         one: Precio
         other: Precios

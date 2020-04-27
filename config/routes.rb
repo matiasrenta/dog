@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :product_boxes
   resources :product_prices
   resources :customer_categories
   resources :purchase_orders, shallow: true do

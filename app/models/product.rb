@@ -1,5 +1,5 @@
 class Product < ActiveRecord::Base
-	include PublicActivity::Model
+  include PublicActivity::Model
   tracked only: [:create, :update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
   tracked owner: ->(controller, model) {controller.try(:current_user)}
@@ -11,7 +11,9 @@ class Product < ActiveRecord::Base
           }
 
   has_many :product_prices, dependent: :delete_all
+  has_many :product_boxes, dependent: :delete_all
   accepts_nested_attributes_for :product_prices
+  accepts_nested_attributes_for :product_boxes, allow_destroy: true
 
   validates :code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, presence: true
   validates :code, :name, uniqueness: true

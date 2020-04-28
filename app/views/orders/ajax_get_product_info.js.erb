@@ -7,6 +7,12 @@
 <% end %>
 
 
+<% if @product_box_id_html_input_id.blank? %>
+    $("<%= @product_box_id_html_input_id %>").html('');
+<% else %>
+    $("<%= @product_box_id_html_input_id %>").html('<%= raw options_for_select(options_select_for_product_box(@product)).gsub(/\n/, '') %>');
+<% end %>
+
 
 
 

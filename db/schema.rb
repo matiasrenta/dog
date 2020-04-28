@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200427142156) do
+ActiveRecord::Schema.define(version: 20200427193739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,6 +223,8 @@ ActiveRecord::Schema.define(version: 20200427142156) do
     t.float    "subtotal"
     t.integer  "quantity"
     t.integer  "stock_at_create"
+    t.integer  "product_box_id"
+    t.integer  "quantity_box"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -267,6 +269,7 @@ ActiveRecord::Schema.define(version: 20200427142156) do
     t.integer  "saleman_fee_percent"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.boolean  "units_sale_allowed"
   end
 
   create_table "purchase_order_details", force: :cascade do |t|

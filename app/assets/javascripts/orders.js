@@ -1,13 +1,11 @@
-// cuando agrego item en el formulario le quito los campos disabled y le agrego select2() al dropdown
+// cuando agrego item en el formulario le agrego select2() al dropdown
 $(document).on('nested:fieldAdded', function(event){
     // this field was just inserted into your form
     var field = event.field;
-    // it's a jQuery object already! Now you can find date input
-    var fields_disabled = field.find('.enable_me');
-    fields_disabled.prop("disabled", false);
-    field.find("select").select2({matcher: function(params, data) {return matchStart(params, data);}});
+    field.find(".select_dos").select2({matcher: function(params, data) {return matchStart(params, data);}});
 });
 
+// para que el select2 busque por OR operator. cada palabra que se escribe debe conisidir con cada inicio de palabra en el nombre del prducto
 function matchStart(term, text) {
     var has = true;
     var words = term.toUpperCase().split(" ");
@@ -32,12 +30,57 @@ $('#order_iva').change(function() {
     calculate_total_amount();
 });
 
+
+// cuando se selecciona iva calcula el total_amount
+$('.product_box').change(function() {
+    quantity_in_the_box = this.closest('td').getElementsByClassName('quantity_in_the_box')[0].value
+});
+
+// cuando cambio de caja limpio las cantidades y abilito/desabilito las cantidades
+$(document).on("change", ".product_box", function() {
+    product_box_value = this.value;
+    quantity_box_element = this.closest('tr').getElementsByClassName('quantity_box')[0];
+    quantity_element = this.closest('table').getElementsByClassName('quantity')[0];
+
+    quantity_box_element.value = '';
+    quantity_element.value = '';
+    this.closest('table').getElementsByClassName('subtotal')[0].value = '';
+    calculate_total_amount();
+
+
+    if (product_box_value == '' || parseInt(product_box_value) > 0){
+        //quantity_element.disabled = true;
+        //quantity_box_element.disabled = false;
+        quantity_element.readOnly = true;
+        quantity_box_element.readOnly = false;
+    }
+    else{
+        //quantity_box_element.disabled = true;
+        //quantity_element.disabled = false;
+        quantity_box_element.readOnly = true;
+        quantity_element.readOnly = false;
+    }
+});
+
+
+// cuando ingreso cantidad de cajas calculo la cantidad de unidades
+$(document).on("input", ".quantity_box", function() {
+    quantity_element = this.closest('table').getElementsByClassName('quantity')[0];
+    product_box_value = parseInt( this.closest('table').getElementsByClassName('product_box')[0].value );
+    quantity_element.value = product_box_value * parseInt(this.value);
+    //quantity_element.trigger("input");
+    var subtotal = parseFloat(quantity_element.closest('table').getElementsByClassName('unit_price')[0].value) * parseInt(quantity_element.value);
+    this.closest('table').getElementsByClassName('subtotal')[0].value = subtotal;
+    calculate_total_amount();
+});
+
 // cuando ingreso la cantidad calculo el subtotal y sumo todos los subtotales para obtener el total
 $(document).on("input", ".quantity", function() {
     var subtotal = parseFloat(this.closest('tr').getElementsByClassName('unit_price')[0].value) * parseInt(this.value);
     this.closest('tr').getElementsByClassName('subtotal')[0].value = subtotal;
     calculate_total_amount();
 });
+
 
 function calculate_total_amount(){
     var sum = 0;

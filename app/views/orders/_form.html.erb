@@ -22,7 +22,7 @@
           <div class="form-inputs edit">
 
             <%= f.association :customer, as: :ajax_select2, search_class: :customer, placeholder: 'Buscar', input_html: {data:{ dynamic_selectable_url: dynamic_select_customer_branches_path(':customer_id'), dynamic_selectable_target: '#order_customer_branch_id' } } %>
-            <%= f.association :customer_branch, collection: creating? ? [] : @order.customer.customer_branches %>
+            <%= f.association :customer_branch, collection: @order.customer_id.blank? ? [] : @order.customer.customer_branches %>
             <%= f.association :user, collection: users_hide_or_show_superusers if current_user.superuser? || current_user.admin? %>
             <%= f.input :delivery_date, as: :string, placeholder: 'dd/mm/aaaa HH:MM', input_html: {class: 'datetimepicker', value: format_datetime_field(@order.delivery_date)} %>
 
@@ -35,26 +35,49 @@
                         <tr class="fields">
                           <td colspan="4">
                             <table>
-                              <tr>
-                                <td colspan="4" style="padding-bottom: 10px;">
-                                  <% if order_detail_form.object.new_record? %>
-                                    <%= order_detail_form.association :product, as: :select2, collection: Product.all.map{ |p| ["#{p.code} #{p.name}", p.id] }, wrapper: :clean, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}}, disabled: true, class: [:enable_me, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info', extraparams: 'order_customer_id'} } %>
-                                  <% else %>
-                                    <%= order_detail_form.object.product.code %> <%= order_detail_form.object.product.name %>
-                                  <% end %>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td colspan="4" style="padding-bottom: 10px;">
-                                  <%= order_detail_form.association :product_boxes, wrapper: :clean, placeholder: 'Elejir Caja', input_html: { style: 'max-width:100%;', disabled: true, class: [:enable_me] } %>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td><%= order_detail_form.input :quantity,        placeholder: t('simple_form.labels.defaults.quantity'),   wrapper: :clean, input_html: {disabled: true, class: [:enable_me, :quantity]} %></td>
-                                <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'),      wrapper: :clean, input_html: {readonly: true} %></td>
-                                <td><%= order_detail_form.input :unit_price,      placeholder: t('simple_form.labels.defaults.unit_price'), wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>
-                                <td><%= order_detail_form.input :subtotal,        placeholder: t('simple_form.labels.defaults.subtotal'),   wrapper: :clean, input_html: {disabled: true, class: :subtotal} %></td>
-                              </tr>
+                              <% if order_detail_form.object.new_record? %>
+                                  <tr>
+                                    <td colspan="4" style="padding-bottom: 10px;">
+                                      <%= order_detail_form.association :product, collection: Product.all.map{ |p| ["#{p.code} #{p.name}", p.id] }, wrapper: :clean, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}}, class: [:enable_me, :select_dos, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info', extraparams: 'order_customer_id'} } %>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td colspan="3" style="padding: 0px 10px 10px 0px;">
+                                      <%= order_detail_form.association :product_box, collection: order_detail_form.object.product_id.blank? ? [] : options_select_for_product_box(order_detail_form.object.product) , wrapper: :clean, placeholder: 'Elejir Caja', allow_blank: false, input_html: {style: 'max-width:100%;', class: :product_box } %>
+                                    </td>
+                                    <td>
+                                      <%= order_detail_form.input :quantity_box, placeholder: t('simple_form.labels.defaults.quantity_box'),   wrapper: :clean, input_html: {class: :quantity_box, style: 'margin-bottom: 10px;'} %>
+                                    <td>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td><%= order_detail_form.input :quantity,        placeholder: t('simple_form.placeholders.units'),   wrapper: :clean, input_html: {readonly: true, class: :quantity} %></td>
+                                    <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'),      wrapper: :clean, input_html: {readonly: true} %></td>
+                                    <td><%= order_detail_form.input :unit_price,      placeholder: t('simple_form.labels.defaults.unit_price'), wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>
+                                    <td><%= order_detail_form.input :subtotal,        placeholder: t('simple_form.labels.defaults.subtotal'),   wrapper: :clean, input_html: {readonly: true, class: :subtotal} %></td>
+                                  </tr>
+                              <% else %>
+                                  <tr>
+                                    <td colspan="4" style="padding-bottom: 10px;">
+                                      <%= order_detail_form.object.product.code %> <%= order_detail_form.object.product.name %>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td colspan="3" style="padding: 0px 10px 10px 0px;">
+                                      <%= order_detail_form.object.product_box.try(:name) %>
+                                    </td>
+                                    <td>
+                                      <%= order_detail_form.object.quantity_box %>
+                                    <td>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td><%= order_detail_form.input :quantity,        placeholder: t('simple_form.placeholders.units'),   wrapper: :clean, input_html: {readonly: true, class: :quantity} %></td>
+                                    <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'),      wrapper: :clean, input_html: {readonly: true} %></td>
+                                    <td><%= order_detail_form.input :unit_price,      placeholder: t('simple_form.labels.defaults.unit_price'), wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>
+                                    <td><%= order_detail_form.input :subtotal,        placeholder: t('simple_form.labels.defaults.subtotal'),   wrapper: :clean, input_html: {readonly: true, class: :subtotal} %></td>
+                                  </tr>
+                            <% end %>
                             </table>
                           </td>
                           <td align="center" style="vertical-align:middle">
@@ -105,5 +128,4 @@
 <% content_for :javascript_per_page do %>
     <%= javascript_include_tag "orders", 'data-turbolinks-track' => true %>
 <% end %>
-
 

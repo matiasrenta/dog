@@ -23,6 +23,10 @@ function export_list() {
 
 // Para agregar el ajax_dropdown en un nested form
 $(document).on('nested:fieldAdded', function(event){
+    nested_ajax_dropdown(event);
+});
+
+function nested_ajax_dropdown(event){
     // this field was just inserted into your form
     var field = event.field;
     // it's a jQuery object already! Now you can find date input
@@ -79,4 +83,4 @@ $(document).on('nested:fieldAdded', function(event){
             data: obj,
             dataType: 'script'})
     });
-});
+}

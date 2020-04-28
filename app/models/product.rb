@@ -18,6 +18,7 @@ class Product < ActiveRecord::Base
   validates :code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, presence: true
   validates :code, :name, uniqueness: true
   validates :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, numericality: true
+  validates :units_sale_allowed, inclusion: {in: [true, false]}
 
   after_create do
     ProductPrice.transaction do

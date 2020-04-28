@@ -10,20 +10,21 @@ class OrderDetail < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-
-  belongs_to :product
   belongs_to :order
+  belongs_to :product
+  belongs_to :product_box
 
-  before_validation do
-    if self.quantity.to_i > 0 && self.unit_price.to_i > 0
-      self.subtotal = (self.quantity.to_i * self.unit_price.to_f).round(4)
+  validates :product_id, :product_box_id, :quantity, :unit_price, :subtotal, presence: true
+  validates :product_id, :product_box_id, :quantity, :unit_price, :subtotal, numericality: true
+  validates :product_id, uniqueness: { scope: :order_id }
+  validates :quantity_box, presence: true, unless: -> { product_box_id == 0 }
+  validates :quantity_box, numericality: true, unless: -> { product_box_id == 0 }
+
+  before_create do
+    if self.product_box_id > 0
+      self.product_box_id = ProductBox.where(product_id: self.product_id, quantity: self.product_box_id).first.id
     end
   end
-
-  validates :product_id, :quantity, :unit_price, :subtotal, presence: true
-  validates :product_id, :quantity, :unit_price, :subtotal, numericality: true
-  validates :product_id, uniqueness: { scope: :order_id }
-
 
   after_save on: :create do
     product = Product.find(self.product_id)

@@ -34,6 +34,15 @@
                 </div>
               </div>
               <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.units_sale_allowed') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= boolean_check_mark @product.units_sale_allowed %>
+                </div>
+              </div>
+
+
+              <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.quantity_stock') %></strong></label>
 
                 <div class="col-lg-9 details-data">

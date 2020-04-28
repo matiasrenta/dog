@@ -12,6 +12,7 @@ class ProductBox < ActiveRecord::Base
 
 
   belongs_to :product
+  has_many :order_details
 
   validates :product_id, :code, :name, :quantity, presence: true
   validates :product_id, :quantity, numericality: true

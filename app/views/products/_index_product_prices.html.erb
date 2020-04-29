@@ -22,13 +22,15 @@
           <thead>
           <tr>
             <th class='all control'><%= sort_link(@q, :customer_category_name, t('simple_form.labels.defaults.customer_category')) %></th>
+            <th><%= sort_link(@q, :profit_percent, t('simple_form.labels.defaults.profit_percent')) %></th>
             <th><%= sort_link(@q, :price, t('simple_form.labels.defaults.product_price')) %></th>
           </tr>
           </thead>
           <tbody>
           <% @product_prices.each do |product_price| %>
               <tr>
-                <td><%= product_price.customer_category.try(:name) %> <%= "(margen #{product_price.customer_category.try(:profit_percent)}%)"  %> </td>
+                <td><%= product_price.customer_category.try(:name) %> <%= "(#{t('simple_form.labels.defaults.profit_percent')} #{product_price.customer_category.try(:profit_percent)}%)" %> </td>
+                <td align='right'><%= product_price.profit_percent  %>%</td>
                 <td align='right'><%= product_price.price ? number_to_currency(product_price.price, unit: '') : nil %></td>
               </tr>
           <% end %>

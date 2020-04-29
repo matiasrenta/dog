@@ -78,7 +78,7 @@ es:
         cargo_cost: 'Costo del flete'
         total_cost: 'Costo Total'
         sale_price: 'Precio de venta'
-        profit_percent: 'ganancia'
+        profit_percent: 'Margen'
         saleman_fee_percent:
         notes: 'Notas'
         phones: 'Teléfonos'

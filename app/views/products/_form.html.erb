@@ -98,11 +98,13 @@
                   <table id="branches" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
                     <tr>
                       <th class="all control"><%= t('simple_form.labels.defaults.customer_category') %></th>
+                      <th><%= t('simple_form.labels.defaults.profit_percent') %></th>
                       <th><%= t('simple_form.labels.defaults.price') %></th>
                     </tr>
                     <%= f.fields_for :product_prices, :wrapper => false do |product_price_form| %>
                         <tr class="fields">
-                          <td><%= product_price_form.object.try(:customer_category).try(:name) %></td>
+                          <td><%= product_price_form.object.try(:customer_category).try(:name) %> <%= "(#{t('simple_form.labels.defaults.profit_percent')} #{product_price_form.object.customer_category.try(:profit_percent)}%)" %></td>
+                          <td><%= product_price_form.input :profit_percent, wrapper: :clean %></td>
                           <td><%= product_price_form.input :price, wrapper: :clean %></td>
                         </tr>
                     <% end %>

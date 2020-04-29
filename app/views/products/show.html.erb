@@ -28,9 +28,14 @@
               </div>
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.name') %></strong></label>
-
                 <div class="col-lg-9 details-data">
                   <%= @product.name %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('activerecord.models.product_brand.one') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @product.try(:product_brand).try(:name) %>
                 </div>
               </div>
               <div class="row show-details">

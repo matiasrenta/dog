@@ -309,6 +309,9 @@ es:
       mix_boxes_and_boxes_not_compatible: 'Las cajas se cargan para productos que no son cajas mixtas. Elimine las cajas si este producto es una caja mixta.'
 
     models:
+      product_brand:
+        one: Marca
+        other: Marcas
       mix_box_detail:
         one: Detalle caja mixta
         other: Detalles caja mixta

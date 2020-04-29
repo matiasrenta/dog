@@ -11,6 +11,8 @@ class Product < ActiveRecord::Base
           }
 
 
+  belongs_to :product_brand
+
   has_many :order_details #NO VEO LA UTILIDAD DE ESTE LADO DE LA RELACION. CREO QUE NUNCA LA USARÉ
 
   # mix_box_details es la relacion tipo Factura - Detalle. En este caso el producto es la Mix Box

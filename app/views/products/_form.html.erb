@@ -15,6 +15,7 @@
           <div class="form-inputs edit">
             <%= f.input :code %>
             <%= f.input :name %>
+            <%= f.association :product_brand %>
             <%= f.input :units_sale_allowed, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']] %>
             <%= f.input :quantity_stock %>
             <%= f.input :quantity_min %>

@@ -28,7 +28,7 @@
           <tbody>
           <% @product_prices.each do |product_price| %>
               <tr>
-                <td><%= product_price.customer_category.try(:name) %></td>
+                <td><%= product_price.customer_category.try(:name) %> <%= "(margen #{product_price.customer_category.try(:profit_percent)}%)"  %> </td>
                 <td align='right'><%= product_price.price ? number_to_currency(product_price.price, unit: '') : nil %></td>
               </tr>
           <% end %>

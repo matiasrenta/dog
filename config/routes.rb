@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :product_brands
   resources :mix_box_details
   resources :product_boxes
   resources :product_prices

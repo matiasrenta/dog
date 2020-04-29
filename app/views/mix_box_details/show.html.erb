@@ -1,0 +1,62 @@
+<section id="widget-grid">
+  <div class="row">
+
+    <!-- Nuevo show ahora con divs, ya no existe tabla -->
+    <article class="col-sm-6">
+
+      <div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+        <header><span class="widget-icon"><i class="fa fa-binoculars"></i></span>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), mix_box_details_path, class: 'btn btn-primary' %>
+            <%= link_to raw("<i class='fa fa-pencil'></i> #{t('simple_form.buttons.edit')}"), edit_mix_box_detail_path(@mix_box_detail), class: 'btn btn-primary' if can?(:update, @mix_box_detail) %>
+          </div>
+        </header>
+        <!-- widget div-->
+        <div class="no-padding">
+
+          <!-- widget content -->
+          <div class="widget-body">
+
+            <div class="form-group">
+                                                  <div class="row show-details">
+                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.mix_box') %></strong></label>
+                    <div class="col-lg-9 details-data">
+                                                                              <%= @mix_box_detail.mix_box.try(:name) %>
+                                                                    </div>
+                  </div>
+                                                  <div class="row show-details">
+                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.product') %></strong></label>
+                    <div class="col-lg-9 details-data">
+                                                                              <%= @mix_box_detail.product.try(:name) %>
+                                                                    </div>
+                  </div>
+                                                  <div class="row show-details">
+                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.quantity') %></strong></label>
+                    <div class="col-lg-9 details-data">
+                                                                              <%= @mix_box_detail.quantity %>
+                                                                    </div>
+                  </div>
+                          </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!--
+    <article class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+        <header><span class="widget-icon"><i class="fa fa-info"></i></span>
+          <h2>Details</h2>
+        </header>
+        <div class="no-padding">
+          <div class="widget-body">
+
+          </div>
+        </div>
+      </div>
+    </article>
+    -->
+  </div>
+</section>
+

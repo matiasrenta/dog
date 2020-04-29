@@ -26,10 +26,10 @@
           </tr>
           </thead>
           <tbody>
-          <% @product_mix_boxes.each do |product_mix_box| %>
+          <% @mix_box_details.each do |mix_box_detail| %>
               <tr>
-                <td><%= product_mix_box.product.name %></td>
-                <td align='right'><%= product_mix_box.quantity %></td>
+                <td><%= mix_box_detail.product.name %></td>
+                <td align='right'><%= mix_box_detail.quantity %></td>
               </tr>
           <% end %>
           </tbody>

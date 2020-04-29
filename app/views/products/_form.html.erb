@@ -30,18 +30,18 @@
               <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('activerecord.models.product.other') %></label>
               <div class="col-sm-9">
                 <div class="table-responsive">
-                  <table id="product_mix_boxes" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
+                  <table id="mix_box_details" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
                     <tr>
                       <th class="all control"><%= t('simple_form.labels.defaults.name') %></th>
                       <th><%= t('simple_form.labels.defaults.quantity') %></th>
                       <th class="all"></th>
                     </tr>
-                    <%= f.fields_for :product_mix_boxes, :wrapper => false do |product_mix_box_form| %>
+                    <%= f.fields_for :mix_box_details, :wrapper => false do |mix_box_detail_form| %>
                         <tr class="fields">
-                          <td><%= product_mix_box_form.association :product, wrapper: :clean %></td>
-                          <td><%= product_mix_box_form.input :quantity, wrapper: :clean %></td>
+                          <td><%= mix_box_detail_form.association :product, wrapper: :clean %></td>
+                          <td><%= mix_box_detail_form.input :quantity, wrapper: :clean %></td>
                           <td align="center">
-                            <%= product_mix_box_form.link_to_remove do %>
+                            <%= mix_box_detail_form.link_to_remove do %>
                                 <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
                             <% end %>
                           </td>
@@ -50,7 +50,7 @@
                   </table>
                   <div class="well well-sm">
                 <span class="btn bg-color-blue txt-color-white btn-xs">
-                  <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :product_mix_boxes, :data => {:target => "#product_mix_boxes"} %>
+                  <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :mix_box_details, :data => {:target => "#mix_box_details"} %>
                 </span>
                   </div>
                 </div>

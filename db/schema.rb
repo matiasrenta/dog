@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200429004818) do
+ActiveRecord::Schema.define(version: 20200429130847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -213,6 +213,14 @@ ActiveRecord::Schema.define(version: 20200429004818) do
 
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
+
+  create_table "mix_box_details", force: :cascade do |t|
+    t.integer  "mix_box_id"
+    t.integer  "product_id"
+    t.integer  "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "order_details", force: :cascade do |t|
     t.integer  "order_id"

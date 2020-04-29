@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
   def show
     @product_prices = indexize(ProductPrice, collection: @product.product_prices)
     @product_boxes = indexize(ProductPrice, collection: @product.product_boxes, query_param: :q_box)
-    @product_mix_boxes = indexize(ProductMixBox, collection: @product.product_mix_boxes, query_param: :q_mix_box)
+    @mix_box_details = indexize(MixBoxDetail, collection: @product.mix_box_details, query_param: :q_mix_box)
   end
 
   # GET /products/new
@@ -59,6 +59,6 @@ class ProductsController < ApplicationController
       params.require(:product).permit(:code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, :units_sale_allowed, :is_mix_box,
                                       {product_prices_attributes: [:id, :price]},
                                       {product_boxes_attributes: [:_destroy, :id, :name, :quantity]},
-                                      {product_mix_boxes_attributes: [:_destroy, :id, :product_id, :quantity]})
+                                      {mix_box_details_attributes: [:_destroy, :id, :product_id, :quantity]})
     end
 end

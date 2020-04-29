@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+
   include PublicActivity::Model
   tracked only: [:create, :update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
@@ -10,10 +11,14 @@ class Product < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
+  has_many :product_mix_boxes, class_name: 'ProductMixBox', foreign_key: :mix_box_id, dependent: :destroy  # existen muchos productos que son mix_box
+  has_many :products, class_name: 'ProductMixBox', foreign_key: 'product_id' # si este producto es una mix_box entonces tiene muchos (has_many) items
+
   has_many :product_prices, dependent: :delete_all
   has_many :product_boxes, dependent: :delete_all
-  accepts_nested_attributes_for :product_prices
+  accepts_nested_attributes_for :product_prices, update_only: true
   accepts_nested_attributes_for :product_boxes, allow_destroy: true
+  accepts_nested_attributes_for :product_mix_boxes, allow_destroy: true, allow_destroy: true
 
   validates :code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, presence: true
   validates :code, :name, uniqueness: true

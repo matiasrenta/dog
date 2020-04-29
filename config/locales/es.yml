@@ -293,6 +293,9 @@ es:
         format: "%{attribute} %{message}"
 
       models:
+      product_mix_box:
+        one: Caja mixta
+        other: Cajas mixtas
       product_box:
         one: Caja
         other: Cajas
@@ -311,6 +314,9 @@ es:
       comment_successfully_added: 'El comentario fue agregado exitosamente'
 
     models:
+      product_mix_box:
+        one: Caja mixta
+        other: Cajas mixtas
       product_box:
         one: Caja
         other: Cajas

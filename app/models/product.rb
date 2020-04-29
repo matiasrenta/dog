@@ -13,7 +13,7 @@ class Product < ActiveRecord::Base
 
   has_many :order_details #NO VEO LA UTILIDAD DE ESTE LADO DE LA RELACION. CREO QUE NUNCA LA USARÉ
 
-  # product_mix_boxes es la relacion tipo Factura - Detalle. En este caso el producto es la Mix Box
+  # mix_box_details es la relacion tipo Factura - Detalle. En este caso el producto es la Mix Box
   has_many :mix_box_details, foreign_key: :mix_box_id, dependent: :destroy
 
   # esta relación quiere decir que los "detalles" de las mix_boxes tienen como atributo un producto. asi como los order_details tienen un atributo product_id

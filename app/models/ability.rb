@@ -43,7 +43,6 @@ class Ability
 
 	def administrador
 		can [:manage], MixBoxDetail
-		can [:manage], ProductMixBox
 		can [:manage], ProductBox
 		can [:manage], ProductPrice
 		can [:manage], CustomerCategory

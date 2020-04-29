@@ -57,7 +57,7 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, :units_sale_allowed, :is_mix_box,
                                       {product_prices_attributes: [:id, :price]},
-                                      {product_boxes_attributes: [:_destroy, :id, :code, :name, :quantity]},
+                                      {product_boxes_attributes: [:_destroy, :id, :name, :quantity]},
                                       {product_mix_boxes_attributes: [:_destroy, :id, :product_id, :quantity]})
     end
 end

@@ -25,6 +25,11 @@ class Product < ActiveRecord::Base
   validates :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, numericality: true
   validates :units_sale_allowed, inclusion: {in: [true, false]}
 
+  before_save do
+    self.is_mix_box = self.product_mix_boxes.select{|pmb| !pmb.marked_for_destruction?}.size > 1
+    true # para que no impida el save cuando da false
+  end
+
   after_create do
     ProductPrice.transaction do
       CustomerCategory.all.each do |customer_category|

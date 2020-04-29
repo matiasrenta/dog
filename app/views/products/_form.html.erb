@@ -26,7 +26,7 @@
 
             <%= f.input :is_mix_box %>
 
-            <div class="form-group">
+            <div id="mix_box" class="form-group">
               <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('activerecord.models.product.other') %></label>
               <div class="col-sm-9">
                 <div class="table-responsive">
@@ -65,14 +65,12 @@
                 <div class="table-responsive">
                   <table id="product_boxes" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
                     <tr>
-                      <th class="all control"><%= t('simple_form.labels.defaults.code') %></th>
-                      <th><%= t('simple_form.labels.defaults.name') %></th>
+                      <th class="all control"><%= t('simple_form.labels.defaults.name') %></th>
                       <th><%= t('simple_form.labels.defaults.quantity') %></th>
                       <th class="all"></th>
                     </tr>
                     <%= f.fields_for :product_boxes, :wrapper => false do |product_box_form| %>
                         <tr class="fields">
-                          <td><%= product_box_form.input :code, wrapper: :clean %></td>
                           <td><%= product_box_form.input :name, wrapper: :clean %></td>
                           <td><%= product_box_form.input :quantity, wrapper: :clean %></td>
                           <td align="center">

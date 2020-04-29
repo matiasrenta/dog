@@ -21,10 +21,32 @@ function export_list() {
 };
 
 
-// Para agregar el ajax_dropdown en un nested form
+
+// Para agregar funcionalidad javascript a los fieds_added en nested forms. como ajax_dropdown, select2 o cualquier otro deberian ir todos aquí
 $(document).on('nested:fieldAdded', function(event){
+    //agrega ajax_drop_down que tiene la logica para obtener los ids
     nested_ajax_dropdown(event);
+    // agrega select2
+    nested_select2(event);
 });
+
+function nested_select2(event){
+    // this field was just inserted into your form
+    var field = event.field;
+    // ver el codigo fuente del gem simple_form_auto_select2 para ver las clases otras clases que se le pueden agregar (con ajax, mukltiple etc) (url en gemfile). o bien inspeccionar el elemento antes que se le aplique .select2()
+    field.find(".auto-static-select2").select2({matcher: function(params, data) {return matchStart(params, data);}});
+}
+
+// para que el select2 busque por OR operator. cada palabra que se escribe debe conisidir con cada inicio de palabra en el nombre del prducto
+function matchStart(term, text) {
+    var has = true;
+    var words = term.toUpperCase().split(" ");
+    for (var i =0; i < words.length; i++){
+        var word = words[i];
+        has = has && (text.toUpperCase().indexOf(word) >= 0);
+    }
+    return has;
+}
 
 function nested_ajax_dropdown(event){
     // this field was just inserted into your form

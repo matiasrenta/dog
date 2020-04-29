@@ -1,21 +1,3 @@
-// cuando agrego item en el formulario le agrego select2() al dropdown
-$(document).on('nested:fieldAdded', function(event){
-    // this field was just inserted into your form
-    var field = event.field;
-    field.find(".select_dos").select2({matcher: function(params, data) {return matchStart(params, data);}});
-});
-
-// para que el select2 busque por OR operator. cada palabra que se escribe debe conisidir con cada inicio de palabra en el nombre del prducto
-function matchStart(term, text) {
-    var has = true;
-    var words = term.toUpperCase().split(" ");
-    for (var i =0; i < words.length; i++){
-        var word = words[i];
-        has = has && (text.toUpperCase().indexOf(word) >= 0);
-    }
-    return has;
-}
-
 // cuando elimino un item del formulario calculo el total_amount
 $(document).on('nested:fieldRemoved', function(event){
     // this field was just removed from your form

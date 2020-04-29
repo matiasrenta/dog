@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200429140346) do
+ActiveRecord::Schema.define(version: 20200429142429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -242,10 +242,10 @@ ActiveRecord::Schema.define(version: 20200429140346) do
     t.string   "status"
     t.boolean  "comisionado"
     t.datetime "delivery_date"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.integer  "customer_branch_id"
-    t.boolean  "iva"
+    t.boolean  "iva",                default: false
   end
 
   create_table "product_boxes", force: :cascade do |t|
@@ -274,10 +274,10 @@ ActiveRecord::Schema.define(version: 20200429140346) do
     t.float    "cargo_cost"
     t.float    "total_cost"
     t.integer  "saleman_fee_percent"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.boolean  "units_sale_allowed"
-    t.boolean  "is_mix_box"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.boolean  "units_sale_allowed",  default: false
+    t.boolean  "is_mix_box",          default: false
   end
 
   create_table "purchase_order_details", force: :cascade do |t|

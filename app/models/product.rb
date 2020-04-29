@@ -34,9 +34,22 @@ class Product < ActiveRecord::Base
   validates :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, numericality: true
   validates :units_sale_allowed, inclusion: {in: [true, false]}
 
+  scope :mix_boxes, -> { where(is_mix_box: true) }
+  scope :not_mix_boxes, -> { where(is_mix_box: false) } # se necesita que la columna tenga en el migration default: false, para evitar el problema con el nil
+
   before_save do
-    self.is_mix_box = self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}.size > 1
-    true # para que no impida el save cuando da false
+    mbs = self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}.size
+    pbs = self.product_boxes.select{|pmb| !pmb.marked_for_destruction?}.size
+    if mbs > 0 && pbs > 0
+      self.errors.add(:base, I18n.t('activerecord.messages.mix_boxes_and_boxes_not_compatible'))
+      false
+    else
+      if mbs > 1
+        self.is_mix_box = true
+        self.units_sale_allowed = true # si es caja mixta entonces se debe poder vender por unidad obligadamente porque una mix_box no puede tener boxes
+      end
+      true
+    end
   end
 
   after_create do

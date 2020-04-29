@@ -306,6 +306,7 @@ es:
     messages:
       imported_successfuly: 'Se importaron %{count} registros exitosamente'
       comment_successfully_added: 'El comentario fue agregado exitosamente'
+      mix_boxes_and_boxes_not_compatible: 'Las cajas se cargan para productos que no son cajas mixtas. Elimine las cajas si este producto es una caja mixta.'
 
     models:
       mix_box_detail:

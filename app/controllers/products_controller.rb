@@ -10,6 +10,7 @@ class ProductsController < ApplicationController
   def show
     @product_prices = indexize(ProductPrice, collection: @product.product_prices)
     @product_boxes = indexize(ProductPrice, collection: @product.product_boxes, query_param: :q_box)
+    @product_mix_boxes = indexize(ProductMixBox, collection: @product.product_mix_boxes, query_param: :q_mix_box)
   end
 
   # GET /products/new

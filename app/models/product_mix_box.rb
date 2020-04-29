@@ -11,8 +11,8 @@ class ProductMixBox < ActiveRecord::Base
           }
 
 
-  belongs_to :mix_box, class_name: 'Product', primary_key: :product_id
-  belongs_to :product, class_name: 'Product', primary_key: :product_id
+  belongs_to :mix_box, class_name: 'Product'#, primary_key: :product_id
+  belongs_to :product, class_name: 'Product'#, primary_key: :product_id
 
 
   validates :product_id, :quantity, presence: true

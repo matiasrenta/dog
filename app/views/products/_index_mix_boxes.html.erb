@@ -1,0 +1,47 @@
+<article class="col-sm-6">
+  <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>">
+
+    <header>
+      <%= "<h3>#{t('activerecord.models.product.other')}</h3>".html_safe %>
+      <div class="widget-toolbar filter-group">
+      </div>
+    </header>
+
+
+    <div class="no-padding">
+      <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-1" style="display:none;">
+        <div class="col-md-9 col-sm-12 no-padding">
+
+          <%= search_form_for(@q, url: product_path(@product), html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+
+          <% end %>
+        </div>
+      </div>
+      <div class="widget-body">
+        <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+          <thead>
+          <tr>
+            <th class='all control'><%= sort_link(@q_mix_box, :product_name, t('simple_form.labels.defaults.name')) %></th>
+            <th><%= sort_link(@q, :quantity, t('simple_form.labels.defaults.quantity')) %></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @product_mix_boxes.each do |product_mix_box| %>
+              <tr>
+                <td><%= product_mix_box.product.name %></td>
+                <td align='right'><%= product_mix_box.quantity %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+

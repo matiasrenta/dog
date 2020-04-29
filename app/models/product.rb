@@ -11,9 +11,12 @@ class Product < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-  has_many :product_mix_boxes, class_name: 'ProductMixBox', foreign_key: :mix_box_id, dependent: :destroy  # existen muchos productos que son mix_box
-  has_many :products, class_name: 'ProductMixBox', foreign_key: 'product_id' # si este producto es una mix_box entonces tiene muchos (has_many) items
 
+  has_many :order_details
+  # product_mix_boxes es la relacion tipo Factura - Detalle. En este caso el producto es la Mix Box
+  has_many :product_mix_boxes, class_name: 'ProductMixBox', foreign_key: :mix_box_id, dependent: :destroy
+  # esta relación quiere decir que los "detalles" de las mix_boxes tienen como atributo un producto. asi como los order_details tienen un atributo product_id
+  has_many :products, class_name: 'ProductMixBox', foreign_key: :product_id # si este producto es una mix_box entonces tiene muchos (has_many) items
   has_many :product_prices, dependent: :delete_all
   has_many :product_boxes, dependent: :delete_all
   accepts_nested_attributes_for :product_prices, update_only: true

@@ -40,6 +40,13 @@
                   <%= boolean_check_mark @product.units_sale_allowed %>
                 </div>
               </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.is_mix_box') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= boolean_check_mark @product.is_mix_box %>
+                </div>
+              </div>
 
 
               <div class="row show-details">
@@ -103,7 +110,8 @@
       </div>
     </article>
     <%= render 'index_product_prices' %>
-    <%= render 'index_product_boxes' %>
+    <%= render 'index_mix_boxes' if @product.is_mix_box %>
+    <%= render 'index_product_boxes' unless @product.is_mix_box %>
   </div>
 </section>
 

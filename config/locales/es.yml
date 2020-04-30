@@ -315,9 +315,6 @@ es:
       mix_box_detail:
         one: Detalle caja mixta
         other: Detalles caja mixta
-      product_box:
-        one: Caja
-        other: Cajas
       product_price:
         one: Precio
         other: Precios

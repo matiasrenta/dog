@@ -7,8 +7,8 @@
 <% end %>
 
 
-<% if !@product_box_id_html_input_id.blank? %>
-    <% options = options_select_for_product_box(@product) %>
+<% if !@box_id_html_input_id.blank? %>
+    <% options = options_select_for_box(@product) %>
     <% if options.size == 1 && options.first.last == 0 %>
         $('<%=@quantity_box_html_input_id%>').attr('readonly', true);
         $('<%=@quantity_html_input_id%>').attr('readonly', false);
@@ -16,6 +16,6 @@
         $('<%=@quantity_box_html_input_id%>').attr('readonly', false);
         $('<%=@quantity_html_input_id%>').attr('readonly', true);
     <% end %>
-    $("<%= @product_box_id_html_input_id %>").html('<%= raw options_for_select(options).gsub(/\n/, '') %>');
+    $("<%= @box_id_html_input_id %>").html('<%= raw options_for_select(options).gsub(/\n/, '') %>');
 <% end %>
 

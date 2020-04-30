@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
+  resources :boxes
   resources :product_brands
   resources :mix_box_details
-  resources :product_boxes
   resources :product_prices
   resources :customer_categories
   resources :purchase_orders, shallow: true do

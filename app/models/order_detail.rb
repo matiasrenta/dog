@@ -12,17 +12,17 @@ class OrderDetail < ActiveRecord::Base
 
   belongs_to :order
   belongs_to :product
-  belongs_to :product_box
+  belongs_to :box
 
-  validates :product_id, :product_box_id, :quantity, :unit_price, :subtotal, presence: true
-  validates :product_id, :product_box_id, :quantity, :unit_price, :subtotal, numericality: true
+  validates :product_id, :box_id, :quantity, :unit_price, :subtotal, presence: true
+  validates :product_id, :box_id, :quantity, :unit_price, :subtotal, numericality: true
   validates :product_id, uniqueness: { scope: :order_id }
-  validates :quantity_box, presence: true, unless: -> { product_box_id == 0 }
-  validates :quantity_box, numericality: true, unless: -> { product_box_id == 0 }
+  validates :quantity_box, presence: true, unless: -> { box_id == 0 }
+  validates :quantity_box, numericality: true, unless: -> { box_id == 0 }
 
   before_create do
-    if self.product_box_id > 0
-      self.product_box_id = ProductBox.where(product_id: self.product_id, quantity: self.product_box_id).first.id
+    if self.box_id > 0
+      self.box_id = Box.where(quantity: self.box_id).first.id
     end
   end
 

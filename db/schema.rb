@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200429190449) do
+ActiveRecord::Schema.define(version: 20200430172452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,21 @@ ActiveRecord::Schema.define(version: 20200429190449) do
   add_index "api_users", ["confirmation_token"], name: "index_api_users_on_confirmation_token", unique: true, using: :btree
   add_index "api_users", ["email"], name: "index_api_users_on_email", unique: true, using: :btree
   add_index "api_users", ["reset_password_token"], name: "index_api_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "boxes", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "boxes_products", id: false, force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.integer "box_id",     null: false
+  end
+
+  add_index "boxes_products", ["box_id", "product_id"], name: "index_boxes_products_on_box_id_and_product_id", using: :btree
+  add_index "boxes_products", ["product_id", "box_id"], name: "index_boxes_products_on_product_id_and_box_id", using: :btree
 
   create_table "chucky_bot_fields", force: :cascade do |t|
     t.string   "name"
@@ -231,8 +246,8 @@ ActiveRecord::Schema.define(version: 20200429190449) do
     t.float    "subtotal"
     t.integer  "quantity"
     t.integer  "stock_at_create"
-    t.integer  "product_box_id"
     t.integer  "quantity_box"
+    t.integer  "box_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -246,14 +261,6 @@ ActiveRecord::Schema.define(version: 20200429190449) do
     t.datetime "updated_at",                         null: false
     t.integer  "customer_branch_id"
     t.boolean  "iva",                default: false
-  end
-
-  create_table "product_boxes", force: :cascade do |t|
-    t.integer  "product_id"
-    t.string   "name"
-    t.integer  "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "product_brands", force: :cascade do |t|

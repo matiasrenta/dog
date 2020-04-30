@@ -99,6 +99,16 @@
                       <%= @product.total_cost  ? number_to_currency(@product.total_cost, unit: '') : nil %>
                     </div>
                   </div>
+
+                  <div class="row show-details">
+                    <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.boxes') %></strong></label>
+
+                    <div class="col-lg-9 details-data">
+                      <% @product.boxes.each do |b| %>
+                        <%= b.name %> <br/>
+                      <% end %>
+                    </div>
+                  </div>
               <% end %>
 
               <div class="row show-details">
@@ -116,7 +126,6 @@
     </article>
     <%= render 'index_product_prices' %>
     <%= render 'index_mix_boxes' if @product.is_mix_box %>
-    <%= render 'index_product_boxes' unless @product.is_mix_box %>
   </div>
 </section>
 

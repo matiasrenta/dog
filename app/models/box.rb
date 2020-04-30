@@ -1,4 +1,4 @@
-class ProductBox < ActiveRecord::Base
+class Box < ActiveRecord::Base
 	include PublicActivity::Model
   tracked only: [:create, :update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
@@ -10,12 +10,11 @@ class ProductBox < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
+  has_and_belongs_to_many :products, -> { where is_mix_box: false }, join_table: 'boxes_products'
 
-  belongs_to :product
-  has_many :order_details
-
-  validates :product_id, :name, :quantity, presence: true
-  validates :product_id, :quantity, numericality: true
+  validates :name, :quantity, presence: true
+  validates :name, uniqueness: true
+  validates :quantity, numericality: true
 
 
 

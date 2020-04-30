@@ -43,7 +43,7 @@
                                   </tr>
                                   <tr>
                                     <td colspan="3" style="padding: 0px 10px 10px 0px;">
-                                      <%= order_detail_form.association :product_box, collection: order_detail_form.object.product_id.blank? ? [] : options_select_for_product_box(order_detail_form.object.product) , wrapper: :clean, placeholder: 'Elejir Caja', allow_blank: false, input_html: {style: 'max-width:100%;', class: :product_box } %>
+                                      <%= order_detail_form.association :box, collection: order_detail_form.object.product_id.blank? ? [] : options_select_for_box(order_detail_form.object.product) , wrapper: :clean, placeholder: 'Elejir Caja', allow_blank: false, input_html: {style: 'max-width:100%;', class: :box } %>
                                     </td>
                                     <td>
                                       <%= order_detail_form.input :quantity_box, placeholder: t('simple_form.labels.defaults.quantity_box'),   wrapper: :clean, input_html: {class: :quantity_box, style: 'margin-bottom: 10px;'} %>
@@ -64,7 +64,7 @@
                                   </tr>
                                   <tr>
                                     <td colspan="3" style="padding: 0px 10px 10px 0px;">
-                                      <%= order_detail_form.object.product_box.try(:name) %>
+                                      <%= order_detail_form.object.box.try(:name) %>
                                     </td>
                                     <td>
                                       <%= order_detail_form.object.quantity_box %>

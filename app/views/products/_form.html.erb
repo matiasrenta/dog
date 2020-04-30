@@ -24,6 +24,7 @@
             <%= f.input :cargo_cost %>
             <%= f.input :total_cost, input_html: {readonly: true} %>
             <%= f.input :saleman_fee_percent, placeholder: '%', hint: 'Ejemplo: 5 (quiere decir 5%)' %>
+            <%= f.association :boxes, as: :ajax_select2, search_class: :box, placeholder: 'Buscar caja', input_html: { data:{s2:{limit: 10 }} } %>
             <%= f.input :is_mix_box %>
 
             <div id="mix_box" class="form-group">
@@ -59,38 +60,6 @@
               </div>
             </div>
 
-
-            <div class="form-group">
-              <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('activerecord.models.product_box.other') %></label>
-              <div class="col-sm-9">
-                <div class="table-responsive">
-                  <table id="product_boxes" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
-                    <tr>
-                      <th class="all control"><%= t('simple_form.labels.defaults.name') %></th>
-                      <th><%= t('simple_form.labels.defaults.quantity') %></th>
-                      <th class="all"></th>
-                    </tr>
-                    <%= f.fields_for :product_boxes, :wrapper => false do |product_box_form| %>
-                        <tr class="fields">
-                          <td><%= product_box_form.input :name, wrapper: :clean %></td>
-                          <td><%= product_box_form.input :quantity, wrapper: :clean %></td>
-                          <td align="center">
-                            <%= product_box_form.link_to_remove do %>
-                                <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
-                            <% end %>
-                          </td>
-                        </tr>
-                    <% end %>
-                  </table>
-                  <div class="well well-sm">
-                <span class="btn bg-color-blue txt-color-white btn-xs">
-                  <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :product_boxes, :data => {:target => "#product_boxes"} %>
-                </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div class="form-group">
               <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.prices') %></label>
               <div class="col-sm-9">
@@ -112,7 +81,6 @@
                 </div>
               </div>
             </div>
-
 
             <div class="widget-footer">
               <div class="form-actions">

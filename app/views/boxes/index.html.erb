@@ -6,7 +6,7 @@
           <span class="widget-icon"><i class="fa fa-table"></i></span>
           <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
           <div class="widget-toolbar filter-group">
-            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_product_box_path, class: 'btn btn-primary' if(can? :create, ProductBox) %>
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_box_path, class: 'btn btn-primary' if(can? :create, Box) %>
             <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %></a>
           </div>
         </header>
@@ -15,15 +15,7 @@
             <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
                   <fieldset>
                     <div class="row">
-                                                                                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                  <label for="q[product_id_cont]"><%= t('simple_form.labels.product') %></label>
-                                  <%= f.select :product_id_eq, options_from_collection_for_select(Product.all, :id, :name, @q.product_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
-                                </div>
-                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12">
-                              <label for="q[code_cont]"><%= t('simple_form.labels.defaults.code') %></label>
-                              <%= f.search_field :code_cont, label: false, class: "form-control input-sm" %>
-                            </div>
-                                                                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                                                        <div class="col-md-3 col-sm-6 col-xs-12">
                               <label for="q[name_cont]"><%= t('simple_form.labels.defaults.name') %></label>
                               <%= f.search_field :name_cont, label: false, class: "form-control input-sm" %>
                             </div>
@@ -50,22 +42,18 @@
             <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
               <thead>
               <tr>
-                                                            <th class='all control'><%= sort_link(@q, :product_name, t('simple_form.labels.defaults.product')) %></th>
-                                                                                <th><%= sort_link(@q, :code, t('simple_form.labels.defaults.code')) %></th>
-                                                                                <th><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
+                                                            <th class='all control'><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
                                                                                 <th><%= sort_link(@q, :quantity, t('simple_form.labels.defaults.quantity')) %></th>
                                                     <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
               </thead>
               <tbody>
-              <% @product_boxes.each do |product_box| %>
+              <% @boxes.each do |box| %>
               <tr>
-                                                                        <td><%= product_box.product.try(:name) %></td>
-                                                                                          <td><%= product_box.code %></td>
-                                                                                          <td><%= product_box.name %></td>
-                                                                                          <td align='right'><%= product_box.quantity %></td>
+                                                                        <td><%= box.name %></td>
+                                                                                          <td align='right'><%= box.quantity %></td>
                                               <td class="table-actions">
-                <%= render 'shared/action_icons', locals: {target: product_box} %>
+                <%= render 'shared/action_icons', locals: {target: box} %>
               </td>
               </tr>
               <% end %>
@@ -73,7 +61,7 @@
             </table>
           </div>
           <div class="widget-footer">
-            <%= render 'shared/pagination', locals: {target: @product_boxes, model_index_path: product_boxes_path} %>
+            <%= render 'shared/pagination', locals: {target: @boxes, model_index_path: boxes_path} %>
           </div>
         </div>
       </div>

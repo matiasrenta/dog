@@ -2,7 +2,7 @@
   <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>">
 
     <header>
-      <%= "<h3>#{t('activerecord.models.product_box.other')}</h3>".html_safe %>
+      <%= "<h3>#{t('activerecord.models.box.other')}</h3>".html_safe %>
       <div class="widget-toolbar filter-group">
       </div>
     </header>
@@ -26,10 +26,10 @@
           </tr>
           </thead>
           <tbody>
-          <% @product_boxes.each do |product_box| %>
+          <% @boxes.each do |box| %>
               <tr>
-                <td><%= product_box.name %></td>
-                <td align='right'><%= product_box.quantity %></td>
+                <td><%= box.name %></td>
+                <td align='right'><%= box.quantity %></td>
               </tr>
           <% end %>
           </tbody>

@@ -12,7 +12,7 @@ class Product < ActiveRecord::Base
 
 
   belongs_to :product_brand
-
+  has_and_belongs_to_many :boxes, join_table: 'boxes_products'
   has_many :order_details #NO VEO LA UTILIDAD DE ESTE LADO DE LA RELACION. CREO QUE NUNCA LA USARÉ
 
   # mix_box_details es la relacion tipo Factura - Detalle. En este caso el producto es la Mix Box
@@ -22,13 +22,8 @@ class Product < ActiveRecord::Base
   # ASÍ COMO NO HACE FALTA "has_many :order_details" TAMPOCO HACE FALTA ESTE EXTREMO DE LA RELACION. PARA NO CONFUNDIRME LA COMENTO
   #has_many :products, class_name: 'MixBoxDetail', foreign_key: :product_id # si este producto es una mix_box entonces tiene muchos (has_many) items
 
-
-
-
   has_many :product_prices, dependent: :delete_all
-  has_many :product_boxes, dependent: :delete_all
   accepts_nested_attributes_for :product_prices, update_only: true
-  accepts_nested_attributes_for :product_boxes, allow_destroy: true
   accepts_nested_attributes_for :mix_box_details, allow_destroy: true, allow_destroy: true
 
   validates :code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, presence: true
@@ -41,7 +36,7 @@ class Product < ActiveRecord::Base
 
   before_save do
     mbs = self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}.size
-    pbs = self.product_boxes.select{|pmb| !pmb.marked_for_destruction?}.size
+    pbs = self.boxes.select{|pmb| !pmb.marked_for_destruction?}.size
     if mbs > 0 && pbs > 0
       self.errors.add(:base, I18n.t('activerecord.messages.mix_boxes_and_boxes_not_compatible'))
       false

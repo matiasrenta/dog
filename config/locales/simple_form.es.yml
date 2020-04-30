@@ -109,6 +109,7 @@ es:
         units_sale_allowed: '¿Permitir venta por unidad?'
         is_mix_box: '¿es una caja mixta?'
         boxes: 'Cajas'
+        product_brand: 'Marca'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

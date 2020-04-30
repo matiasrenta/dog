@@ -26,9 +26,11 @@ class Product < ActiveRecord::Base
   accepts_nested_attributes_for :product_prices, update_only: true
   accepts_nested_attributes_for :mix_box_details, allow_destroy: true, allow_destroy: true
 
-  validates :code, :name, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, presence: true
+  validates :code, :name, :quantity_stock, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, presence: true
   validates :code, :name, uniqueness: true
-  validates :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, numericality: true
+  validates :quantity_stock, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, numericality: true
+  validates :quantity_min, numericality: true, if: -> {quantity_min.present?}
+  validates :quantity_max, numericality: true, if: -> {quantity_max.present?}
   validates :units_sale_allowed, inclusion: {in: [true, false]}
   validates :is_mix_box, inclusion: {in: [true, false]}
 

@@ -36,18 +36,35 @@ class Product < ActiveRecord::Base
   scope :not_mix_boxes, -> { where(is_mix_box: false) } # se necesita que la columna tenga en el migration default: false, para evitar el problema con el nil
 
   before_save do
-    mbs = self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}.size
-    pbs = self.boxes.select{|pmb| !pmb.marked_for_destruction?}.size
-    if mbs > 0 && pbs > 0
-      self.errors.add(:base, I18n.t('activerecord.messages.mix_boxes_and_boxes_not_compatible'))
-      false
-    else
-      if mbs > 1
-        self.is_mix_box = true
-        self.units_sale_allowed = true # si es caja mixta entonces se debe poder vender por unidad obligadamente porque una mix_box no puede tener boxes
+    if self.is_mix_box
+      if self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}.size > 0
+        self.units_sale_allowed = true
+        self.boxes.delete_all
+      else
+        self.errors.add(:is_mix_box, I18n.t('activerecord.messages.mix_box_without_products'))
+        false
       end
-      true
+    else
+      if self.boxes.select{|b| !b.marked_for_destruction?}.size > 0
+        self.mix_box_details.delete_all
+      elsif (!self.units_sale_allowed)
+        self.errors.add(:units_sale_allowed, I18n.t('activerecord.messages.nor_unit_nor_boxes_sales'))
+        false
+      end
     end
+
+    #mbs = self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}.size
+    #pbs = self.boxes.select{|pmb| !pmb.marked_for_destruction?}.size
+    #if mbs > 0 && pbs > 0
+    #  self.errors.add(:base, I18n.t('activerecord.messages.mix_boxes_and_boxes_not_compatible'))
+    #  false
+    #else
+    #  if mbs > 1
+    #    self.is_mix_box = true
+    #    self.units_sale_allowed = true # si es caja mixta entonces se debe poder vender por unidad obligadamente porque una mix_box no puede tener boxes
+    #  end
+    #  true
+    #end
   end
 
   after_create do

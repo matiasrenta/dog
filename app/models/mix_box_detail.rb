@@ -16,6 +16,7 @@ class MixBoxDetail < ActiveRecord::Base
 
   validates :product_id, :quantity, presence: true
   validates :product_id, :quantity, numericality: true
+  validates :product_id, uniqueness: { scope: :mix_box_id }
 
 
 

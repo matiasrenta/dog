@@ -35,3 +35,21 @@ $(document).on("input", "input[id$='_price']", function() {
     product_price_element.value = profit_percent;
 });
 
+// cuando cambia el select de mix_box
+$(document).on("change", "#product_is_mix_box", function() {
+    if (this.value == 'true') {
+        $("#product_units_sale_allowed").val("true");
+        $('div.product_units_sale_allowed:first').css('display', 'none');
+        $('div.product_boxes:first').css('display', 'none');
+        $("#mix_box").css('display', 'block');
+    } else {
+        $("#product_units_sale_allowed").val("false");
+        $('div.product_units_sale_allowed:first').css('display', 'block');
+        $('div.product_boxes:first').css('display', 'block');
+        $("#mix_box").css('display', 'none');
+    }
+});
+
+
+
+

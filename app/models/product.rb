@@ -30,6 +30,7 @@ class Product < ActiveRecord::Base
   validates :code, :name, uniqueness: true
   validates :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, numericality: true
   validates :units_sale_allowed, inclusion: {in: [true, false]}
+  validates :is_mix_box, inclusion: {in: [true, false]}
 
   scope :mix_boxes, -> { where(is_mix_box: true) }
   scope :not_mix_boxes, -> { where(is_mix_box: false) } # se necesita que la columna tenga en el migration default: false, para evitar el problema con el nil
@@ -51,8 +52,8 @@ class Product < ActiveRecord::Base
 
   after_create do
     ProductPrice.transaction do
-      CustomerCategory.all.each do |customer_category|
-        product_price = ProductPrice.new(product_id: self.id, customer_category_id: customer_category.id, price: calculate_product_price(customer_category))
+      CustomerCategory.all.each do |cc|
+        product_price = ProductPrice.new(product_id: self.id, customer_category_id: cc.id, price: calculate_product_price(cc), profit_percent: cc.profit_percent)
         product_price.save
       end
     end

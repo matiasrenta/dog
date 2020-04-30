@@ -15,6 +15,10 @@ class ProductsController < ApplicationController
 
   # GET /products/new
   def new
+    # para que aparezcan en el form hago build de los precios
+    #CustomerCategory.all.each do |cc|
+      #@product.product_prices.build(customer_category_id: cc.id, profit_percent: cc.profit_percent)
+    #end
   end
 
   # GET /products/1/edit

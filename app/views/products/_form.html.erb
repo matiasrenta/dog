@@ -16,7 +16,6 @@
             <%= f.input :code %>
             <%= f.input :name %>
             <%= f.association :product_brand %>
-            <%= f.input :units_sale_allowed, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']] %>
             <%= f.input :quantity_stock %>
             <%= f.input :quantity_min %>
             <%= f.input :quantity_max %>
@@ -24,10 +23,12 @@
             <%= f.input :cargo_cost %>
             <%= f.input :total_cost, input_html: {readonly: true} %>
             <%= f.input :saleman_fee_percent, placeholder: '%', hint: 'Ejemplo: 5 (quiere decir 5%)' %>
-            <%= f.association :boxes, as: :ajax_select2, search_class: :box, placeholder: 'Buscar caja', input_html: { data:{s2:{limit: 10 }} } %>
-            <%= f.input :is_mix_box %>
 
-            <div id="mix_box" class="form-group">
+            <%= f.input :is_mix_box, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false %>
+            <%= f.input :units_sale_allowed, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false %>
+            <%= f.association :boxes, as: :ajax_select2, search_class: :box, placeholder: 'Buscar caja', input_html: { data:{s2:{limit: 10 }} } %>
+
+            <div id="mix_box" class="form-group" style="display: none;">
               <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('activerecord.models.product.other') %></label>
               <div class="col-sm-9">
                 <div class="table-responsive">
@@ -60,27 +61,29 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.prices') %></label>
-              <div class="col-sm-9">
-                <div class="table-responsive">
-                  <table id="branches" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
-                    <tr>
-                      <th class="all control"><%= t('simple_form.labels.defaults.customer_category') %></th>
-                      <th><%= t('simple_form.labels.defaults.profit_percent') %></th>
-                      <th><%= t('simple_form.labels.defaults.price') %></th>
-                    </tr>
-                    <%= f.fields_for :product_prices, :wrapper => false do |product_price_form| %>
-                        <tr class="fields">
-                          <td><%= product_price_form.object.try(:customer_category).try(:name) %> <%= "(#{t('simple_form.labels.defaults.profit_percent')} #{product_price_form.object.customer_category.try(:profit_percent)}%)" %></td>
-                          <td><%= product_price_form.input :profit_percent, wrapper: :clean %></td>
-                          <td><%= product_price_form.input :price, wrapper: :clean %></td>
+            <% if updating? %>
+                <div class="form-group">
+                  <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.prices') %></label>
+                  <div class="col-sm-9">
+                    <div class="table-responsive">
+                      <table id="branches" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
+                        <tr>
+                          <th class="all control"><%= t('simple_form.labels.defaults.customer_category') %></th>
+                          <th><%= t('simple_form.labels.defaults.profit_percent') %></th>
+                          <th><%= t('simple_form.labels.defaults.price') %></th>
                         </tr>
-                    <% end %>
-                  </table>
+                        <%= f.fields_for :product_prices, :wrapper => false do |product_price_form| %>
+                            <tr class="fields">
+                              <td><%= product_price_form.object.try(:customer_category).try(:name) %> <%= "(#{t('simple_form.labels.defaults.profit_percent')} #{product_price_form.object.customer_category.try(:profit_percent)}%)" %></td>
+                              <td><%= product_price_form.input :profit_percent, wrapper: :clean %></td>
+                              <td><%= product_price_form.input :price, wrapper: :clean %></td>
+                            </tr>
+                        <% end %>
+                      </table>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+            <% end %>
 
             <div class="widget-footer">
               <div class="form-actions">

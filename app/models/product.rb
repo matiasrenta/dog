@@ -34,39 +34,19 @@ class Product < ActiveRecord::Base
   validates :units_sale_allowed, inclusion: {in: [true, false]}
   validates :is_mix_box, inclusion: {in: [true, false]}
 
+  validate :must_have_2_products_at_least, if: -> {is_mix_box}
+  validate :must_have_unit_or_box_sale, unless: -> {is_mix_box}
+
   scope :mix_boxes, -> { where(is_mix_box: true) }
   scope :not_mix_boxes, -> { where(is_mix_box: false) } # se necesita que la columna tenga en el migration default: false, para evitar el problema con el nil
 
   before_save do
     if self.is_mix_box
-      if self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}.size > 0
-        self.units_sale_allowed = true
-        self.boxes.delete_all
-      else
-        self.errors.add(:is_mix_box, I18n.t('activerecord.messages.mix_box_without_products'))
-        false
-      end
+      self.units_sale_allowed = true
+      self.boxes.delete_all
     else
-      if self.boxes.select{|b| !b.marked_for_destruction?}.size > 0
-        self.mix_box_details.delete_all
-      elsif (!self.units_sale_allowed)
-        self.errors.add(:units_sale_allowed, I18n.t('activerecord.messages.nor_unit_nor_boxes_sales'))
-        false
-      end
+      self.mix_box_details.delete_all
     end
-
-    #mbs = self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}.size
-    #pbs = self.boxes.select{|pmb| !pmb.marked_for_destruction?}.size
-    #if mbs > 0 && pbs > 0
-    #  self.errors.add(:base, I18n.t('activerecord.messages.mix_boxes_and_boxes_not_compatible'))
-    #  false
-    #else
-    #  if mbs > 1
-    #    self.is_mix_box = true
-    #    self.units_sale_allowed = true # si es caja mixta entonces se debe poder vender por unidad obligadamente porque una mix_box no puede tener boxes
-    #  end
-    #  true
-    #end
   end
 
   after_create do
@@ -99,6 +79,26 @@ class Product < ActiveRecord::Base
 
   def calculate_product_price(customer_category)
     self.total_cost + (self.total_cost * (customer_category.profit_percent.to_f / 100))
+  end
+
+  def must_have_2_products_at_least
+    products_not_destroyed = self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}
+    unless products_not_destroyed.size > 1
+      self.errors.add(:is_mix_box, I18n.t('activerecord.messages.mix_box_without_products'))
+      false
+    end
+    unless products_not_destroyed.map(&:product_id).uniq.size > 1 # productos no repetidos
+      self.errors.add(:is_mix_box, I18n.t('activerecord.messages.mix_box_products_not_uniq'))
+      self.errors.add(:base, I18n.t('activerecord.messages.mix_box_products_not_uniq'))
+      false
+    end
+  end
+
+  def must_have_unit_or_box_sale
+    unless self.units_sale_allowed || self.boxes.select{|b| !b.marked_for_destruction?}.size > 0
+      self.errors.add(:units_sale_allowed, I18n.t('activerecord.messages.nor_unit_nor_boxes_sales'))
+      false
+    end
   end
 
 end

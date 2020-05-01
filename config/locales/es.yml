@@ -306,17 +306,15 @@ es:
     messages:
       imported_successfuly: 'Se importaron %{count} registros exitosamente'
       comment_successfully_added: 'El comentario fue agregado exitosamente'
-      mix_boxes_and_boxes_not_compatible: 'Las cajas se cargan para productos que no son cajas mixtas. Elimine las cajas si este producto es una caja mixta.'
-      mix_box_without_products: 'Si es caja mixta debe contener productos'
+      mix_boxes_and_boxes_not_compatible: 'Las cajas se cargan para productos que no son cajas surtidas. Elimine las cajas si este producto es una caja surtida.'
+      mix_box_without_products: 'Si es caja surtida debe contener al menos 2 productos'
+      mix_box_products_not_uniq: 'La caja surtida no debe tener productos repetidos'
       nor_unit_nor_boxes_sales: 'No podrá venderse ni por caja ni por unidad'
 
     models:
       product_brand:
         one: Marca
         other: Marcas
-      mix_box_detail:
-        one: Detalle caja mixta
-        other: Detalles caja mixta
       product_price:
         one: Precio
         other: Precios

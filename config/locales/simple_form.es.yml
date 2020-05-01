@@ -107,7 +107,7 @@ es:
         quantity_box: 'Cantidad de cajas'
         units_alone: 'UNIDADES SUELTAS'
         units_sale_allowed: '¿Permitir venta por unidad?'
-        is_mix_box: '¿es una caja mixta?'
+        is_mix_box: '¿es una caja surtida?'
         boxes: 'Cajas'
         product_brand: 'Marca'
 

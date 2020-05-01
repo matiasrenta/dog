@@ -143,6 +143,8 @@ es:
       successfully_created: 'Creado exitosamente'
       successfully_updated: 'Actualizado exitosamente'
       successfully_destroyed: 'Eliminado exitosamente'
+      info:
+        check_prices: 'Los precios han sido creados automáticamente. Revíselos y cámbielos si es necesario'
 
     buttons:
       new: 'Nuevo'

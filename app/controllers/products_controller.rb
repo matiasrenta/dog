@@ -28,6 +28,8 @@ class ProductsController < ApplicationController
   # POST /products
   def create
     if @product.save
+      #format.html { redirect_to(@therapist); flash[:info] = "Ingrese los rangos horarios en que trabaja este terapeuta" }
+      flash[:info] = t('simple_form.flash.info.check_prices')
       redirect_to @product, notice: t("simple_form.flash.successfully_created")
     else
       puts @product.errors.messages

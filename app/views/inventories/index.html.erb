@@ -8,7 +8,8 @@
           <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
 
           <div class="widget-toolbar filter-group">
-            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_inventory_path, class: 'btn btn-primary' if (can? :create, Inventory) %>
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new_mix_box')}"), new_inventory_event_path(inventory_event: {event: InventoryEvent::EVENT_CONVERT, reason: InventoryEvent::REASON_MBA, quantity: 1, box_id: Box.units_box.id}), class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new_event')}"), new_inventory_event_path, class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
             <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
             </a>
           </div>

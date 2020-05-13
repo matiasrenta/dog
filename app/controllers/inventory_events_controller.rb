@@ -58,6 +58,10 @@ class InventoryEventsController < ApplicationController
     end
   end
 
+  def ajax_get_reasons
+
+  end
+
   private
 
     # Only allow a trusted parameter "white list" through.

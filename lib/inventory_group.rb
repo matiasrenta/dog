@@ -22,7 +22,6 @@ class InventoryGroup
   def fefo_remove(quantity_to_remove)
     @bunch_of_inventories.each do |inventory|
       if inventory.quantity_available >= quantity_to_remove
-        puts "############ inventory.quantity_available: #{inventory.quantity_available}. quantity_to_remove: #{quantity_to_remove} "
         inventory.quantity_available = inventory.quantity_available - quantity_to_remove
         inventory.save
         break

@@ -42,9 +42,8 @@ class OrderDetail < ActiveRecord::Base
   end
 
   after_destroy do
-    product = Product.find(self.product_id)
-    product.quantity_stock = product.quantity_stock + self.quantity
-    product.save
+    # agrego al stock lo que se quitó cuando se creó esta entidad
+    Inventory.update_stock(self, {event: InventoryEvent::EVENT_ADD, reason: InventoryEvent::REASON_ORDER_DESTROY})
   end
 
 

@@ -26,6 +26,15 @@ class Inventory < ActiveRecord::Base
     inventory
   end
 
+  def get_inventory(product_id, box_id, expiration_date)
+    inventory = get_or_initialize_inventory(product_id, box_id, expiration_date)
+    if inventory.new_record?
+      return nil
+    else
+      inventory
+    end
+  end
+
   def self.update_stock(entity, data = {event: nil, reason: nil, expiration_date: nil})
     if data[:event] == InventoryEvent::EVENT_ADD && InventoryEvent::ADD_REASONS.include?(data[:reason])
       add(entity, data)
@@ -39,15 +48,15 @@ class Inventory < ActiveRecord::Base
       raise(I18n.t('activerecord.errors.models.inventory_event.attributes.event.reason_not_matching'))
     end
 
-    InventoryEvent.handle_event_creation(event: data[:event],
-                                         reason: data[:reason],
-                                         entity_id: entity.id,
-                                         entity_type: entity.class.name,
-                                         entity_serialize: entity.serialize,
-                                         quantity: entity.quantity,
-                                         box_id: entity.box_id,
-                                         product_id: entity.product_id,
-                                         expiration_date: nil)
+    #InventoryEvent.handle_event_creation(event: data[:event],
+    #                                     reason: data[:reason],
+    #                                     entity_id: entity.id,
+    #                                     entity_type: entity.class.name,
+    #                                     entity_serialize: entity.serialize,
+    #                                     quantity: entity.quantity,
+    #                                     box_id: entity.box_id,
+    #                                     product_id: entity.product_id,
+    #                                     expiration_date: nil)
 
   end
 
@@ -72,7 +81,6 @@ class Inventory < ActiveRecord::Base
     inventory = get_or_initialize_inventory(entity.product_id, entity.box_id, data[:expiration_date])
     inventory.quantity_available = inventory.quantity_available + entity.quantity
     inventory.save
-    # aqui podría insertar el evento
   end
 
   # REMOVE
@@ -109,9 +117,9 @@ class Inventory < ActiveRecord::Base
   def self.convert(entity, data)
     if entity.box.is_the_units_box? || entity.reason == InventoryEvent::REASON_UBA
       if entity.product.is_mix_box
-        #todo: implementation pending
+        convert_units_to_mix_box(entity, data)
       else
-        # todo: aun no esta del todo implementado, falta definir cuantas cajas queres armar, o si queres armar todas las cajas que se puedan con las unidades existentes
+        # todo: aun no esta del todo implementado, falta si queres armar todas las cajas que se puedan con las unidades existentes
         convert_units_to_box(entity, data)
       end
     else
@@ -151,6 +159,20 @@ class Inventory < ActiveRecord::Base
     else
       raise "No hay suficiente stock para convertir. Stock actual: #{inventory.quantity_available} #{Box.units_box.name}"
     end
+  end
+
+  def self.convert_units_to_mix_box(entity, data)
+    entity.product.mix_box_details.each do |mix_box_detail|
+      inventory_group = InventoryGroup.new(product_id: mix_box_detail.product_id, box_id: Box.units_box.id)
+      if inventory_group.quantity_available >= mix_box_detail.quantity
+        inventory_group.fefo_remove(mix_box_detail.quantity)
+      else
+        raise "No hay suficiente stock para convertir. Stock actual de #{mix_box_detail.product.name}: #{inventory_group.quantity_available} #{Box.units_box.name}"
+      end
+    end
+    inventory = get_or_initialize_inventory(entity.product_id, entity.box_id, entity.expiration_date) # la fecha de vto de una caja surtida es la del producto que venza primero
+    inventory.quantity_available = inventory.quantity_available + entity.quantity
+    inventory.save
   end
 
 

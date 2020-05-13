@@ -54,7 +54,7 @@ module Chucky
       g.jbuilder        false
     end
 
-    # para cargar los path de modelos que pongo en sudirectoios de app/models/xxx
+    # para cargar los path de modelos que pongo en sudirectorios de app/models/xxx
     # No uso namespaces para los modelos porque no me parece una buena solución al perder ciertas conventions de rails
     config.autoload_paths += %W( #{config.root}/app/models/api #{config.root}/app/models/admin #{config.root}/app/models/dev #{config.root}/app/models/importers)
   end

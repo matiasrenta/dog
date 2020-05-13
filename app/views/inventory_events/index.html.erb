@@ -1,0 +1,105 @@
+<section id="widget-grid">
+  <div class="row">
+    <article class="col-xs-12">
+      <div class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>" id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false">
+        <header>
+          <span class="widget-icon"><i class="fa fa-table"></i></span>
+
+          <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
+
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_inventory_event_path, class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
+            </a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+            <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+                  <fieldset>
+                    <div class="row">
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[event_cont]"><%= t('simple_form.labels.defaults.event') %></label>
+                        <%= f.search_field :event_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[quantity_gteq]"><%= t('simple_form.labels.defaults.quantity') %></label>
+
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :quantity_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :quantity_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[box_id_cont]"><%= t('simple_form.labels.box') %></label>
+                        <%= f.select :box_id_eq, options_from_collection_for_select(Box.all, :id, :name, @q.box_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[reason_cont]"><%= t('simple_form.labels.defaults.reason') %></label>
+                        <%= f.search_field :reason_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[notes_cont]"><%= t('simple_form.labels.defaults.notes') %></label>
+                        <%= f.search_field :notes_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[entity_id_cont]"><%= t('simple_form.labels.entity') %></label>
+                        <%= f.search_field :entity_id_eq, label: false, class: "form-control input-sm" %>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[entity_type_cont]"><%= t('simple_form.labels.defaults.entity_type') %></label>
+                        <%= f.search_field :entity_type_cont, label: false, class: "form-control input-sm" %>
+                      </div>
+                    </div>
+                    <div class="row pull-right">
+                      <div class="col-sm-12">
+                        <%= render 'shared/submit_filters' %>
+                      </div>
+                    </div>
+                  </fieldset>
+              <% end %>
+            </div>
+          </div>
+          <div class="widget-body">
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+              <tr>
+                <th class='all control'><%= sort_link(@q, :event, t('simple_form.labels.defaults.event')) %></th>
+                <th align='right'><%= sort_link(@q, :quantity, t('simple_form.labels.defaults.quantity')) %></th>
+                <th><%= sort_link(@q, :box_name, t('simple_form.labels.defaults.box')) %></th>
+                <th><%= sort_link(@q, :reason, t('simple_form.labels.defaults.reason')) %></th>
+                <th><%= sort_link(@q, :notes, t('simple_form.labels.defaults.notes')) %></th>
+                <th><%= sort_link(@q, :entity_id, t('simple_form.labels.defaults.entity')) %></th>
+                <th><%= sort_link(@q, :entity_type, t('simple_form.labels.defaults.entity_type')) %></th>
+                <th class="all"><%= t('simple_form.screen.actions') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @inventory_events.each do |inventory_event| %>
+                  <tr>
+                    <td><%= inventory_event.event %></td>
+                    <td align='right'><%= inventory_event.quantity %></td>
+                    <td><%= inventory_event.box.try(:name) %></td>
+                    <td><%= inventory_event.reason %></td>
+                    <td><%= inventory_event.notes %></td>
+                    <td><%= inventory_event.entity_id %></td>
+                    <td><%= inventory_event.entity_type %></td>
+                    <td class="table-actions">
+                      <%= render 'shared/action_icons', locals: {target: inventory_event} %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="widget-footer">
+            <%= render 'shared/pagination', locals: {target: @inventory_events, model_index_path: inventory_events_path} %>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+

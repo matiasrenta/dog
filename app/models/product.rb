@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+  has_many :Inventories, dependent: :restrict_with_error
   include PublicActivity::Model
   tracked only: [:create, :update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
@@ -24,7 +25,7 @@ class Product < ActiveRecord::Base
 
   has_many :product_prices, dependent: :delete_all
   accepts_nested_attributes_for :product_prices, update_only: true
-  accepts_nested_attributes_for :mix_box_details, allow_destroy: true, allow_destroy: true
+  accepts_nested_attributes_for :mix_box_details, allow_destroy: true
 
   validates :code, :name, :quantity_stock, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, presence: true
   validates :code, :name, uniqueness: true

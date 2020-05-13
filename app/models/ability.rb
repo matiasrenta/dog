@@ -42,6 +42,8 @@ class Ability
 	end
 
 	def administrador
+		can [:manage], InventoryEvent
+		can [:manage], Inventory
 		can [:manage], Box
 		can [:manage], ProductBrand
 		can [:manage], MixBoxDetail

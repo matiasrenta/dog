@@ -10,10 +10,11 @@ class Order < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-  STATUS_TYPES = [['Creado', 'Creado'],
-                  ['Empaquetado', 'Empaquetado'],
-                  ['Entregado', 'Entregado'],
-                  ['Cobrado', 'Cobrado']]
+  STATUS_TYPES = [['CREATED', 'CREADO'],
+                  ['PACKAGING', 'EMPAQUETADO'],
+                  ['SENT', 'ENVIADO'],
+                  ['DELIVERED', 'ENTREGADO'],
+                  ['CHARGED', 'COBRADO']]
 
   belongs_to :user
   belongs_to :customer
@@ -34,6 +35,8 @@ class Order < ActiveRecord::Base
   validate do |order|
     order.errors.add(:base, :order_details_blank, message: 'Debe haber al menos un detalle') if order.order_details.empty?
   end
+
+  scope :created, -> { where(status: 'CREATED') }
 
   before_save do
     calculate_total_amount

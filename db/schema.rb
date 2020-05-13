@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200430172452) do
+ActiveRecord::Schema.define(version: 20200506162512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -175,6 +175,33 @@ ActiveRecord::Schema.define(version: 20200430172452) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "inventories", force: :cascade do |t|
+    t.integer  "product_id"
+    t.string   "lot"
+    t.date     "expiration_date"
+    t.integer  "box_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "quantity_available"
+    t.integer  "quantity_available_in_units"
+  end
+
+  create_table "inventory_events", force: :cascade do |t|
+    t.string   "event"
+    t.string   "reason"
+    t.text     "notes"
+    t.integer  "entity_id"
+    t.string   "entity_type"
+    t.text     "entity_serialized"
+    t.integer  "quantity"
+    t.integer  "box_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "product_id"
+    t.date     "expiration_date"
+    t.integer  "quantity_count_by_human"
+  end
 
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
     t.integer "unsubscriber_id"

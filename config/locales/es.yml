@@ -262,7 +262,6 @@ es:
       less_than_or_equal_to: "debe ser menor que o igual a %{count}"
       odd: "debe ser impar"
       even: "debe ser par"
-      cant_be_in_the_future: "No puede ser en el futuro"
       invalid_email: 'Email inválido'
       invalid_mx: 'invalid mx'
       invalid_imported_entities: 'Hay registros inválidos'
@@ -301,6 +300,10 @@ es:
           attributes:
             customer_branches:
               empty: 'al menos una sucursal'
+        inventory_event:
+          attributes:
+            event:
+              reason_not_matching: 'El evento no coincide con la razón del mismo'
 
 
     messages:
@@ -312,6 +315,13 @@ es:
       nor_unit_nor_boxes_sales: 'No podrá venderse ni por caja ni por unidad'
 
     models:
+      inventory_event:
+        one: Evento de inventario
+        other: Eventos de inventario
+      inventory:
+        one: Inventario
+        other: Inventario
+        fa_icon: 'fa-fw fa fa-archive'
       product_brand:
         one: Marca
         other: Marcas

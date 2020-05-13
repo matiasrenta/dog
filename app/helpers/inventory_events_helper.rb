@@ -1,0 +1,2 @@
+module InventoryEventsHelper
+end

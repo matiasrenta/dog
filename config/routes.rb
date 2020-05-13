@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :inventory_events
+  resources :inventories
   resources :boxes
   resources :product_brands
   resources :mix_box_details

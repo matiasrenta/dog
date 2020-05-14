@@ -48,8 +48,8 @@ class InventoryEvent < ActiveRecord::Base
 
 
 
-  validates :event, :reason, :quantity, :box_id, presence: true
-  validates :quantity, :box_id, numericality: true
+  validates :event, :reason, :product_id, :quantity, :box_id, presence: true
+  validates :quantity, :product_id, :box_id, numericality: true
 
   before_create :update_inventory
 

@@ -15,18 +15,16 @@
           <div class="form-inputs edit">
             <%= f.input :event, as: :select, collection: InventoryEvent::EVENTS_COLLECTION, input_html: {data:{ dynamic_selectable_url: dynamic_select_inventory_reasons_path(':event_id'), dynamic_selectable_target: '#inventory_event_reason' } } %>
             <%= f.input :reason, as: :select, collection: InventoryEvent::REASONS_COLLECTION %>
-            <%= f.input :product_id, as: :select2, collection: products_collection, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}} } %>
-            <%= f.input :expiration_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'datetimepicker', value: format_date_field(@inventory_event.expiration_date)} %>
-            <%= f.association :box %>
+            <%= f.association :product, as: :select2, collection: products_collection, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}} } %>
+            <%= f.input :expiration_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@inventory_event.expiration_date)} %>
+            <%= f.association :box, collection: product_boxes %>
             <%= f.input :quantity %>
             <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
 
             <div class="widget-footer">
               <div class="form-actions">
                 <div class="btn-group">
-                  <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), inventory_events_path, class: 'btn btn-default btn-sm' if can?(:read, InventoryEvent) %>
-                  <%= link_to raw("<i class='fa fa-binoculars'></i> #{t('simple_form.buttons.show')}"), @inventory_event, class: 'btn btn-default btn-sm' if can?(:read, InventoryEvent) && updating? %>
-                  <%= link_to raw("<i class='fa fa-trash'></i> #{t('simple_form.buttons.destroy')}"), @inventory_event, class: 'btn btn-default btn-sm', method: :delete, data: {confirm: t('helpers.messages.are_you_sure'), 'original-title': 'Destroy'} if can?(:destroy, InventoryEvent) && updating? %>
+                  <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), inventories_path, class: 'btn btn-default btn-sm' if can?(:read, Inventory) %>
                   <button type="submit" class="btn btn-primary btn-sm">
                     <i class='fa fa-check-circle'></i> <%= creating? ? t('simple_form.buttons.create') : t('simple_form.buttons.update') %>
                   </button>

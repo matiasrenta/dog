@@ -1,5 +1,4 @@
 class Product < ActiveRecord::Base
-  has_many :Inventories, dependent: :restrict_with_error
   include PublicActivity::Model
   tracked only: [:create, :update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
@@ -15,6 +14,7 @@ class Product < ActiveRecord::Base
   belongs_to :product_brand
   has_and_belongs_to_many :boxes, join_table: 'boxes_products'
   has_many :order_details #NO VEO LA UTILIDAD DE ESTE LADO DE LA RELACION. CREO QUE NUNCA LA USARÉ
+  has_many :inventories, dependent: :restrict_with_error
 
   # mix_box_details es la relacion tipo Factura - Detalle. En este caso el producto es la Mix Box
   has_many :mix_box_details, foreign_key: :mix_box_id, dependent: :destroy
@@ -40,6 +40,7 @@ class Product < ActiveRecord::Base
 
   scope :mix_boxes, -> { where(is_mix_box: true) }
   scope :not_mix_boxes, -> { where(is_mix_box: false) } # se necesita que la columna tenga en el migration default: false, para evitar el problema con el nil
+  scope :code_and_name, -> { all.map{ |p| ["#{p.code} #{p.name}", p.id] }}
 
   before_save do
     if self.is_mix_box

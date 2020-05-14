@@ -8,8 +8,8 @@
           <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
 
           <div class="widget-toolbar filter-group">
-            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new_mix_box')}"), new_inventory_event_path(inventory_event: {event: InventoryEvent::EVENT_CONVERT, reason: InventoryEvent::REASON_MBA, quantity: 1, box_id: Box.units_box.id}), class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
-            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new_event')}"), new_inventory_event_path, class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
+            <%= link_to raw("<i></i> #{t('simple_form.buttons.new_mix_box')}"), new_inventory_event_path(inventory_event: {event: InventoryEvent::EVENT_CONVERT, reason: InventoryEvent::REASON_MBA, quantity: 1, box_id: Box.units_box.id}), class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
+            <%= link_to raw("<i></i> #{t('simple_form.buttons.new_event')}"), new_inventory_event_path, class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
             <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
             </a>
           </div>
@@ -20,8 +20,8 @@
                   <fieldset>
                     <div class="row">
                       <div class="col-md-3 col-sm-6 col-xs-12">
-                        <label for="q[product_id_cont]"><%= t('simple_form.labels.product') %></label>
-                        <%= f.select :product_id_eq, options_from_collection_for_select(Product.all, :id, :name, @q.product_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                        <label for="q[product_id_cont]"><%= t('simple_form.labels.defaults.product') %></label>
+                        <%= f.select :product_id_eq, options_for_select(Product.code_and_name, @q.product_id_eq), {include_blank: true}, {class: "form-control input-sm auto-static-select2"} %>
                       </div>
                       <div class="col-md-3 col-sm-6 col-xs-12">
                         <label for="q[lot_cont]"><%= t('simple_form.labels.defaults.lot') %></label>
@@ -48,18 +48,8 @@
                         </div>
                       </div>
                       <div class="col-md-3 col-sm-6 col-xs-12">
-                        <label for="q[box_id_cont]"><%= t('simple_form.labels.box') %></label>
+                        <label for="q[box_id_cont]"><%= t('simple_form.labels.defaults.box') %></label>
                         <%= f.select :box_id_eq, options_from_collection_for_select(Box.all, :id, :name, @q.box_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
-                      </div>
-                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                        <label for="q[quantity_in_units_gteq]"><%= t('simple_form.labels.defaults.quantity_available_in_units') %></label>
-
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :quantity_available_in_units_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
-                        </div>
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :quantity_available_in_units_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
-                        </div>
                       </div>
                     </div>
                     <div class="row pull-right">
@@ -80,7 +70,6 @@
                 <th><%= sort_link(@q, :expiration_date, t('simple_form.labels.defaults.expiration_date')) %></th>
                 <th><%= sort_link(@q, :box_name, t('simple_form.labels.defaults.box')) %></th>
                 <th><%= sort_link(@q, :quantity_available, t('simple_form.labels.defaults.quantity_available')) %></th>
-                <th><%= sort_link(@q, :quantity_available_in_units, t('simple_form.labels.defaults.quantity_available_in_units')) %></th>
                 <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
               </thead>
@@ -92,9 +81,14 @@
                     <td><%= l(inventory.expiration_date, format: :default) if inventory.expiration_date %></td>
                     <td><%= inventory.box.try(:name) %></td>
                     <td align='right'><%= inventory.quantity_available %></td>
-                    <td align='right'><%= inventory.quantity_available_in_units %></td>
                     <td class="table-actions">
-                      <%= render 'shared/action_icons', locals: {target: inventory} %>
+                      <% if inventory.box.is_the_units_box? &&  !inventory.product.is_mix_box %>
+                          <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBA_action(inventory)} %>
+                      <% elsif !inventory.box.is_the_units_box? %>
+                          <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBD_action(inventory) } %>
+                      <% else %>
+                          <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true} %>
+                      <% end %>
                     </td>
                   </tr>
               <% end %>

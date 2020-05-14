@@ -110,6 +110,12 @@ es:
         is_mix_box: '¿es una caja surtida?'
         boxes: 'Cajas'
         product_brand: 'Marca'
+        event: 'Evento'
+        reason: 'Razón'
+        product: 'Producto'
+        expiration_date: 'Fecha vencimiento'
+        lot: 'Lote'
+        quantity_available: Cantidad disponible
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'
@@ -163,8 +169,12 @@ es:
       post_reply: 'Responder'
       post_comment: 'Comentar'
       add: 'Agregar'
+      new_event: 'Nuevo evento'
+      new_mix_box: 'Armar surtida'
 
     tooltips:
       show: 'Ver'
       edit: 'Editar'
       destroy: 'Eliminar'
+      uniform_box_disassembly: 'Desarmar cajas'
+      uniform_box_assembly: 'Armar cajas'

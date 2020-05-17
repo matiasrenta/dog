@@ -13,9 +13,11 @@ class ProductPrice < ActiveRecord::Base
   belongs_to :product
   belongs_to :customer_category
 
-  validates :product_id, :customer_category_id, :price, presence: true
-  validates :product_id, :customer_category_id, :price, numericality: true
+  validates :product_id, :customer_category_id, :profit_percent, :sales_commission, :price, presence: true
+  validates :product_id, :customer_category_id, :profit_percent, :sales_commission, :price, numericality: true
   validates :product_id, uniqueness: { scope: :customer_category_id }
+  validates :profit_percent, numericality: { greater_than: 0 }
+  validates :sales_commission, numericality: { greater_than_or_equal_to: 0 }
 
   def except_attr_in_public_activity
     [:id, :updated_at]

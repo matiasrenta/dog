@@ -26,35 +26,9 @@
                         <label for="q[name_cont]"><%= t('simple_form.labels.defaults.name') %></label>
                         <%= f.search_field :name_cont, label: false, class: "form-control input-sm" %>
                       </div>
-                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                        <label for="q[quantity_stock_gteq]"><%= t('simple_form.labels.defaults.quantity_stock') %></label>
-
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :quantity_stock_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
-                        </div>
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :quantity_stock_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
-                        </div>
-                      </div>
-                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                        <label for="q[quantity_min_gteq]"><%= t('simple_form.labels.defaults.quantity_min') %></label>
-
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :quantity_min_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
-                        </div>
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :quantity_min_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
-                        </div>
-                      </div>
-                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                        <label for="q[quantity_max_gteq]"><%= t('simple_form.labels.defaults.quantity_max') %></label>
-
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :quantity_max_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
-                        </div>
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :quantity_max_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
-                        </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[is_mix_box_eq]"><%= t('simple_form.labels.defaults.is_mix_box') %></label>
+                        <%= f.select :is_mix_box_eq, options_for_select(options_for_boolean, @q.is_mix_box_eq), {include_blank: true}, {class: "form-control input-sm"} %>
                       </div>
 
                       <% if can? :see_sensitive_data, Product %>
@@ -92,16 +66,6 @@
 
                       <% end %>
 
-                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                        <label for="q[saleman_fee_percent_gteq]"><%= t('simple_form.labels.defaults.saleman_fee_percent') %></label>
-
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :saleman_fee_percent_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
-                        </div>
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :saleman_fee_percent_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
-                        </div>
-                      </div>
                     </div>
                     <div class="row pull-right">
                       <div class="col-sm-12">
@@ -118,16 +82,12 @@
               <tr>
                 <th class='all control'><%= sort_link(@q, :code, t('simple_form.labels.defaults.code')) %></th>
                 <th><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
-                <th><%= sort_link(@q, :quantity_stock, t('simple_form.labels.defaults.quantity_stock')) %></th>
-                <th><%= sort_link(@q, :quantity_min, t('simple_form.labels.defaults.quantity_min')) %></th>
-                <th><%= sort_link(@q, :quantity_max, t('simple_form.labels.defaults.quantity_max')) %></th>
-
+                <th><%= sort_link(@q, :is_mix_box, t('simple_form.labels.defaults.is_mix_box')) %></th>
                 <% if can? :see_sensitive_data, Product %>
                     <th><%= sort_link(@q, :product_cost, t('simple_form.labels.defaults.product_cost')) %></th>
                     <th><%= sort_link(@q, :cargo_cost, t('simple_form.labels.defaults.cargo_cost')) %></th>
                     <th><%= sort_link(@q, :total_cost, t('simple_form.labels.defaults.total_cost')) %></th>
                 <% end %>
-                <th><%= sort_link(@q, :saleman_fee_percent, t('simple_form.labels.defaults.saleman_fee_percent')) %></th>
                 <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
               </thead>
@@ -136,15 +96,12 @@
                   <tr>
                     <td><%= product.code %></td>
                     <td><%= product.name %></td>
-                    <td align='right'><%= product.quantity_stock %></td>
-                    <td align='right'><%= product.quantity_min %></td>
-                    <td align='right'><%= product.quantity_max %></td>
+                    <td align='center'><%= boolean_check_mark(product.is_mix_box) %></td>
                     <% if can? :see_sensitive_data, Product %>
                         <td align='right'><%= product.product_cost %></td>
                         <td align='right'><%= product.cargo_cost %></td>
                         <td align='right'><%= product.total_cost %></td>
                     <% end %>
-                    <td align='right'><%= product.saleman_fee_percent %></td>
                     <td class="table-actions">
                       <%= render 'shared/action_icons', locals: {target: product} %>
                     </td>

@@ -21,15 +21,17 @@
         <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
           <thead>
           <tr>
-            <th class='all control'><%= sort_link(@q_box, :name, t('simple_form.labels.defaults.name')) %></th>
-            <th><%= sort_link(@q, :quantity, t('simple_form.labels.defaults.quantity')) %></th>
+            <th class='all control'><%= sort_link(@q_box, :box_name, t('simple_form.labels.defaults.box')) %></th>
+            <th><%= sort_link(@q, :stock_min, t('simple_form.labels.defaults.stock_min')) %></th>
+            <th><%= sort_link(@q, :stock_max, t('simple_form.labels.defaults.stock_max')) %></th>
           </tr>
           </thead>
           <tbody>
-          <% @boxes.each do |box| %>
+          <% @product_boxes.each do |pb| %>
               <tr>
-                <td><%= box.name %></td>
-                <td align='right'><%= box.quantity %></td>
+                <td><%= pb.box.name %></td>
+                <td align='right'><%= pb.stock_min %></td>
+                <td align='right'><%= pb.stock_max %></td>
               </tr>
           <% end %>
           </tbody>

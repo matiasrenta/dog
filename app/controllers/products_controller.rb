@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
   # GET /products/1
   def show
     @product_prices = indexize(ProductPrice, collection: @product.product_prices)
-    @boxes = indexize(ProductPrice, collection: @product.boxes, query_param: :q_box)
+    @product_boxes = indexize(ProductBox, collection: @product.product_boxes, query_param: :q_box)
     @mix_box_details = indexize(MixBoxDetail, collection: @product.mix_box_details, query_param: :q_mix_box)
   end
 
@@ -62,8 +62,9 @@ class ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.require(:product).permit(:code, :name, :product_brand_id, :quantity_stock, :quantity_min, :quantity_max, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, :units_sale_allowed, :is_mix_box,
+      params.require(:product).permit(:code, :name, :product_brand_id, :product_cost, :cargo_cost, :total_cost, :units_sale_allowed, :is_mix_box,
                                       {product_prices_attributes: [:id, :price, :profit_percent]},
+                                      {product_boxes_attributes: [:_destoy, :id, :box_id, :stock_min, :stock_max]},
                                       {mix_box_details_attributes: [:_destroy, :id, :product_id, :quantity]},
                                       {box_ids: []})
     end

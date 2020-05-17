@@ -12,7 +12,9 @@ class Product < ActiveRecord::Base
 
 
   belongs_to :product_brand
-  has_and_belongs_to_many :boxes, join_table: 'boxes_products'
+  #has_and_belongs_to_many :boxes, join_table: 'boxes_products'
+  has_many :product_boxes, dependent: :destroy
+  #has_many :boxes, through: :product_boxes
   has_many :order_details #NO VEO LA UTILIDAD DE ESTE LADO DE LA RELACION. CREO QUE NUNCA LA USARÉ
   has_many :inventories, dependent: :restrict_with_error
 
@@ -25,13 +27,12 @@ class Product < ActiveRecord::Base
 
   has_many :product_prices, dependent: :delete_all
   accepts_nested_attributes_for :product_prices, update_only: true
+  accepts_nested_attributes_for :product_boxes, allow_destroy: true
   accepts_nested_attributes_for :mix_box_details, allow_destroy: true
 
-  validates :code, :name, :quantity_stock, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, presence: true
+  validates :code, :name, :product_cost, :cargo_cost, :total_cost, presence: true
   validates :code, :name, uniqueness: true
-  validates :quantity_stock, :product_cost, :cargo_cost, :total_cost, :saleman_fee_percent, numericality: true
-  validates :quantity_min, numericality: true, if: -> {quantity_min.present?}
-  validates :quantity_max, numericality: true, if: -> {quantity_max.present?}
+  validates :product_cost, :cargo_cost, :total_cost, numericality: true
   validates :units_sale_allowed, inclusion: {in: [true, false]}
   validates :is_mix_box, inclusion: {in: [true, false]}
 
@@ -100,7 +101,7 @@ class Product < ActiveRecord::Base
   end
 
   def must_have_unit_or_box_sale
-    unless self.units_sale_allowed || self.boxes.select{|b| !b.marked_for_destruction?}.size > 0
+    unless self.units_sale_allowed || self.product_boxes.select{|b| !b.marked_for_destruction?}.size > 0
       self.errors.add(:units_sale_allowed, I18n.t('activerecord.messages.nor_unit_nor_boxes_sales'))
       false
     end

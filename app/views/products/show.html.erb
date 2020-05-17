@@ -53,31 +53,7 @@
                 </div>
               </div>
 
-
-              <div class="row show-details">
-                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.quantity_stock') %></strong></label>
-
-                <div class="col-lg-9 details-data">
-                  <%= @product.quantity_stock %>
-                </div>
-              </div>
-              <div class="row show-details">
-                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.quantity_min') %></strong></label>
-
-                <div class="col-lg-9 details-data">
-                  <%= @product.quantity_min %>
-                </div>
-              </div>
-              <div class="row show-details">
-                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.quantity_max') %></strong></label>
-
-                <div class="col-lg-9 details-data">
-                  <%= @product.quantity_max %>
-                </div>
-              </div>
-
               <% if can? :see_sensitive_data, Product %>
-
                   <div class="row show-details">
                     <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.product_cost') %></strong></label>
 
@@ -99,26 +75,7 @@
                       <%= @product.total_cost  ? number_to_currency(@product.total_cost, unit: '') : nil %>
                     </div>
                   </div>
-
-                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.boxes') %></strong></label>
-
-                    <div class="col-lg-9 details-data">
-                      <% @product.boxes.each do |b| %>
-                        <%= b.name %> <br/>
-                      <% end %>
-                    </div>
-                  </div>
               <% end %>
-
-              <div class="row show-details">
-                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.saleman_fee_percent') %></strong></label>
-
-                <div class="col-lg-9 details-data">
-                  <%= @product.saleman_fee_percent %> <%= @product.saleman_fee_percent.present? ? '%' : '' %>
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
@@ -126,6 +83,7 @@
     </article>
     <%= render 'index_product_prices' %>
     <%= render 'index_mix_boxes' if @product.is_mix_box %>
+    <%= render 'index_product_boxes' unless @product.is_mix_box %>
   </div>
 </section>
 

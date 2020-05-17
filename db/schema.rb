@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200516214827) do
+ActiveRecord::Schema.define(version: 20200517190202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -290,6 +290,15 @@ ActiveRecord::Schema.define(version: 20200516214827) do
     t.boolean  "iva",                default: false
   end
 
+  create_table "product_boxes", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "box_id"
+    t.integer  "stock_min"
+    t.integer  "stock_max"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "product_brands", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -308,17 +317,13 @@ ActiveRecord::Schema.define(version: 20200516214827) do
   create_table "products", force: :cascade do |t|
     t.string   "code"
     t.string   "name"
-    t.integer  "quantity_stock"
-    t.integer  "quantity_min"
-    t.integer  "quantity_max"
     t.float    "product_cost"
     t.float    "cargo_cost"
     t.float    "total_cost"
-    t.integer  "saleman_fee_percent"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.boolean  "units_sale_allowed",  default: false
-    t.boolean  "is_mix_box",          default: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "units_sale_allowed", default: false
+    t.boolean  "is_mix_box",         default: false
     t.integer  "product_brand_id"
   end
 

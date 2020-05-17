@@ -81,10 +81,9 @@
                     <th><%= sort_link(@q, :lot, t('simple_form.labels.defaults.lot')) %></th>
                     <th><%= sort_link(@q, :expiration_date, t('simple_form.labels.defaults.expiration_date')) %></th>
                 <% else %>
-                    <th><%= t('simple_form.labels.defaults.min_max_stoks') %></th>
-                <% end %>
-                <th><%= sort_link(@q, :quantity_available, t('simple_form.labels.defaults.quantity_available')) %></th>
-                <th class="all"><%= t('simple_form.screen.actions') %></th>
+                    <th>Stock</th>
+              <% end %>
+                <th class="all"><%= t('simple_form.screen.vencimiento') %> | <%= t('simple_form.screen.stock') %> | <%= t('simple_form.screen.actions') %></th>
               </tr>
               </thead>
               <tbody>
@@ -96,9 +95,26 @@
                         <td><%= inventory.lot %></td>
                         <td><%= l(inventory.expiration_date, format: :default) if inventory.expiration_date %></td>
                     <% else %>
-                        <td>min 10 | max 100</td>
+                        <td align='right'>
+                          <table class="table-bordered">
+                            <tr>
+                              <td align="right" style="padding-right: 5px;">Min.</td>
+                              <td align="right" style="padding-right: 5px;"><b>Disp.</b></td>
+                              <td align="right" style="padding-right: 5px;">Res.</td>
+                              <td align="right">Exis.</td>
+                            </tr>
+                            <tr>
+                              <%
+                                 taken = OrderDetail.created.by_product_id(inventory.product_id).by_box_id(inventory.box_id).sum(:quantity)
+                              %>
+                              <td align="right" style="padding-right: 5px;">10</td>
+                              <td align="right" style="padding-right: 5px;"><b><%= inventory.quantity_available %></b></td>
+                              <td align="right" style="padding-right: 5px;"><%= taken if taken > 0 %></td>
+                              <td align="right"><%= inventory.quantity_available + taken if taken > 0 %></td>
+                            </tr>
+                          </table>
+                        </td>
                     <% end %>
-                    <td align='right'><%= inventory.quantity_available %></td>
                     <td class="table-actions">
                       <% if !session[:grouped] %>
                           <% if inventory.box.is_the_units_box? && !inventory.product.is_mix_box %>
@@ -109,16 +125,12 @@
                               <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_adjust_action(inventory)} %>
                           <% end %>
                       <% else %>
-                          <table border="1">
-                            <tr>
-                              <td>Vencimiento</td>
-                              <td>Stock</td>
-                              <td></td>
+                          <table class="table-bordered table-hover">
                             </tr>
-                            <% Inventory.where(product_id: inventory.product_id, box_id: inventory.box_id).each do |i| %>
+                            <% Inventory.where(product_id: inventory.product_id, box_id: inventory.box_id).order(expiration_date: :asc).each do |i| %>
                                 <tr>
-                                  <td><%= l(i.expiration_date, format: :default) if i.expiration_date %></td>
-                                  <td><%= i.quantity_available %></td>
+                                  <td style="padding: 5px;"><%= i.expiration_date ? l(i.expiration_date, format: :default) : '???' %></td>
+                                  <td style="padding: 5px;"><%= i.quantity_available %></td>
                                   <td>
                                     <% if i.box.is_the_units_box? && !i.product.is_mix_box %>
                                         <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_UBA_action(i) + build_adjust_action(i)} %>

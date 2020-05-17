@@ -27,11 +27,11 @@ module InventoriesHelper
     [{name: name, fa_icon: fa_icon, fa_icon_size: fa_icon_size, url: url, tooltip: tooltip}]
   end
 
-
   def product_boxes
     boxes = @inventory_event.try(:product).try(:boxes)
     boxes = Box.all unless boxes
     boxes
     collection_with_actual(boxes, @inventory_event.box, :name, sortable = true)
   end
+
 end

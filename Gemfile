@@ -141,6 +141,8 @@ gem 'paranoia', '~> 2.0'
 gem 'paper_trail'
 # https://github.com/mdeering/attribute_normalizer
 gem 'attribute_normalizer' #proyecto_inversion en key_analytical se cambia de nil a '' provocando un attribute change en una afectacion. Este gem hace que se quede como nil
+# database views. https://github.com/scenic-views/scenic
+gem 'scenic'
 # (-)Instalados por mi
 
 

@@ -1,0 +1,1 @@
+SELECT SUM("inventories"."quantity_available") AS sum_quantity_available, product_id AS product_id, box_id AS box_id FROM "inventories" GROUP BY "inventories"."product_id", "inventories"."box_id"

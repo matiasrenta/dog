@@ -13,12 +13,12 @@
                                   boolean: :horizontal_boolean
                           } do |f| %>
           <div class="form-inputs edit">
-            <%= f.input :event, as: :select, collection: InventoryEvent::EVENTS_COLLECTION, input_html: {data:{ dynamic_selectable_url: dynamic_select_inventory_reasons_path(':event_id'), dynamic_selectable_target: '#inventory_event_reason' } } %>
-            <%= f.input :reason, as: :select, collection: InventoryEvent::REASONS_COLLECTION %>
-            <%= f.association :product, as: :select2, collection: products_collection, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}} } %>
-            <%= f.input :expiration_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@inventory_event.expiration_date)} %>
-            <%= f.association :box, collection: product_boxes %>
-            <%= f.input :quantity %>
+            <%= f.input :event, as: :select, collection: InventoryEvent::EVENTS_COLLECTION, input_html: {readonly: @inventory_event.event, data:{ dynamic_selectable_url: dynamic_select_inventory_reasons_path(':event_id'), dynamic_selectable_target: '#inventory_event_reason' } } %>
+            <%= f.input :reason, as: :select, collection: InventoryEvent::REASONS_COLLECTION, input_html: {readonly: @inventory_event.reason} %>
+            <%= f.association :product, as: :select2, collection: products_collection, placeholder: 'Buscar', input_html: {readonly: @inventory_event.product, style: 'max-width:100%;', data:{s2:{limit: 10}} } %>
+            <%= f.input :expiration_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {readonly: @inventory_event.expiration_date, class: 'date-picker', value: format_date_field(@inventory_event.expiration_date)} %>
+            <%= f.association :box, collection: product_boxes, input_html: {readonly: @inventory_event.box_id} %>
+            <%= f.input :quantity, input_html: {readonly: @inventory_event.quantity} %>
             <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
 
             <div class="widget-footer">

@@ -178,3 +178,4 @@ es:
       destroy: 'Eliminar'
       uniform_box_disassembly: 'Desarmar cajas'
       uniform_box_assembly: 'Armar cajas'
+      adjust_quantity_available: 'Ajustar stock'

@@ -3,7 +3,17 @@ class InventoriesController < ApplicationController
 
   # GET /inventories
   def index
-    @inventories = indexize(Inventory)
+
+    if params[:grouped] == 'false' || (params[:grouped] != 'true' && !session[:grouped])
+      @inventories = indexize(Inventory)
+      session[:grouped] = false
+    else
+      @inventories =  indexize(InvGrouped, order: 'product_id DESC, box_id DESC')
+      session[:grouped] = true
+    end
+
+    #if (params[:grouped].present? && params[:grouped] != 'false') && (params[:grouped] == 'true' || session[:grouped] == true)
+    #end
   end
 
   # GET /inventories/1

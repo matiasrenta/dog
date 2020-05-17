@@ -47,6 +47,9 @@
                 <%= link_to t('simple_form.labels.defaults.stock'), inventories_path, {title: t('simple_form.labels.defaults.stock')} %>
               </li>
               <li>
+                <%= link_to t('navigation.grouped_stock'), inventories_path(grouped: true), {title: t('navigation.grouped_stock')} %>
+              </li>
+              <li>
                 <%= link_to t('activerecord.models.inventory_event.other'), inventory_events_path, {title: t('activerecord.models.inventory_event.other')} %>
               </li>
             </ul>

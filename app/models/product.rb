@@ -72,6 +72,9 @@ class Product < ActiveRecord::Base
     end
   end
 
+  def code_and_name
+    "#{code} #{name}"
+  end
 
   def except_attr_in_public_activity
     [:id, :updated_at]

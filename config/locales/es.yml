@@ -435,6 +435,9 @@ es:
       mark__all_as_read: 'Marcar todos como leídos'
       move_to_trash: 'Eliminar'
 
+  navigation:
+    grouped_stock: 'Stock agrupado'
+
   will_paginate:
     previous_label: "&#8592;"
     next_label: "&#8594;"

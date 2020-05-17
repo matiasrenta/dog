@@ -18,7 +18,6 @@
             <%= f.input :expiration_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@inventory.expiration_date)} %>
             <%= f.association :box %>
             <%= f.input :quantity_available %>
-            <%= f.input :quantity_available_in_units %>
 
             <div class="widget-footer">
               <div class="form-actions">

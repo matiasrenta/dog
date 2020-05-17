@@ -8,6 +8,11 @@
           <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
 
           <div class="widget-toolbar filter-group">
+            <% if !session[:grouped] %>
+                <%= link_to raw("<i></i> #{t('simple_form.buttons.group')}"), inventories_path(grouped: true), class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
+            <% else %>
+                <%= link_to raw("<i></i> #{t('simple_form.buttons.ungroup')}"), inventories_path(grouped: false), class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
+            <% end %>
             <%= link_to raw("<i></i> #{t('simple_form.buttons.new_mix_box')}"), new_inventory_event_path(inventory_event: {event: InventoryEvent::EVENT_CONVERT, reason: InventoryEvent::REASON_MBA, quantity: 1, box_id: Box.units_box.id}), class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
             <%= link_to raw("<i></i> #{t('simple_form.buttons.new_event')}"), new_inventory_event_path, class: 'btn btn-primary' if (can? :create, InventoryEvent) %>
             <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %>
@@ -16,7 +21,7 @@
         </header>
         <div class="no-padding">
           <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
-            <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+            <div class="col-xs-12"><%= search_form_for(@q, url: inventories_path, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
                   <fieldset>
                     <div class="row">
                       <div class="col-md-3 col-sm-6 col-xs-12">
@@ -24,19 +29,28 @@
                         <%= f.select :product_id_eq, options_for_select(Product.code_and_name, @q.product_id_eq), {include_blank: true}, {class: "form-control input-sm auto-static-select2"} %>
                       </div>
                       <div class="col-md-3 col-sm-6 col-xs-12">
-                        <label for="q[lot_cont]"><%= t('simple_form.labels.defaults.lot') %></label>
-                        <%= f.search_field :lot_cont, label: false, class: "form-control input-sm" %>
+                        <label for="q[box_id_cont]"><%= t('simple_form.labels.defaults.box') %></label>
+                        <%= f.select :box_id_eq, options_from_collection_for_select(Box.all, :id, :name, @q.box_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
                       </div>
-                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                        <label for="q[expiration_date_gteq]"><%= t('simple_form.labels.defaults.expiration_date') %></label>
 
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :expiration_date_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.expiration_date_gteq) %>
-                        </div>
-                        <div class="input-group input-group-sm block">
-                          <%= f.search_field :expiration_date_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.expiration_date_lteq) %>
-                        </div>
-                      </div>
+                      <% if !session[:grouped] %>
+                          <div class="col-md-3 col-sm-6 col-xs-12">
+                            <label for="q[lot_cont]"><%= t('simple_form.labels.defaults.lot') %></label>
+                            <%= f.search_field :lot_cont, label: false, class: "form-control input-sm" %>
+                          </div>
+
+                          <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                            <label for="q[expiration_date_gteq]"><%= t('simple_form.labels.defaults.expiration_date') %></label>
+
+                            <div class="input-group input-group-sm block">
+                              <%= f.search_field :expiration_date_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.expiration_date_gteq) %>
+                            </div>
+                            <div class="input-group input-group-sm block">
+                              <%= f.search_field :expiration_date_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.expiration_date_lteq) %>
+                            </div>
+                          </div>
+                      <% end %>
+
                       <div class="col-md-3 col-sm-6 col-xs-12 spanning">
                         <label for="q[quantity_available_gteq]"><%= t('simple_form.labels.defaults.quantity_available') %></label>
 
@@ -46,10 +60,6 @@
                         <div class="input-group input-group-sm block">
                           <%= f.search_field :quantity_available_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
                         </div>
-                      </div>
-                      <div class="col-md-3 col-sm-6 col-xs-12">
-                        <label for="q[box_id_cont]"><%= t('simple_form.labels.defaults.box') %></label>
-                        <%= f.select :box_id_eq, options_from_collection_for_select(Box.all, :id, :name, @q.box_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
                       </div>
                     </div>
                     <div class="row pull-right">
@@ -66,9 +76,13 @@
               <thead>
               <tr>
                 <th class='all control'><%= sort_link(@q, :product_name, t('simple_form.labels.defaults.product')) %></th>
-                <th><%= sort_link(@q, :lot, t('simple_form.labels.defaults.lot')) %></th>
-                <th><%= sort_link(@q, :expiration_date, t('simple_form.labels.defaults.expiration_date')) %></th>
                 <th><%= sort_link(@q, :box_name, t('simple_form.labels.defaults.box')) %></th>
+                <% if !session[:grouped] %>
+                    <th><%= sort_link(@q, :lot, t('simple_form.labels.defaults.lot')) %></th>
+                    <th><%= sort_link(@q, :expiration_date, t('simple_form.labels.defaults.expiration_date')) %></th>
+                <% else %>
+                    <th><%= t('simple_form.labels.defaults.min_max_stoks') %></th>
+                <% end %>
                 <th><%= sort_link(@q, :quantity_available, t('simple_form.labels.defaults.quantity_available')) %></th>
                 <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
@@ -76,18 +90,47 @@
               <tbody>
               <% @inventories.each do |inventory| %>
                   <tr>
-                    <td><%= inventory.product.try(:name) %></td>
-                    <td><%= inventory.lot %></td>
-                    <td><%= l(inventory.expiration_date, format: :default) if inventory.expiration_date %></td>
+                    <td><%= inventory.product.try(:code_and_name) %></td>
                     <td><%= inventory.box.try(:name) %></td>
+                    <% if !session[:grouped] %>
+                        <td><%= inventory.lot %></td>
+                        <td><%= l(inventory.expiration_date, format: :default) if inventory.expiration_date %></td>
+                    <% else %>
+                        <td>min 10 | max 100</td>
+                    <% end %>
                     <td align='right'><%= inventory.quantity_available %></td>
                     <td class="table-actions">
-                      <% if inventory.box.is_the_units_box? &&  !inventory.product.is_mix_box %>
-                          <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBA_action(inventory)} %>
-                      <% elsif !inventory.box.is_the_units_box? %>
-                          <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBD_action(inventory) } %>
+                      <% if !session[:grouped] %>
+                          <% if inventory.box.is_the_units_box? && !inventory.product.is_mix_box %>
+                              <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBA_action(inventory) + build_adjust_action(inventory)} %>
+                          <% elsif !inventory.box.is_the_units_box? %>
+                              <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBD_action(inventory) + build_adjust_action(inventory)} %>
+                          <% else %>
+                              <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_adjust_action(inventory)} %>
+                          <% end %>
                       <% else %>
-                          <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true} %>
+                          <table border="1">
+                            <tr>
+                              <td>Vencimiento</td>
+                              <td>Stock</td>
+                              <td></td>
+                            </tr>
+                            <% Inventory.where(product_id: inventory.product_id, box_id: inventory.box_id).each do |i| %>
+                                <tr>
+                                  <td><%= l(i.expiration_date, format: :default) if i.expiration_date %></td>
+                                  <td><%= i.quantity_available %></td>
+                                  <td>
+                                    <% if i.box.is_the_units_box? && !i.product.is_mix_box %>
+                                        <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_UBA_action(i) + build_adjust_action(i)} %>
+                                    <% elsif !i.box.is_the_units_box? %>
+                                        <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_UBD_action(i) + build_adjust_action(i)} %>
+                                    <% else %>
+                                        <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_adjust_action(i)} %>
+                                    <% end %>
+                                  </td>
+                                </tr>
+                            <% end %>
+                          </table>
                       <% end %>
                     </td>
                   </tr>

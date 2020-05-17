@@ -2,9 +2,9 @@ module InventoryEventsHelper
 
   def products_collection
     if @inventory_event.event == InventoryEvent::EVENT_CONVERT && @inventory_event.reason == InventoryEvent::REASON_MBA
-      Product.mix_boxes.map{ |p| ["#{p.code} #{p.name}", p.id] }
+      Product.mix_boxes.code_and_name
     else
-      Product.all.map{ |p| ["#{p.code} #{p.name}", p.id] }
+      Product.code_and_name
     end
   end
 

@@ -13,9 +13,9 @@ class CustomerCategory < ActiveRecord::Base
   has_many :customers, dependent: :restrict_with_error
   has_many :product_prices, dependent: :delete_all
 
-  validates :name, :profit_percent, presence: true
+  validates :name, :profit_percent, :sales_commission, presence: true
+  validates :profit_percent, :sales_commission, numericality: true
   validates :name, uniqueness: true
-  validates :profit_percent, numericality: true
 
   after_create do
     ProductPrice.transaction do
@@ -27,7 +27,7 @@ class CustomerCategory < ActiveRecord::Base
   end
 
   after_update do
-    if self.profit_percent_changed?
+    if self.profit_percent_changed? || self.sales_commission_changed?
       ProductPrice.transaction do
         Product.all.each do |product|
           product_price = ProductPrice.where(product_id: product.id, customer_category_id: self.id).first
@@ -47,6 +47,6 @@ class CustomerCategory < ActiveRecord::Base
   private
 
   def calculate_product_price(product)
-    product.total_cost + (product.total_cost * (self.profit_percent.to_f / 100))
+    product.total_cost + (product.total_cost * (self.profit_percent.to_f / 100)) + (product.total_cost * (self.sales_commission.to_f / 100))
   end
 end

@@ -24,12 +24,20 @@
                       </div>
                       <div class="col-md-3 col-sm-6 col-xs-12 spanning">
                         <label for="q[profit_percent_gteq]"><%= t('simple_form.labels.defaults.profit_percent') %></label>
-
                         <div class="input-group input-group-sm block">
                           <%= f.search_field :profit_percent_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
                         </div>
                         <div class="input-group input-group-sm block">
                           <%= f.search_field :profit_percent_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                        <label for="q[profit_percent_gteq]"><%= t('simple_form.labels.defaults.sales_commission') %></label>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :sales_commission_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                        </div>
+                        <div class="input-group input-group-sm block">
+                          <%= f.search_field :sales_commission_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
                         </div>
                       </div>
                     </div>
@@ -48,6 +56,7 @@
               <tr>
                 <th class='all control'><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
                 <th><%= sort_link(@q, :profit_percent, t('simple_form.labels.defaults.profit_percent') + ' (en %)') %></th>
+                <th><%= sort_link(@q, :sales_commission, t('simple_form.labels.defaults.sales_commission') + ' (en %)') %></th>
                 <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
               </thead>
@@ -56,6 +65,7 @@
                   <tr>
                     <td><%= customer_category.name %></td>
                     <td align='right'><%= customer_category.profit_percent %></td>
+                    <td align='right'><%= customer_category.sales_commission %></td>
                     <td class="table-actions">
                       <%= render 'shared/action_icons', locals: {target: customer_category} %>
                     </td>

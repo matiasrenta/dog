@@ -79,6 +79,7 @@ es:
         total_cost: 'Costo Total'
         sale_price: 'Precio de venta'
         profit_percent: 'Margen'
+        sales_commission: 'Comisión venta'
         saleman_fee_percent:
         notes: 'Notas'
         phones: 'Teléfonos'

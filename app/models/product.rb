@@ -55,19 +55,18 @@ class Product < ActiveRecord::Base
   after_create do
     ProductPrice.transaction do
       CustomerCategory.all.each do |cc|
-        product_price = ProductPrice.new(product_id: self.id, customer_category_id: cc.id, price: calculate_product_price(cc), profit_percent: cc.profit_percent)
+        product_price = ProductPrice.new(product_id: self.id, customer_category_id: cc.id, sales_commission: cc.sales_commission, profit_percent: cc.profit_percent, price: calculate_product_price(cc))
         product_price.save
       end
     end
   end
 
   after_update do
-    if self.total_cost_changed?
+    if self.total_cost_changed? || self.product_prices.map(&:changed?)
       ProductPrice.transaction do
-        CustomerCategory.all.each do |customer_category|
-          product_price = ProductPrice.where(product_id: self.id, customer_category_id: customer_category.id).first
-          product_price.price = calculate_product_price(customer_category)
-          product_price.save
+        self.product_prices.each do |pp|
+          pp.price = calculate_product_price(pp)
+          pp.save
         end
       end
     end
@@ -83,8 +82,8 @@ class Product < ActiveRecord::Base
 
   private
 
-  def calculate_product_price(customer_category)
-    self.total_cost + (self.total_cost * (customer_category.profit_percent.to_f / 100))
+  def calculate_product_price(instance)
+    self.total_cost + (self.total_cost * ((instance.profit_percent + instance.sales_commission).to_f / 100))
   end
 
   def must_have_2_products_at_least

@@ -19,19 +19,26 @@
           <div class="widget-body">
 
             <div class="form-group">
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.name') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= @customer_category.name %>
-                                          </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.profit_percent') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                                              <%= @customer_category.profit_percent %>
-                                                                    </div>
-                  </div>
-                          </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.name') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= @customer_category.name %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.profit_percent') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @customer_category.profit_percent %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.sales_commission') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @customer_category.sales_commission %>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

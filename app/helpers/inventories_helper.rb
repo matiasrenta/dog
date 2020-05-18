@@ -34,4 +34,9 @@ module InventoriesHelper
     collection_with_actual(boxes, @inventory_event.box, :name, sortable = true)
   end
 
+  def stock_min_style(stock_min, quantity_available)
+    if stock_min && quantity_available
+      'font-weight: bold; color: red;' if quantity_available < stock_min
+    end
+  end
 end

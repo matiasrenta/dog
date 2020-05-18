@@ -18,7 +18,7 @@ class Box < ActiveRecord::Base
   validates :name, uniqueness: true
   validates :quantity, numericality: true
 
-  UNITS_BOX_NAME = 'UNIDAD'
+  UNITS_BOX_NAME = 'UNIDADES'
 
 
   def self.units_box

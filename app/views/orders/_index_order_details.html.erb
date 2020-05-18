@@ -50,8 +50,8 @@
           <tr>
             <th class='all control'><%= sort_link(@q, :product_id, t('simple_form.labels.defaults.product')) %></th>
             <th><%= sort_link(@q, :box_name, t('activerecord.models.box.one')) %></th>
-            <th><%= sort_link(@q, :quantity_box, t('simple_form.labels.defaults.quantity_box')) %></th>
             <th><%= sort_link(@q, :quantity, t('simple_form.labels.defaults.quantity')) %></th>
+            <th><%= sort_link(@q, :quantity_units, t('simple_form.labels.defaults.quantity_units')) %></th>
             <th><%= sort_link(@q, :unit_price, t('simple_form.labels.defaults.unit_price')) %></th>
             <th><%= sort_link(@q, :subtotal, t('simple_form.labels.defaults.subtotal')) %></th>
           </tr>
@@ -61,8 +61,8 @@
               <tr>
                 <td><%= order_detail.product.try(:name) %></td>
                 <td><%= order_detail.box.try(:name) %></td>
-                <td align='right'><%= order_detail.quantity_box %></td>
                 <td align='right'><%= order_detail.quantity %></td>
+                <td align='right'><%= order_detail.quantity_units %></td>
                 <td align='right'><%= order_detail.unit_price ? number_to_currency(order_detail.unit_price, unit: '') : nil %></td>
                 <td align='right'><%= order_detail.subtotal ? number_to_currency(order_detail.subtotal, unit: '') : nil  %></td>
               </tr>

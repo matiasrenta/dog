@@ -106,8 +106,9 @@
                             <tr>
                               <%
                                  taken = OrderDetail.created.by_product_id(inventory.product_id).by_box_id(inventory.box_id).sum(:quantity)
+                                 stock_min = ProductBox.where(product_id: inventory.product_id, box_id: inventory.box_id).first.try(:stock_min)
                               %>
-                              <td align="right" style="padding-right: 5px;">10</td>
+                              <td align="right" style="padding-right: 5px;"><span style="<%= stock_min_style(stock_min, inventory.quantity_available) %>"><%= stock_min %></span></td>
                               <td align="right" style="padding-right: 5px;"><b><%= inventory.quantity_available %></b></td>
                               <td align="right" style="padding-right: 5px;"><%= taken if taken > 0 %></td>
                               <td align="right"><%= inventory.quantity_available + taken if taken > 0 %></td>

@@ -17,6 +17,10 @@ class Inventory < ActiveRecord::Base
     self.quantity_available_in_units = self.quantity_available * self.box.quantity
   end
 
+  def self.stock_available(product_id, box_id)
+    InvGrouped.stock_available(product_id, box_id)
+  end
+
   def self.get_or_initialize_inventory(product_id, box_id, expiration_date)
     inventory = Inventory.where(product_id: product_id, box_id: box_id, expiration_date: expiration_date).first_or_initialize
     if inventory.new_record?

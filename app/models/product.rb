@@ -14,7 +14,7 @@ class Product < ActiveRecord::Base
   belongs_to :product_brand
   #has_and_belongs_to_many :boxes, join_table: 'boxes_products'
   has_many :product_boxes, dependent: :destroy
-  #has_many :boxes, through: :product_boxes
+  has_many :boxes, through: :product_boxes
   has_many :order_details #NO VEO LA UTILIDAD DE ESTE LADO DE LA RELACION. CREO QUE NUNCA LA USARÉ
   has_many :inventories, dependent: :restrict_with_error
 
@@ -25,7 +25,7 @@ class Product < ActiveRecord::Base
   # ASÍ COMO NO HACE FALTA "has_many :order_details" TAMPOCO HACE FALTA ESTE EXTREMO DE LA RELACION. PARA NO CONFUNDIRME LA COMENTO
   #has_many :products, class_name: 'MixBoxDetail', foreign_key: :product_id # si este producto es una mix_box entonces tiene muchos (has_many) items
 
-  has_many :product_prices, dependent: :delete_all
+  has_many :product_prices, dependent: :delete_all #inverse_of: :product
   accepts_nested_attributes_for :product_prices, update_only: true
   accepts_nested_attributes_for :product_boxes, allow_destroy: true
   accepts_nested_attributes_for :mix_box_details, allow_destroy: true

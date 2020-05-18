@@ -14,28 +14,25 @@ class OrderDetail < ActiveRecord::Base
   belongs_to :product
   belongs_to :box
 
-  validates :product_id, :box_id, :quantity, :unit_price, :subtotal, presence: true
-  validates :product_id, :box_id, :quantity, :unit_price, :subtotal, numericality: true
+  validates :product_id, :box_id, :quantity_units, :unit_price, :subtotal, presence: true
+  validates :product_id, :box_id, :quantity_units, :unit_price, :subtotal, numericality: true
   validates :product_id, uniqueness: { scope: :order_id }
-  validates :quantity_box, presence: true, unless: -> { box_id == 0 }
-  validates :quantity_box, numericality: true, unless: -> { box_id == 0 }
+  validates :quantity, presence: true #, unless: -> { box_id == 0 }
+  validates :quantity, numericality: true #, unless: -> { box_id == 0 }
 
   scope :created, -> { joins(:order).where( "orders.status = 'CREATED'") }
   scope :by_product_id, -> (product_id) { where(product_id: product_id)}
   scope :by_box_id, -> (box_id) { where(box_id: box_id)}
 
-  before_create do
-    if self.box_id > 0
-      self.box_id = Box.where(quantity: self.box_id).first.id
-    else
-      self.box_id = Box.units_box.id
-    end
-  end
+  #before_create do
+  #  self.box_id = Box.where(quantity: self.box_id).first.id
+  #end
 
   before_save  on: :create do
-    stock_available_in_units = Inventory.stock_available_in_units({product_id: self.product_id, box_id: self.box_id})
-    if stock_available_in_units < self.quantity
-      errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available_in_units}")
+    self.box_id = Box.where(quantity: self.box_id).first.id # este es un patch, porque en el select del html le pongo la cantidad en el id. porque no pude ponerlo en un hidden o algo elegante
+    stock_available = Inventory.stock_available(self.product_id, self.box_id)
+    if stock_available < self.quantity
+      errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
     else
       Inventory.update_stock(self, {event: InventoryEvent::EVENT_REMOVE, reason: InventoryEvent::REASON_SALE})
     end

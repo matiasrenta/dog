@@ -46,12 +46,12 @@
                                       <%= order_detail_form.association :box, collection: order_detail_form.object.product_id.blank? ? [] : options_select_for_box(order_detail_form.object.product) , wrapper: :clean, placeholder: 'Elejir Caja', allow_blank: false, input_html: {style: 'max-width:100%;', class: :box } %>
                                     </td>
                                     <td>
-                                      <%= order_detail_form.input :quantity_box, placeholder: t('simple_form.labels.defaults.quantity_box'),   wrapper: :clean, input_html: {class: :quantity_box, style: 'margin-bottom: 10px;'} %>
+                                      <%= order_detail_form.input :quantity, placeholder: t('simple_form.labels.defaults.quantity'),   wrapper: :clean, input_html: {class: :quantity, style: 'margin-bottom: 10px;'} %>
                                     <td>
                                     </td>
                                   </tr>
                                   <tr>
-                                    <td><%= order_detail_form.input :quantity,        placeholder: t('simple_form.placeholders.units'),   wrapper: :clean, input_html: {readonly: true, class: :quantity} %></td>
+                                    <td><%= order_detail_form.input :quantity_units,  placeholder: t('simple_form.placeholders.units'),   wrapper: :clean, input_html: {readonly: true, class: :quantity_units} %></td>
                                     <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'),      wrapper: :clean, input_html: {readonly: true} %></td>
                                     <td><%= order_detail_form.input :unit_price,      placeholder: t('simple_form.labels.defaults.unit_price'), wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>
                                     <td><%= order_detail_form.input :subtotal,        placeholder: t('simple_form.labels.defaults.subtotal'),   wrapper: :clean, input_html: {readonly: true, class: :subtotal} %></td>
@@ -67,12 +67,12 @@
                                       <%= order_detail_form.object.box.try(:name) %>
                                     </td>
                                     <td>
-                                      <%= order_detail_form.object.quantity_box %>
+                                      <%= order_detail_form.object.quantity %>
                                     <td>
                                     </td>
                                   </tr>
                                   <tr>
-                                    <td><%= order_detail_form.input :quantity,        placeholder: t('simple_form.placeholders.units'),   wrapper: :clean, input_html: {readonly: true, class: :quantity} %></td>
+                                    <td><%= order_detail_form.input :quantity_units,        placeholder: t('simple_form.placeholders.units'),   wrapper: :clean, input_html: {readonly: true, class: :quantity_units} %></td>
                                     <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'),      wrapper: :clean, input_html: {readonly: true} %></td>
                                     <td><%= order_detail_form.input :unit_price,      placeholder: t('simple_form.labels.defaults.unit_price'), wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>
                                     <td><%= order_detail_form.input :subtotal,        placeholder: t('simple_form.labels.defaults.subtotal'),   wrapper: :clean, input_html: {readonly: true, class: :subtotal} %></td>
@@ -103,7 +103,7 @@
 
             <%= f.input :iva %>
             <%= f.input :total_amount, input_html: {disabled: true} %>
-            <%= f.input :status, as: :select, collection: Order::STATUS_TYPES, include_blank: true if updating? %>
+            <%= f.input :status, as: :select, collection: Order::STATUS_TYPES %>
 
 
             <div class="widget-footer">

@@ -20,17 +20,26 @@ class InventoryGroup
   end
 
   def fefo_remove(quantity_to_remove)
+    quantity_to_remove = quantity_to_remove
     @bunch_of_inventories.each do |inventory|
       if inventory.quantity_available >= quantity_to_remove
         inventory.quantity_available = inventory.quantity_available - quantity_to_remove
-        inventory.save
+        inventory.save if inventory.quantity_available > 0
+        inventory.destroy if inventory.quantity_available == 0
         break
       else
         quantity_to_remove = quantity_to_remove - inventory.quantity_available
-        inventory.quantity_available = 0
-        inventory.save
+        inventory.destroy
       end
     end
+  end
+
+  def size
+    @bunch_of_inventories.size
+  end
+
+  def to_s
+    "#{@bunch_of_inventories}"
   end
 
   private

@@ -21,43 +21,38 @@ $('.box').change(function() {
 // cuando cambio de caja limpio las cantidades y abilito/desabilito las cantidades
 $(document).on("change", ".box", function() {
     box_value = this.value;
-    quantity_box_element = this.closest('tr').getElementsByClassName('quantity_box')[0];
-    quantity_element = this.closest('table').getElementsByClassName('quantity')[0];
+    quantity_element = this.closest('tr').getElementsByClassName('quantity')[0];
+    quantity_units_element = this.closest('table').getElementsByClassName('quantity_units')[0];
 
-    quantity_box_element.value = '';
     quantity_element.value = '';
+    quantity_units_element.value = '';
     this.closest('table').getElementsByClassName('subtotal')[0].value = '';
     calculate_total_amount();
 
-
     if (box_value == '' || parseInt(box_value) > 0){
-        //quantity_element.disabled = true;
-        //quantity_box_element.disabled = false;
-        quantity_element.readOnly = true;
-        quantity_box_element.readOnly = false;
+        quantity_units_element.readOnly = true;
+        quantity_element.readOnly = false;
     }
     else{
-        //quantity_box_element.disabled = true;
-        //quantity_element.disabled = false;
-        quantity_box_element.readOnly = true;
-        quantity_element.readOnly = false;
+        quantity_element.readOnly = true;
+        quantity_units_element.readOnly = false;
     }
 });
 
 
 // cuando ingreso cantidad de cajas calculo la cantidad de unidades
-$(document).on("input", ".quantity_box", function() {
-    quantity_element = this.closest('table').getElementsByClassName('quantity')[0];
+$(document).on("input", ".quantity", function() {
+    quantity_units_element = this.closest('table').getElementsByClassName('quantity_units')[0];
     box_value = parseInt( this.closest('table').getElementsByClassName('box')[0].value );
-    quantity_element.value = box_value * parseInt(this.value);
-    //quantity_element.trigger("input");
-    var subtotal = parseFloat(quantity_element.closest('table').getElementsByClassName('unit_price')[0].value) * parseInt(quantity_element.value);
+    quantity_units_element.value = box_value * parseInt(this.value);
+    //quantity_units_element.trigger("input");
+    var subtotal = parseFloat(quantity_units_element.closest('table').getElementsByClassName('unit_price')[0].value) * parseInt(quantity_units_element.value);
     this.closest('table').getElementsByClassName('subtotal')[0].value = subtotal;
     calculate_total_amount();
 });
 
 // cuando ingreso la cantidad calculo el subtotal y sumo todos los subtotales para obtener el total
-$(document).on("input", ".quantity", function() {
+$(document).on("input", ".quantity_units", function() {
     var subtotal = parseFloat(this.closest('tr').getElementsByClassName('unit_price')[0].value) * parseInt(this.value);
     this.closest('tr').getElementsByClassName('subtotal')[0].value = subtotal;
     calculate_total_amount();

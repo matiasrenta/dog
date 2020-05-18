@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200517194755) do
+ActiveRecord::Schema.define(version: 20200518123034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -274,7 +274,7 @@ ActiveRecord::Schema.define(version: 20200517194755) do
     t.float    "subtotal"
     t.integer  "quantity"
     t.integer  "stock_at_create"
-    t.integer  "quantity_box"
+    t.integer  "quantity_units"
     t.integer  "box_id"
   end
 

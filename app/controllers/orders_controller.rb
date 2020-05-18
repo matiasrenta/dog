@@ -66,8 +66,8 @@ class OrdersController < ApplicationController
           tn = the_number.to_i
           entity = "order_details"
           @box_id_html_input_id = "#order_#{entity}_attributes_#{tn}_box_id" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
-          @quantity_box_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity_box" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
           @quantity_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
+          @quantity_units_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity_units" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
           @unit_price_html_input_id = "#order_#{entity}_attributes_#{tn}_unit_price" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
           @stock_at_create_html_input_id = "#order_#{entity}_attributes_#{tn}_stock_at_create" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
         end
@@ -79,6 +79,6 @@ class OrdersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def order_params
-      params.require(:order).permit(:customer_id, :customer_branch_id, :user_id, :iva, :total_amount, :status, :comisionado, :delivery_date, {order_details_attributes: [:_destroy, :id, :product_id, :box_id, :quantity_box, :quantity, :unit_price, :stock_at_create, :subtotal]})
+      params.require(:order).permit(:customer_id, :customer_branch_id, :user_id, :iva, :total_amount, :status, :comisionado, :delivery_date, {order_details_attributes: [:_destroy, :id, :product_id, :box_id, :quantity, :quantity_units, :unit_price, :stock_at_create, :subtotal]})
     end
 end

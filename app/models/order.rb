@@ -10,11 +10,11 @@ class Order < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-  STATUS_TYPES = [['CREATED', 'CREADO'],
-                  ['PACKAGING', 'EMPAQUETADO'],
-                  ['SENT', 'ENVIADO'],
-                  ['DELIVERED', 'ENTREGADO'],
-                  ['CHARGED', 'COBRADO']]
+  STATUS_TYPES = [['CREADO', 'CREATED'],
+                  ['EMPAQUETADO', 'PACKAGING'],
+                  ['ENVIADO', 'SENT'],
+                  ['ENTREGADO', 'DELIVERED'],
+                  ['COBRADO', 'CHARGED']]
 
   belongs_to :user
   belongs_to :customer
@@ -36,14 +36,14 @@ class Order < ActiveRecord::Base
     order.errors.add(:base, :order_details_blank, message: 'Debe haber al menos un detalle') if order.order_details.empty?
   end
 
-  scope :created, -> { where(status: 'CREATED') }
+  scope :created, -> { where(status: STATUS_TYPES[0][1]) }
 
   before_save do
     calculate_total_amount
   end
 
   def created?
-    self.status == 'Creado'
+    self.status == STATUS_TYPES[0][1]
   end
 
   def except_attr_in_public_activity

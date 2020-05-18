@@ -10,7 +10,7 @@ class ProductPrice < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-  belongs_to :product#, inverse_of: :product_prices
+  belongs_to :product, inverse_of: :product_prices
   belongs_to :customer_category
 
   validates :product_id, :customer_category_id, :profit_percent, :sales_commission, :price, presence: true

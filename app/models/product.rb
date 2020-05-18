@@ -25,7 +25,7 @@ class Product < ActiveRecord::Base
   # ASÍ COMO NO HACE FALTA "has_many :order_details" TAMPOCO HACE FALTA ESTE EXTREMO DE LA RELACION. PARA NO CONFUNDIRME LA COMENTO
   #has_many :products, class_name: 'MixBoxDetail', foreign_key: :product_id # si este producto es una mix_box entonces tiene muchos (has_many) items
 
-  has_many :product_prices, dependent: :delete_all #inverse_of: :product
+  has_many :product_prices, inverse_of: :product, dependent: :delete_all
   accepts_nested_attributes_for :product_prices, update_only: true
   accepts_nested_attributes_for :product_boxes, allow_destroy: true
   accepts_nested_attributes_for :mix_box_details, allow_destroy: true
@@ -46,16 +46,17 @@ class Product < ActiveRecord::Base
   before_save do
     if self.is_mix_box
       self.units_sale_allowed = true
-      self.boxes.delete_all
+      self.product_boxes.delete_all
     else
       self.mix_box_details.delete_all
     end
+    validate_prices
   end
 
   after_create do
     ProductPrice.transaction do
       CustomerCategory.all.each do |cc|
-        product_price = ProductPrice.new(product_id: self.id, customer_category_id: cc.id, sales_commission: cc.sales_commission, profit_percent: cc.profit_percent, price: calculate_product_price(cc))
+        product_price = ProductPrice.new(product_id: self.id, customer_category_id: cc.id, profit_percent: cc.profit_percent, sales_commission: cc.sales_commission, price: calculate_product_price(cc))
         product_price.save
       end
     end
@@ -102,6 +103,19 @@ class Product < ActiveRecord::Base
   def must_have_unit_or_box_sale
     unless self.units_sale_allowed || self.product_boxes.select{|b| !b.marked_for_destruction?}.size > 0
       self.errors.add(:units_sale_allowed, I18n.t('activerecord.messages.nor_unit_nor_boxes_sales'))
+      false
+    end
+  end
+
+  def validate_prices
+    flag = true
+    self.product_prices.each do |pp|
+      unless pp.valid?
+        flag = false
+      end
+    end
+    unless flag
+      errors.add(:base, I18n.t('activerecord.errors.template.default_error_base'))
       false
     end
   end

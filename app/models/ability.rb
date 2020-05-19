@@ -59,6 +59,12 @@ class Ability
 		can :manage, Customer
 		can :manage, Product
 
+		can :manage, ProductPrice
+		can :manage, ProductBox
+		can :manage, MixBoxDetail
+
+
+
 		can [:manage], User
 		can :read, :administrations
 		can :change_user_role, User

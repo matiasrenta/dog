@@ -62,6 +62,7 @@ class Ability
 		can :manage, ProductPrice
 		can :manage, ProductBox
 		can :manage, MixBoxDetail
+		can :manage, InvGrouped
 
 
 

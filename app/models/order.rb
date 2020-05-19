@@ -44,6 +44,7 @@ class Order < ActiveRecord::Base
   end
 
   def self.i18n_status(status)
+    s = status || 'CREATED' #todo: quitar esto!! es solo para que funcione debido a que los datos en bbdd estaban mal
     STATUS_TYPES.find { |st| st[1] == status}[0]
   end
 

@@ -44,10 +44,6 @@
                         <label for="q[status_cont]"><%= t('simple_form.labels.defaults.status') %></label>
                         <%= f.select :status_eq, options_for_select(Order::STATUS_TYPES, @q.status_eq), {include_blank: true}, {class: "form-control input-sm"} %>
                       </div>
-                      <div class="col-md-3 col-sm-6 col-xs-12">
-                        <label for="q[comisionado_eq]"><%= t('simple_form.labels.defaults.comisionado') %></label>
-                        <%= f.select :comisionado_eq, options_for_select([[t('true'), 'true'], [t('false'), 'false']], @q.comisionado_eq), {include_blank: true}, {class: "form-control input-sm"} %>
-                      </div>
                       <div class="col-md-3 col-sm-6 col-xs-12 spanning">
                         <label for="q[delivery_date_gteq]"><%= t('simple_form.labels.defaults.delivery_date') %></label>
 
@@ -79,7 +75,6 @@
                 <th><%= sort_link(@q, :total_amount, t('simple_form.labels.defaults.total_amount')) %></th>
                 <th><%= sort_link(@q, :status, t('simple_form.labels.defaults.status')) %></th>
                 <th><%= sort_link(@q, :delivery_date, t('simple_form.labels.defaults.delivery_date')) %></th>
-                <th><%= sort_link(@q, :comisionado, t('simple_form.labels.defaults.comisionado')) %></th>
                 <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
               </thead>
@@ -91,9 +86,8 @@
                     <td><%= order.user.try(:name) %></td>
                     <td><%= boolean_check_mark(order.iva) %></td>
                     <td align='right'><%= order.total_amount %></td>
-                    <td><%= order.status %></td>
+                    <td><%= Order.i18n_status(order.status) %></td>
                     <td><%= l(order.delivery_date, format: :without_seg) if order.delivery_date %></td>
-                    <td align='center'><%= boolean_check_mark(order.comisionado) %></td>
                     <td class="table-actions">
                       <%= render 'shared/action_icons', locals: {target: order} %>
                     </td>

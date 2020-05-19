@@ -22,8 +22,7 @@
             <%= f.input :is_mix_box, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false %>
 
             <div id="not_mix_box" style="display: <%= @product.is_mix_box ? 'none' : 'block' %>;">
-              <%= f.input :units_sale_allowed, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false%>
-              <%#= f.association :boxes, as: :ajax_select2, search_class: :box, placeholder: 'Buscar caja', input_html: { data:{s2:{limit: 10 }} } %>
+              <%#= f.input :units_sale_allowed, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false%>
               <div class="form-group">
                 <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.product_boxes') %></label>
                 <div class="col-sm-9">
@@ -70,11 +69,11 @@
                     </tr>
                     <%= f.fields_for :mix_box_details, :wrapper => false do |mix_box_detail_form| %>
                         <tr class="fields">
-                          <td>
+                          <td width="75%">
                             <%= mix_box_detail_form.association :product, as: :select2, collection: Product.not_mix_boxes.map{ |p| ["#{p.code} #{p.name}", p.id] }, wrapper: :clean, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}} } %>
                           </td>
-                          <td><%= mix_box_detail_form.input :quantity, wrapper: :clean %></td>
-                          <td align="center">
+                          <td width="18%"><%= mix_box_detail_form.input :quantity, wrapper: :clean %></td>
+                          <td align="center" width="7%">
                             <%= mix_box_detail_form.link_to_remove do %>
                                 <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
                             <% end %>

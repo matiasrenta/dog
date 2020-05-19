@@ -57,9 +57,8 @@
               </div>
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.status') %></strong></label>
-
                 <div class="col-lg-9 details-data">
-                  <%= @order.status %>
+                  <%= Order.i18n_status(@order.status) %>
                 </div>
               </div>
               <div class="row show-details">
@@ -67,13 +66,6 @@
 
                 <div class="col-lg-9 details-data">
                   <%= l(@order.delivery_date, :format => :long) if @order.delivery_date %>
-                </div>
-              </div>
-              <div class="row show-details">
-                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.comisionado') %></strong></label>
-
-                <div class="col-lg-9 details-data">
-                  <%= boolean_check_mark(@order.comisionado) %>
                 </div>
               </div>
               <div class="row show-details">
@@ -90,8 +82,6 @@
                   <%= l(@order.updated_at, :format => :long) if @order.created_at %>
                 </div>
               </div>
-
-
             </div>
           </div>
         </div>

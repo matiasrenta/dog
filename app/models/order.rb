@@ -43,6 +43,10 @@ class Order < ActiveRecord::Base
     calculate_total_amount
   end
 
+  def self.i18n_status(status)
+    STATUS_TYPES.find { |st| st[1] == status}[0]
+  end
+
   def created?
     self.status == STATUS_TYPES[0][1]
   end

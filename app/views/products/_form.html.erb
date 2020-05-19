@@ -36,12 +36,12 @@
                       </tr>
                       <%= f.fields_for :product_boxes, :wrapper => false do |product_box_form| %>
                           <tr class="fields">
-                            <td><%= product_box_form.association :box, wrapper: :clean %></td>
-                            <td><%= product_box_form.input :stock_min, wrapper: :clean %></td>
-                            <td><%= product_box_form.input :stock_max, wrapper: :clean %></td>
-                            <td align="center">
+                            <td width="55%"><%= product_box_form.association :box, wrapper: :clean %></td>
+                            <td width="20%"><%= product_box_form.input :stock_min, wrapper: :clean %></td>
+                            <td width="20%"><%= product_box_form.input :stock_max, wrapper: :clean %></td>
+                            <td width="5%"align="center">
                               <%= product_box_form.link_to_remove do %>
-                                  <i class="fa fa-trash-o" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
+                                  <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
                               <% end %>
                             </td>
                           </tr>

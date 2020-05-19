@@ -21,10 +21,10 @@
             <%= f.input :total_cost, input_html: {readonly: true} %>
             <%= f.input :is_mix_box, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false %>
 
-            <div id="not_mix_box" style="display: <%= @product.is_mix_box ? 'none' : 'block' %>;">
+            <div id="not_mix_box">
               <%#= f.input :units_sale_allowed, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false%>
               <div class="form-group">
-                <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.product_boxes') %></label>
+                <label class="col-xs-12 col-sm-3 control-label" for=""><%= 'Se vende por' %></label>
                 <div class="col-sm-9">
                   <div class="table-responsive">
                     <table id="product_boxes" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">

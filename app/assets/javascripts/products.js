@@ -50,11 +50,11 @@ $(document).on("input", "input[id$='_price']", function() {
 // cuando cambia el select de mix_box
 $(document).on("change", "#product_is_mix_box", function() {
     if (this.value == 'true') {
-        $("#product_units_sale_allowed").val("true");
-        $('#not_mix_box').css('display', 'none');
+        //$("#product_units_sale_allowed").val("true");
+        //$('#not_mix_box').css('display', 'none');
         $("#mix_box").css('display', 'block');
     } else {
-        $("#product_units_sale_allowed").val("false");
+        //$("#product_units_sale_allowed").val("false");
         $('#not_mix_box').css('display', 'block');
         $("#mix_box").css('display', 'none');
     }

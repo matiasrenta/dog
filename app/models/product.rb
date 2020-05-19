@@ -33,11 +33,12 @@ class Product < ActiveRecord::Base
   validates :code, :name, :product_cost, :cargo_cost, :total_cost, presence: true
   validates :code, :name, uniqueness: true
   validates :product_cost, :cargo_cost, :total_cost, numericality: true
-  validates :units_sale_allowed, inclusion: {in: [true, false]}
+  #validates :units_sale_allowed, inclusion: {in: [true, false]}
   validates :is_mix_box, inclusion: {in: [true, false]}
 
   validate :must_have_2_products_at_least, if: -> {is_mix_box}
-  validate :must_have_unit_or_box_sale, unless: -> {is_mix_box}
+  validate :must_have_units_box, if: -> {is_mix_box}
+  validate :must_have_boxes, unless: -> {is_mix_box}
 
   scope :mix_boxes, -> { where(is_mix_box: true) }
   scope :not_mix_boxes, -> { where(is_mix_box: false) } # se necesita que la columna tenga en el migration default: false, para evitar el problema con el nil
@@ -46,9 +47,11 @@ class Product < ActiveRecord::Base
   before_save do
     if self.is_mix_box
       self.units_sale_allowed = true
-      self.product_boxes.delete_all
+      self.product_boxes.each { |pb| pb.destroy unless pb.box.is_the_units_box? }
     else
       self.mix_box_details.delete_all
+      # si esta la caja UNIDADES se stea a true sino false
+      self.units_sale_allowed = self.product_boxes.select{|pb| !pb.marked_for_destruction? && pb.box.is_the_units_box?}.size > 0
     end
     validate_prices
   end
@@ -100,9 +103,15 @@ class Product < ActiveRecord::Base
     end
   end
 
-  def must_have_unit_or_box_sale
-    unless self.units_sale_allowed || self.product_boxes.select{|b| !b.marked_for_destruction?}.size > 0
-      self.errors.add(:units_sale_allowed, I18n.t('activerecord.messages.nor_unit_nor_boxes_sales'))
+  def must_have_units_box
+    unless self.product_boxes.select{|pb| !pb.marked_for_destruction? && pb.box.is_the_units_box?}.size > 0
+      self.errors.add(:is_mix_box, 'si es caja surtida debe venderse por UNIDADES')
+    end
+  end
+
+  def must_have_boxes
+    unless self.product_boxes.select{|b| !b.marked_for_destruction?}.size > 0
+      self.errors.add(:is_mix_box, I18n.t('activerecord.messages.nor_unit_nor_boxes_sales'))
       false
     end
   end

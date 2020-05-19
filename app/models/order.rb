@@ -11,10 +11,11 @@ class Order < ActiveRecord::Base
           }
 
   STATUS_TYPES = [['CREADO', 'CREATED'],
-                  ['EMPAQUETADO', 'PACKAGING'],
+                  ['EMPACADO', 'PACKED'],
                   ['ENVIADO', 'SENT'],
                   ['ENTREGADO', 'DELIVERED'],
-                  ['COBRADO', 'CHARGED']]
+                  ['COBRADO', 'CHARGED'],
+                  ['COMISIONADO', 'COMMISSIONED'],]
 
   belongs_to :user
   belongs_to :customer

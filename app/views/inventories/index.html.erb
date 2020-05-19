@@ -119,26 +119,26 @@
                     <td class="table-actions">
                       <% if !session[:grouped] %>
                           <% if inventory.box.is_the_units_box? && !inventory.product.is_mix_box %>
-                              <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBA_action(inventory) + build_adjust_action(inventory)} %>
+                              <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBA_action(inventory)} %>
                           <% elsif !inventory.box.is_the_units_box? %>
-                              <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBD_action(inventory) + build_adjust_action(inventory)} %>
+                              <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_UBD_action(inventory)} %>
                           <% else %>
-                              <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true, extra_actions: build_adjust_action(inventory)} %>
+                              <%= render 'shared/action_icons', locals: {target: inventory, hide_show: true} %>
                           <% end %>
                       <% else %>
                           <table class="table-bordered table-hover">
                             </tr>
                             <% Inventory.where(product_id: inventory.product_id, box_id: inventory.box_id).order(expiration_date: :asc).each do |i| %>
                                 <tr>
-                                  <td style="padding: 5px;"><%= i.expiration_date ? l(i.expiration_date, format: :default) : '???' %></td>
-                                  <td style="padding: 5px;"><%= i.quantity_available %></td>
-                                  <td>
+                                  <td style="padding: 5px; width: 40%;"><%= i.expiration_date ? l(i.expiration_date, format: :default) : '???' %></td>
+                                  <td style="padding: 5px; width: 20%;"><%= i.quantity_available %></td>
+                                  <td style="width: 40%;">
                                     <% if i.box.is_the_units_box? && !i.product.is_mix_box %>
-                                        <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_UBA_action(i) + build_adjust_action(i)} %>
+                                        <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_UBA_action(i)} %>
                                     <% elsif !i.box.is_the_units_box? %>
-                                        <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_UBD_action(i) + build_adjust_action(i)} %>
+                                        <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_UBD_action(i)} %>
                                     <% else %>
-                                        <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_adjust_action(i)} %>
+                                        <%= render 'shared/action_icons', locals: {target: i, hide_show: true} %>
                                     <% end %>
                                   </td>
                                 </tr>

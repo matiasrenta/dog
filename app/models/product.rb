@@ -87,7 +87,9 @@ class Product < ActiveRecord::Base
   private
 
   def calculate_product_price(instance)
-    self.total_cost + (self.total_cost * ((instance.profit_percent + instance.sales_commission).to_f / 100))
+    if instance.profit_percent && instance.sales_commission
+      self.total_cost + (self.total_cost * ((instance.profit_percent + instance.sales_commission).to_f / 100))
+    end
   end
 
   def must_have_2_products_at_least

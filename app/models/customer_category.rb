@@ -18,25 +18,25 @@ class CustomerCategory < ActiveRecord::Base
   validates :name, uniqueness: true
 
   after_create do
-    ProductPrice.transaction do
+    #ProductPrice.transaction do
       Product.all.each do |product|
         product_price = ProductPrice.new(product_id: product.id, customer_category_id: self.id, price: calculate_product_price(product))
-        product_price.save!
+        product_price.save
       end
-    end
+    #end
   end
 
-  after_update do
-    if self.profit_percent_changed? || self.sales_commission_changed?
-      ProductPrice.transaction do
-        Product.all.each do |product|
-          product_price = ProductPrice.where(product_id: product.id, customer_category_id: self.id).first
-          product_price.price = calculate_product_price(product)
-          product_price.save!
-        end
-      end
-    end
-  end
+#  after_update do
+#    if self.profit_percent_changed? || self.sales_commission_changed?
+#     # ProductPrice.transaction do
+#        Product.all.each do |product|
+#          product_price = ProductPrice.where(product_id: product.id, customer_category_id: self.id).first
+#          product_price.price = calculate_product_price(product)
+#          product_price.save #
+#        end
+#      #end
+#    end
+#  end
 
 
 

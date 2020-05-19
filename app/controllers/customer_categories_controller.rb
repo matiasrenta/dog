@@ -33,6 +33,7 @@ class CustomerCategoriesController < ApplicationController
     if @customer_category.update(customer_category_params)
       redirect_to @customer_category, notice: t("simple_form.flash.successfully_updated")
     else
+      puts "@@@@@@@@@@@@@@@@@@@ @customer_category.errors: #{@customer_category.errors.messages}"
       generate_flash_msg_no_keep(@customer_category)
       render :edit
     end

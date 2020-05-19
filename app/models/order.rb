@@ -30,6 +30,7 @@ class Order < ActiveRecord::Base
 
   validates :customer_id, :customer_branch_id, :user_id, :total_amount, :status, presence: true
   validates :customer_id, :customer_branch_id, :user_id, :total_amount, numericality: true
+  validates :status, inclusion: {in: STATUS_TYPES.map{|s| s[1]}}
 
   # todo: esta validacion no muestra un mensaje bueno. la otra validacion no funciona al crearse
   validates_presence_of :order_details, message: 'HOLA'
@@ -43,9 +44,13 @@ class Order < ActiveRecord::Base
     calculate_total_amount
   end
 
+  #un array con solo los status que van a la bbdd
+  def self.system_status_array
+    STATUS_TYPES.map{|s| s[1]}
+  end
+
   def self.i18n_status(status)
-    s = 'CREATED'# = status || 'CREATED' #todo: quitar esto!! es solo para que funcione debido a que los datos en bbdd estaban mal
-    STATUS_TYPES.find { |st| st[1] == s}[0]
+    STATUS_TYPES.find { |st| st[1] == status}[0]
   end
 
   def created?

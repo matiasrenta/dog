@@ -1,21 +1,16 @@
-<% if @product && @unit_price %>
+<% if @product && !@box %>
+    <% options = options_select_for_box(@product) %>
+    $("<%= @box_id_html_input_id %>").html('<%= raw options_for_select(options).gsub(/\n/, '') %>');
+<% end %>
+
+<% if @unit_price && @stock_available %>
     $('<%=@unit_price_html_input_id%>').val(<%= number_to_currency(@unit_price, unit: "") %>);
-    $('<%=@stock_at_create_html_input_id%>').val(<%#= @product.quantity_stock %>);
+    $('<%=@stock_at_create_html_input_id%>').val(<%= @stock_available %>);
+    $('<%=@quantity_html_input_id%>').attr('readonly', false);
 <% else %>
     $('<%=@unit_price_html_input_id%>').val('');
     $('<%=@stock_at_create_html_input_id%>').val('');
+    $('<%=@quantity_html_input_id%>').attr('readonly', true);
 <% end %>
 
-
-<% if !@box_id_html_input_id.blank? %>
-    <% options = options_select_for_box(@product) %>
-    <% if options.size == 1 && options.first.last == 0 %>
-        $('<%=@quantity_html_input_id%>').attr('readonly', true);
-        $('<%=@quantity_units_html_input_id%>').attr('readonly', false);
-    <% else %>
-        $('<%=@quantity_html_input_id%>').attr('readonly', false);
-        $('<%=@quantity_units_html_input_id%>').attr('readonly', true);
-    <% end %>
-    $("<%= @box_id_html_input_id %>").html('<%= raw options_for_select(options).gsub(/\n/, '') %>');
-<% end %>
 

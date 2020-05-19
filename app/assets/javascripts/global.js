@@ -67,10 +67,22 @@ function nested_ajax_dropdown(event){
             params_string = params_string + ',' + $('#' + this.id).data("extraparams");
         }
 
+
+        var obj = {};
+
+        //parche para obtener el valor el product_id del order_detail form
+        ep = this.getAttribute("data-findproductid");
+        if(ep == 'true'){
+            a = this.id.split('_'); // order_order_details_attributes_1589847633935_box_id
+            pid = 'order_order_details_attributes_' + a[4] + '_product_id'; // este sería el html id del product
+            obj["the_product_id"] = $("#" + pid).val();
+        }
+
         var paramsToRetrieve = params_string.split(',');
         //$('#' + this.id).data("parameter") === this.id;
 
-        var obj = {};
+
+
         obj["the_id"] = $("#" + paramsToRetrieve[0]).val(); // solo por conveniencia algunas veces puede ser mejor desde rails obtener un id desde este param llamado "the_id", solo funciona para uno solo no para varios ids
         obj["the_this_html_id"] = this.id; // para lo que es nested form necesito el id de quien dispara el ajax, con ese id puedo conseguir los ids de los otros campos hermanos
 

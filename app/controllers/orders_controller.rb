@@ -52,7 +52,10 @@ class OrdersController < ApplicationController
 
   def ajax_get_product_info
     unless params[:the_id].blank? || params[:order].blank? || params[:order][:customer_id].blank?
-      @product = Product.find params[:the_id]
+      @product ||= Product.find params[:the_id] # cuando lo llamo desde "ajax_get_stock" ya está seteado @product
+      if !@stock_available && @product.boxes.size == 1
+        @stock_available = Inventory.stock_available(@product.id, @product.boxes.first.id)
+      end
       customer = Customer.find params[:order][:customer_id]
       @unit_price = @product.product_prices.where(customer_category_id: customer.customer_category_id).first.price
 
@@ -73,6 +76,14 @@ class OrdersController < ApplicationController
         end
       end
     end
+  end
+
+  def ajax_get_stock
+    @product = Product.find params[:the_product_id]
+    @box = Box.find_by_quantity params[:the_id] # chapusa, parche, porque no supe resolvero un un json en un hidden. este id en realidad es la cantidad que tiene la caja
+    @stock_available = Inventory.stock_available(@product.id, @box.id)
+    ajax_get_product_info
+    render 'ajax_get_product_info'
   end
 
   private

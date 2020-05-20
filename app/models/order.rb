@@ -15,7 +15,8 @@ class Order < ActiveRecord::Base
                   ['ENVIADO', 'SENT'],
                   ['ENTREGADO', 'DELIVERED'],
                   ['COBRADO', 'CHARGED'],
-                  ['COMISIONADO', 'COMMISSIONED'],]
+                  ['COMISIONADO', 'COMMISSIONED'],
+                  ['CANCELADO', 'CANCELED']]
 
   belongs_to :user
   belongs_to :customer

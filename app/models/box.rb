@@ -1,4 +1,5 @@
 class Box < ActiveRecord::Base
+  has_many :promotions, dependent: :restrict_with_error
 	include PublicActivity::Model
   tracked only: [:create, :update, :destroy]
   tracked :on => {update: proc {|model, controller| model.changes.except(*model.except_attr_in_public_activity).size > 0 }}
@@ -9,6 +10,8 @@ class Box < ActiveRecord::Base
               :attributes_changed => proc {|controller, model| model.id_changed? ? nil : model.changes.except(*model.except_attr_in_public_activity)},
               :model_label => proc {|controller, model| model.try(:name)}
           }
+
+  default_scope {order(quantity: :asc)}
 
   has_many :inventory_events, dependent: :restrict_with_error
   has_many :Inventories, dependent: :restrict_with_error

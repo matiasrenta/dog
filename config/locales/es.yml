@@ -292,6 +292,9 @@ es:
         format: "%{attribute} %{message}"
 
       models:
+      promotion:
+        one: Promoción
+        other: Promociones
         user:
           attributes:
             reset_password_token: 'El token debe haber expirado o no es válido'
@@ -315,6 +318,9 @@ es:
       nor_unit_nor_boxes_sales: 'No podrá venderse ni por caja ni por unidad'
 
     models:
+      promotion:
+        one: Promoción
+        other: Promociones
       inventory_event:
         one: Evento de inventario
         other: Eventos de inventario

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200519014513) do
+ActiveRecord::Schema.define(version: 20200520121018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -326,6 +326,23 @@ ActiveRecord::Schema.define(version: 20200519014513) do
     t.boolean  "units_sale_allowed", default: false
     t.boolean  "is_mix_box",         default: false
     t.integer  "product_brand_id"
+  end
+
+  create_table "promotions", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "box_id"
+    t.date     "expiration_date"
+    t.integer  "quantity_start"
+    t.integer  "quantity_available"
+    t.date     "from_date"
+    t.string   "end_with"
+    t.date     "to_date"
+    t.string   "name"
+    t.text     "notes"
+    t.string   "promo_type"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "published",          default: false
   end
 
   create_table "purchase_order_details", force: :cascade do |t|

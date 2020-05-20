@@ -42,6 +42,7 @@ class Ability
 	end
 
 	def administrador
+		can [:manage], Promotion
 		can [:manage], InventoryEvent
 		can [:manage], Inventory
 		can [:manage], Box
@@ -72,6 +73,7 @@ class Ability
 	end
 
 	def vendedor
+		can [:read], Promotion
 		can [:read], ProductBox
 		can [:read], CustomerCategory
 		can [:create, :read, :update, :destroy], PurchaseOrderDetail

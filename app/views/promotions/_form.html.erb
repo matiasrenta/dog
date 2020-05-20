@@ -1,0 +1,56 @@
+<div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
+  <header>
+    <h2><%= creating? ? "<i class='fa fa-file'></i>".html_safe : "<i class='fa fa-pencil'></i>".html_safe %></h2>
+  </header>
+  <div>
+    <div class="widget-body">
+      <%= simple_form_for @promotion, html: {class: 'form-horizontal'},
+                          wrapper: :horizontal_form,
+                          wrapper_mappings: {
+                                  check_boxes: :horizontal_radio_and_checkboxes,
+                                  radio_buttons: :horizontal_radio_and_checkboxes,
+                                  file: :horizontal_file_input,
+                                  boolean: :horizontal_boolean
+                          } do |f| %>
+          <div class="form-inputs edit">
+
+            <%= f.input :name %>
+            <%= f.association :product, as: :select2, collection: Product.code_and_name, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}, dynamic_selectable_url: dynamic_select_product_boxes_path(':product_id'), dynamic_selectable_target: '#promotion_box_id' } } %>
+            <%= f.association :box %>
+            <%= f.input :expiration_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@promotion.expiration_date)} %>
+
+            <%= f.input :promo_type, as: :select, collection: Promotion::PROMO_TYPES_FOR_SELECT, input_html: {class: 'field_with_popover_lf', data: {pop: 'popover-hover', placement: 'top', title: 'title', content: 'content', icon: 'fa fa-question'}} %>
+            <div id="with_stock" style="display: <%= @promotion.with_stock? ? 'block' : 'none' %>;">
+                <%= f.input :quantity_start %>
+                <%= f.input :quantity_available %>
+            </div>
+            <%= f.input :from_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@promotion.from_date)} %>
+            <%= f.input :end_with, as: :select, collection: Promotion::END_WITH_FOR_SELECT, input_html: {class: 'field_with_popover_lf', data: {pop: 'popover-hover', placement: 'top', title: 'title', content: 'content', icon: 'fa fa-question'}} %>
+            <div id="to_date" style="display: <%= @promotion.end_with_date? ? 'block' : 'none' %>;">
+                <%= f.input :to_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@promotion.to_date)} %>
+            </div>
+            <%= f.input :published, as: :select, collection: options_for_boolean, include_blank: false %>
+            <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
+
+
+            <div class="widget-footer">
+              <div class="form-actions">
+                <div class="btn-group">
+                  <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), promotions_path, class: 'btn btn-default btn-sm' if can?(:read, Promotion) %>
+                  <%= link_to raw("<i class='fa fa-binoculars'></i> #{t('simple_form.buttons.show')}"), @promotion, class: 'btn btn-default btn-sm' if can?(:read, Promotion) && updating? %>
+                  <%= link_to raw("<i class='fa fa-trash'></i> #{t('simple_form.buttons.destroy')}"), @promotion, class: 'btn btn-default btn-sm', method: :delete, data: {confirm: t('helpers.messages.are_you_sure'), 'original-title': 'Destroy'} if can?(:destroy, Promotion) && updating? %>
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    <i class='fa fa-check-circle'></i> <%= creating? ? t('simple_form.buttons.create') : t('simple_form.buttons.update') %>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% content_for :javascript_per_page do %>
+    <%= javascript_include_tag "promotions", 'data-turbolinks-track' => true %>
+<% end %>

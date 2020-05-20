@@ -19,7 +19,7 @@
             <%= f.input :product_cost%>
             <%= f.input :cargo_cost %>
             <%= f.input :total_cost, input_html: {readonly: true} %>
-            <%= f.input :is_mix_box, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false %>
+            <%= f.input :is_mix_box, as: :select, collection: options_for_boolean, include_blank: false %>
 
             <div id="not_mix_box">
               <%#= f.input :units_sale_allowed, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false%>
@@ -57,37 +57,39 @@
               </div>
             </div>
 
-            <div id="mix_box" class="form-group" style="display: <%= @product.is_mix_box ? 'block' : 'none' %>;">
-              <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('activerecord.models.product.other') %></label>
-              <div class="col-sm-9">
-                <div class="table-responsive">
-                  <table id="mix_box_details" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
-                    <tr>
-                      <th class="all control"><%= t('simple_form.labels.defaults.name') %></th>
-                      <th><%= t('simple_form.labels.defaults.quantity') %></th>
-                      <th class="all"></th>
-                    </tr>
-                    <%= f.fields_for :mix_box_details, :wrapper => false do |mix_box_detail_form| %>
-                        <tr class="fields">
-                          <td width="75%">
-                            <%= mix_box_detail_form.association :product, as: :select2, collection: Product.not_mix_boxes.map{ |p| ["#{p.code} #{p.name}", p.id] }, wrapper: :clean, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}} } %>
-                          </td>
-                          <td width="18%"><%= mix_box_detail_form.input :quantity, wrapper: :clean %></td>
-                          <td align="center" width="7%">
-                            <%= mix_box_detail_form.link_to_remove do %>
-                                <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
-                            <% end %>
-                          </td>
+            <div id="mix_box">
+                <div class="form-group" style="display: <%= @product.is_mix_box ? 'block' : 'none' %>;">
+                  <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('activerecord.models.product.other') %></label>
+                  <div class="col-sm-9">
+                    <div class="table-responsive">
+                      <table id="mix_box_details" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
+                        <tr>
+                          <th class="all control"><%= t('simple_form.labels.defaults.name') %></th>
+                          <th><%= t('simple_form.labels.defaults.quantity') %></th>
+                          <th class="all"></th>
                         </tr>
-                    <% end %>
-                  </table>
-                  <div class="well well-sm">
-                <span class="btn bg-color-blue txt-color-white btn-xs">
-                  <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :mix_box_details, :data => {:target => "#mix_box_details"} %>
-                </span>
+                        <%= f.fields_for :mix_box_details, :wrapper => false do |mix_box_detail_form| %>
+                            <tr class="fields">
+                              <td width="75%">
+                                <%= mix_box_detail_form.association :product, as: :select2, collection: Product.not_mix_boxes.map{ |p| ["#{p.code} #{p.name}", p.id] }, wrapper: :clean, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}} } %>
+                              </td>
+                              <td width="18%"><%= mix_box_detail_form.input :quantity, wrapper: :clean %></td>
+                              <td align="center" width="7%">
+                                <%= mix_box_detail_form.link_to_remove do %>
+                                    <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
+                                <% end %>
+                              </td>
+                            </tr>
+                        <% end %>
+                      </table>
+                      <div class="well well-sm">
+                    <span class="btn bg-color-blue txt-color-white btn-xs">
+                      <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :mix_box_details, :data => {:target => "#mix_box_details"} %>
+                    </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
             </div>
 
             <% if updating? %>

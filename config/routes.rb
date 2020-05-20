@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :promotions
   resources :inventory_events
   resources :inventories
   resources :boxes
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
     get ':thing_id/thing_contacts', to: 'thing_contacts#index', as: 'thing_contacts' # el as: es para que el helper method sea 'dynamic_select_thing_contacts_path' y no 'dynamic_select_path'
     get ':customer_id/customer_branches', to: 'customer_branches#index', as: 'customer_branches' # el as: es para que el helper method sea 'dynamic_select_thing_contacts_path' y no 'dynamic_select_path'
     get ':event_id/inventory_reasons', to: 'inventory_reasons#index', as: 'inventory_reasons' # el as: es para que el helper method sea 'dynamic_select_thing_contacts_path' y no 'dynamic_select_path'
+    get ':product_id/product_boxes', to: 'product_boxes#index', as: 'product_boxes' # el as: es para que el helper method sea 'dynamic_select_thing_contacts_path' y no 'dynamic_select_path'
   end
 
   namespace :dev do

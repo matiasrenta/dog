@@ -1,0 +1,145 @@
+<section id="widget-grid">
+  <div class="row">
+    <article class="col-xs-12">
+      <div class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>" id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false">
+        <header>
+          <span class="widget-icon"><i class="fa fa-table"></i></span>
+          <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
+          <div class="widget-toolbar filter-group">
+            <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_promotion_path, class: 'btn btn-primary' if(can? :create, Promotion) %>
+            <a href="javascript:void(0)" data-target="#filter-wid-id-0" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %></a>
+          </div>
+        </header>
+        <div class="no-padding">
+          <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-0" style="display:none;">
+            <div class="col-xs-12"><%= search_form_for(@q, html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+                  <fieldset>
+                    <div class="row">
+                                                                                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                  <label for="q[product_id_cont]"><%= t('simple_form.labels.product') %></label>
+                                  <%= f.select :product_id_eq, options_from_collection_for_select(Product.all, :id, :name, @q.product_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                                </div>
+                                                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                  <label for="q[box_id_cont]"><%= t('simple_form.labels.box') %></label>
+                                  <%= f.select :box_id_eq, options_from_collection_for_select(Box.all, :id, :name, @q.box_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                                </div>
+                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                              <label for="q[expiration_date_gteq]"><%= t('simple_form.labels.defaults.expiration_date') %></label>
+                              <div class="input-group input-group-sm block">
+                                <%= f.search_field :expiration_date_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.expiration_date_gteq) %>
+                              </div>
+                              <div class="input-group input-group-sm block">
+                                <%= f.search_field :expiration_date_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.expiration_date_lteq) %>
+                              </div>
+                            </div>
+                                                                                                                                <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                                  <label for="q[quantity_start_gteq]"><%= t('simple_form.labels.defaults.quantity_start') %></label>
+                                  <div class="input-group input-group-sm block">
+                                    <%= f.search_field :quantity_start_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                                  </div>
+                                  <div class="input-group input-group-sm block">
+                                    <%= f.search_field :quantity_start_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                                  </div>
+                                </div>
+                                                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                                  <label for="q[quantity_available_gteq]"><%= t('simple_form.labels.defaults.quantity_available') %></label>
+                                  <div class="input-group input-group-sm block">
+                                    <%= f.search_field :quantity_available_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
+                                  </div>
+                                  <div class="input-group input-group-sm block">
+                                    <%= f.search_field :quantity_available_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
+                                  </div>
+                                </div>
+                                                                                                                            <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                              <label for="q[from_date_gteq]"><%= t('simple_form.labels.defaults.from_date') %></label>
+                              <div class="input-group input-group-sm block">
+                                <%= f.search_field :from_date_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.from_date_gteq) %>
+                              </div>
+                              <div class="input-group input-group-sm block">
+                                <%= f.search_field :from_date_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.from_date_lteq) %>
+                              </div>
+                            </div>
+                                                                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                              <label for="q[end_with_cont]"><%= t('simple_form.labels.defaults.end_with') %></label>
+                              <%= f.search_field :end_with_cont, label: false, class: "form-control input-sm" %>
+                            </div>
+                                                                                                <div class="col-md-3 col-sm-6 col-xs-12 spanning">
+                              <label for="q[to_date_gteq]"><%= t('simple_form.labels.defaults.to_date') %></label>
+                              <div class="input-group input-group-sm block">
+                                <%= f.search_field :to_date_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control date-picker input-sm", value: format_date_field(@q.to_date_gteq) %>
+                              </div>
+                              <div class="input-group input-group-sm block">
+                                <%= f.search_field :to_date_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control date-picker input-sm", value: format_date_field(@q.to_date_lteq) %>
+                              </div>
+                            </div>
+                                                                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                              <label for="q[name_cont]"><%= t('simple_form.labels.defaults.name') %></label>
+                              <%= f.search_field :name_cont, label: false, class: "form-control input-sm" %>
+                            </div>
+                                                                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                              <label for="q[notes_cont]"><%= t('simple_form.labels.defaults.notes') %></label>
+                              <%= f.search_field :notes_cont, label: false, class: "form-control input-sm" %>
+                            </div>
+                                                                                                <div class="col-md-3 col-sm-6 col-xs-12">
+                              <label for="q[promo_type_cont]"><%= t('simple_form.labels.defaults.promo_type') %></label>
+                              <%= f.search_field :promo_type_cont, label: false, class: "form-control input-sm" %>
+                            </div>
+                                                                  </div>
+                    <div class="row pull-right">
+                      <div class="col-sm-12">
+                        <%= render 'shared/submit_filters' %>
+                      </div>
+                    </div>
+                  </fieldset>
+              <% end %>
+              </div>
+            </div>
+          <div class="widget-body">
+            <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+              <thead>
+              <tr>
+                                                            <th class='all control'><%= sort_link(@q, :product_name, t('simple_form.labels.defaults.product')) %></th>
+                                                                                <th><%= sort_link(@q, :box_name, t('simple_form.labels.defaults.box')) %></th>
+                                                                                <th><%= sort_link(@q, :expiration_date, t('simple_form.labels.defaults.expiration_date')) %></th>
+                                                                                <th><%= sort_link(@q, :quantity_start, t('simple_form.labels.defaults.quantity_start')) %></th>
+                                                                                <th><%= sort_link(@q, :quantity_available, t('simple_form.labels.defaults.quantity_available')) %></th>
+                                                                                <th><%= sort_link(@q, :from_date, t('simple_form.labels.defaults.from_date')) %></th>
+                                                                                <th><%= sort_link(@q, :end_with, t('simple_form.labels.defaults.end_with')) %></th>
+                                                                                <th><%= sort_link(@q, :to_date, t('simple_form.labels.defaults.to_date')) %></th>
+                                                                                <th><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
+                                                                                <th><%= sort_link(@q, :notes, t('simple_form.labels.defaults.notes')) %></th>
+                                                                                <th><%= sort_link(@q, :promo_type, t('simple_form.labels.defaults.promo_type')) %></th>
+                                                    <th class="all"><%= t('simple_form.screen.actions') %></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @promotions.each do |promotion| %>
+              <tr>
+                                                                        <td><%= promotion.product.try(:name) %></td>
+                                                                                          <td><%= promotion.box.try(:name) %></td>
+                                                                                          <td><%= l(promotion.expiration_date, format: :default) %></td>
+                                                                                          <td align='right'><%= promotion.quantity_start %></td>
+                                                                                          <td align='right'><%= promotion.quantity_available %></td>
+                                                                                          <td><%= l(promotion.from_date, format: :default) %></td>
+                                                                                          <td><%= promotion.end_with %></td>
+                                                                                          <td><%= l(promotion.to_date, format: :default) %></td>
+                                                                                          <td><%= promotion.name %></td>
+                                                                                          <td><%= promotion.notes %></td>
+                                                                                          <td><%= promotion.promo_type %></td>
+                                              <td class="table-actions">
+                <%= render 'shared/action_icons', locals: {target: promotion} %>
+              </td>
+              </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="widget-footer">
+            <%= render 'shared/pagination', locals: {target: @promotions, model_index_path: promotions_path} %>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+

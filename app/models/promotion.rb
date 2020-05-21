@@ -13,7 +13,8 @@ class Promotion < ActiveRecord::Base
 
   belongs_to :box
   belongs_to :product
-  has_many :product_prices, dependent: :delete_all
+  has_many :prices, as: :priceable, dependent: :delete_all
+  accepts_nested_attributes_for :prices
 
   PROMO_TYPE_WITH_STOCK = 'WITH_STOCK'
   PROMO_TYPE_WITHOUT_STOCK = 'WITHOUT_STOCK'
@@ -26,8 +27,8 @@ class Promotion < ActiveRecord::Base
   END_WITH_FOR_SELECT = [ ['HASTA FECHA', END_WITH_DATE], ['HASTA TERMINAR STOCK', END_WITH_STOCK], ['SIN FIN', END_WITH_ENDLESS] ]
   END_WITH_SYSTEM_ARRAY = END_WITH_FOR_SELECT.map{|e| e[1]}
 
-  validates :product_id, :box_id, :from_date, :end_with, :name, :promo_type, presence: true
-  validates :product_id, :box_id, numericality: true
+  validates :product_id, :box_id, :from_date, :end_with, :name, :promo_type, :product_total_cost, presence: true
+  validates :product_id, :box_id, :product_total_cost, numericality: true
 
 
   def with_stock?

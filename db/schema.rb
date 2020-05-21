@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200520121018) do
+ActiveRecord::Schema.define(version: 20200521141453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,10 +136,11 @@ ActiveRecord::Schema.define(version: 20200520121018) do
 
   create_table "customer_categories", force: :cascade do |t|
     t.string   "name"
-    t.integer  "profit_percent"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.integer  "sales_commission"
+    t.integer  "company_profit_percent"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.integer  "seller_profit_percent"
+    t.float    "seller_commission_over_price_percent"
   end
 
   create_table "customer_contacts", force: :cascade do |t|
@@ -290,6 +291,19 @@ ActiveRecord::Schema.define(version: 20200520121018) do
     t.boolean  "iva",                default: false
   end
 
+  create_table "prices", force: :cascade do |t|
+    t.integer  "priceable_id"
+    t.string   "priceable_type"
+    t.integer  "customer_category_id"
+    t.float    "company_profit_percent"
+    t.float    "seller_profit_percent"
+    t.float    "seller_commission_over_price_percent"
+    t.float    "price"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.float    "total_profit_percent"
+  end
+
   create_table "product_boxes", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "box_id"
@@ -343,6 +357,7 @@ ActiveRecord::Schema.define(version: 20200520121018) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.boolean  "published",          default: false
+    t.float    "product_total_cost"
   end
 
   create_table "purchase_order_details", force: :cascade do |t|

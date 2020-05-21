@@ -26,8 +26,10 @@ class Product < ActiveRecord::Base
   # ASÍ COMO NO HACE FALTA "has_many :order_details" TAMPOCO HACE FALTA ESTE EXTREMO DE LA RELACION. PARA NO CONFUNDIRME LA COMENTO
   #has_many :products, class_name: 'MixBoxDetail', foreign_key: :product_id # si este producto es una mix_box entonces tiene muchos (has_many) items
 
-  has_many :product_prices, inverse_of: :product, dependent: :delete_all
-  accepts_nested_attributes_for :product_prices, update_only: true
+  #has_many :product_prices, inverse_of: :product, dependent: :delete_all
+  has_many :prices, as: :priceable, dependent: :delete_all
+  #accepts_nested_attributes_for :product_prices, update_only: true
+  accepts_nested_attributes_for :prices
   accepts_nested_attributes_for :product_boxes, allow_destroy: true
   accepts_nested_attributes_for :mix_box_details, allow_destroy: true
 
@@ -57,25 +59,23 @@ class Product < ActiveRecord::Base
     validate_prices
   end
 
-  after_create do
-    ProductPrice.transaction do
-      CustomerCategory.all.each do |cc|
-        product_price = ProductPrice.new(product_id: self.id, customer_category_id: cc.id, profit_percent: cc.profit_percent, sales_commission: cc.sales_commission, price: calculate_product_price(cc))
-        product_price.save
-      end
-    end
-  end
+  #after_create do
+  #  CustomerCategory.all.each do |cc|
+  #    price = Price.new(priceable_id: self.id, priceable_type: self, customer_category_id: cc.id, company_profit_percent: cc.company_profit_percent, seller_profit_percent: cc.seller_profit_percent, seller_commission_over_price_percent: cc.seller_commission_over_price_percent, price: calculate_price(cc))
+  #    price.save
+  #  end
+  #end
 
-  after_update do
-    if self.total_cost_changed? || self.product_prices.map(&:changed?)
-      ProductPrice.transaction do
-        self.product_prices.each do |pp|
-          pp.price = calculate_product_price(pp)
-          pp.save
-        end
-      end
-    end
-  end
+  #after_update do
+  #  if self.total_cost_changed? || self.prices.map(&:changed?)
+  #    ProductPrice.transaction do
+  #      self.prices.each do |pp|
+  #        pp.price = calculate_price(pp)
+  #        pp.save
+  #      end
+  #    end
+  #  end
+  #end
 
   def code_and_name
     "#{code} #{name}"
@@ -87,8 +87,8 @@ class Product < ActiveRecord::Base
 
   private
 
-  def calculate_product_price(instance)
-      self.total_cost + (self.total_cost * ((instance.profit_percent + instance.sales_commission).to_f / 100))
+  def calculate_price(instance)
+      self.total_cost + (self.total_cost * ((instance.company_profit_percent + instance.seller_profit_percent).to_f / 100))
   end
 
   def must_have_2_products_at_least
@@ -119,7 +119,7 @@ class Product < ActiveRecord::Base
 
   def validate_prices
     flag = true
-    self.product_prices.each do |pp|
+    self.prices.each do |pp|
       unless pp.valid?
         flag = false
       end

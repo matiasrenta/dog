@@ -12,6 +12,9 @@ class PromotionsController < ApplicationController
 
   # GET /promotions/new
   def new
+    CustomerCategory.all.each do |cc|
+      @promotion.prices.build(customer_category_id: cc.id, company_profit_percent: cc.company_profit_percent, seller_profit_percent: cc.seller_profit_percent, seller_commission_over_price_percent: cc.seller_commission_over_price_percent, price: nil)
+    end
   end
 
   # GET /promotions/1/edit

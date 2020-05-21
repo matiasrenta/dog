@@ -292,9 +292,6 @@ es:
         format: "%{attribute} %{message}"
 
       models:
-      promotion:
-        one: Promoción
-        other: Promociones
         user:
           attributes:
             reset_password_token: 'El token debe haber expirado o no es válido'
@@ -331,7 +328,7 @@ es:
       product_brand:
         one: Marca
         other: Marcas
-      product_price:
+      price:
         one: Precio
         other: Precios
       customer_category:

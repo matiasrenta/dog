@@ -1,12 +1,30 @@
 // cuando se ingresa algo a los inputs de coste de flete o costo de producto se calcula el costo total
-
-$('#product_product_cost').on('input', function() {
+// al cambiar total_cost cambian los prices
+$('#product_product_cost, #product_cargo_cost').on('input', function() {
     calculate_total_cost();
+    if( $.isNumeric($('#product_total_cost').val()) ){
+        calculate_prices();
+    }
 });
 
-$('#product_cargo_cost').on('input', function() {
-    calculate_total_cost();
+// al cambiar los total_profit_percent o los seller_commission_over_price_percent
+$("[id$='_total_profit_percent'], [id$='_seller_commission_over_price_percent']").on('input', function() {
+    calculate_prices();
 });
+
+// si se cambia el precio cambia el total_profit_percent y el company_profit_percent (pero NO cambia el seller_profit_percent)
+$("[id$='_price']").on('input', function() {
+    calculate_profits();
+});
+
+$("[id$='_company_profit_percent']").on('input', function() {
+    calculate_seller_profit_and_commision();
+});
+
+$("[id$='_seller_profit_percent']").on('input', function() {
+    calculate_company_profit_and_commision();
+});
+
 
 function calculate_total_cost(){
     if( $.isNumeric($('#product_product_cost').val()) && $.isNumeric($('#product_cargo_cost').val()) ){
@@ -17,48 +35,146 @@ function calculate_total_cost(){
     }
 }
 
-// cuando ingreso el margen de ganancia (profit_percent) calculo el precio
-$(document).on("input", "input[id$='_profit_percent']", function() {
-    profit_percent = parseFloat(this.value);
-    sales_commission = parseFloat( $($( this.closest('tr') ).find("input[id$='_sales_commission']")[0]).val() );
+// calcula: price, company_profit_percent, seller_profit_percent
+// en base a: total_cost, total_profit y seller_comm.
+function calculate_prices(){
+    total_cost = parseFloat($('#product_total_cost').val());
+    tppa = $(document).find("input[id$='_total_profit_percent']");
+
+    for(i=0; i < tppa.size(); i++){
+        total_profit = parseFloat($('#product_prices_attributes_' + i + '_total_profit_percent').val());
+        seller_comm  = parseFloat($('#product_prices_attributes_' + i + '_seller_commission_over_price_percent').val());
+
+        price = total_cost + (total_cost * (total_profit / 100));
+        seller_comm_amount = price * (seller_comm / 100);
+        temp_price = price - seller_comm_amount;
+        company_profit_percent = ((temp_price - total_cost) / total_cost) * 100;
+        seller_profit_percent = total_profit - company_profit_percent;
+
+        $('#product_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent);
+        $('#product_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent);
+        $('#product_prices_attributes_' + i + '_price').val(price);
+    }
+}
+
+function calculate_profits(){
+    total_cost = parseFloat($('#product_total_cost').val());
+    tppa = $(document).find("input[id$='_total_profit_percent']");
+
+    for(i=0; i < tppa.size(); i++){
+        price = parseFloat($('#product_prices_attributes_' + i + '_price').val());
+        seller_comm = parseFloat($('#product_prices_attributes_' + i + '_seller_commission_over_price_percent').val());
+
+        total_profit = (((price - total_cost) / total_cost) * 100);
+        seller_comm_amount = price * (seller_comm / 100);
+        temp_price = price - seller_comm_amount;
+        company_profit_percent = ((temp_price - total_cost) / total_cost) * 100;
+        seller_profit_percent = total_profit - company_profit_percent;
+
+        $('#product_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent);
+        $('#product_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent);
+        $('#product_prices_attributes_' + i + '_total_profit_percent').val(total_profit);
+    }
+}
+
+
+function calculate_seller_profit_and_commision(){
+    total_cost = parseFloat($('#product_total_cost').val());
+    tppa = $(document).find("input[id$='_total_profit_percent']");
+
+    for(i=0; i < tppa.size(); i++){
+        price = parseFloat($('#product_prices_attributes_' + i + '_price').val());
+        company_profit_percent = parseFloat($('#product_prices_attributes_' + i + '_company_profit_percent').val());
+
+        seller_profit_percent = total_profit - company_profit_percent;
+        seller_comm_amount = total_cost * (seller_profit_percent / 100);
+        seller_comm = (seller_comm_amount / price) * 100;
+
+        $('#product_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent);
+        $('#product_prices_attributes_' + i + '_seller_commission_over_price_percent').val(seller_comm);
+    }
+}
+
+function calculate_company_profit_and_commision(){
+    total_cost = parseFloat($('#product_total_cost').val());
+    tppa = $(document).find("input[id$='_total_profit_percent']");
+
+    for(i=0; i < tppa.size(); i++){
+        price = parseFloat($('#product_prices_attributes_' + i + '_price').val());
+        seller_profit_percent = parseFloat($('#product_prices_attributes_' + i + '_seller_profit_percent').val());
+
+        company_profit_percent = total_profit - seller_profit_percent;
+        seller_comm_amount = total_cost * (seller_profit_percent / 100);
+        seller_comm = (seller_comm_amount / price) * 100;
+
+        $('#product_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent);
+        $('#product_prices_attributes_' + i + '_seller_commission_over_price_percent').val(seller_comm);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// cuando ingreso el margen de ganancia (company_profit_percent) calculo el precio
+$(document).on("input", "input[id$='_company_profit_percent']", function() {
+    company_profit_percent = parseFloat(this.value);
+    seller_profit_percent = parseFloat( $($( this.closest('tr') ).find("input[id$='_seller_profit_percent']")[0]).val() );
     product_total_cost = parseFloat($("#product_total_cost").val());
-    price = product_total_cost + (product_total_cost * (parseFloat(profit_percent + sales_commission) / 100));
-    product_price_element = $( this.closest('tr') ).find("input[id$='_price']")[0];
-    product_price_element.value = price;
+    price = product_total_cost + (product_total_cost * (parseFloat(company_profit_percent + seller_profit_percent) / 100));
+    price_element = $( this.closest('tr') ).find("input[id$='_price']")[0];
+    price_element.value = price;
 });
 
-// cuando ingreso la comisión de venta (sales_commission) calculo el precio
-$(document).on("input", "input[id$='_sales_commission']", function() {
-    profit_percent = parseFloat( $($( this.closest('tr') ).find("input[id$='_profit_percent']")[0]).val() );
-    sales_commission = parseFloat(this.value);
+// cuando ingreso la comisión de venta (seller_profit_percent) calculo el precio
+$(document).on("input", "input[id$='_seller_profit_percent']", function() {
+    company_profit_percent = parseFloat( $($( this.closest('tr') ).find("input[id$='_company_profit_percent']")[0]).val() );
+    seller_profit_percent = parseFloat(this.value);
     product_total_cost = parseFloat($("#product_total_cost").val());
-    price = product_total_cost + (product_total_cost * (parseFloat(profit_percent + sales_commission) / 100));
-    product_price_element = $( this.closest('tr') ).find("input[id$='_price']")[0];
-    product_price_element.value = price;
+    price = product_total_cost + (product_total_cost * (parseFloat(company_profit_percent + seller_profit_percent) / 100));
+    price_element = $( this.closest('tr') ).find("input[id$='_price']")[0];
+    price_element.value = price;
 });
 
-// cuando ingreso el precio calculo el margen de ganancia (profit_percent). el sales_commission lo dejo como está.
+// cuando ingreso el precio calculo el margen de ganancia (company_profit_percent). el seller_profit_percent lo dejo como está.
 $(document).on("input", "input[id$='_price']", function() {
     price = parseFloat(this.value);
     product_total_cost = parseFloat($("#product_total_cost").val());
-    sales_commission = parseFloat( $($( this.closest('tr') ).find("input[id$='_sales_commission']")[0]).val() );
-    profit_percent = (((price - product_total_cost) / product_total_cost) * 100) - sales_commission
-    profit_percent_element = $( this.closest('tr') ).find("input[id$='_profit_percent']")[0];
-    profit_percent_element.value = profit_percent;
+    seller_profit_percent = parseFloat( $($( this.closest('tr') ).find("input[id$='_seller_profit_percent']")[0]).val() );
+    company_profit_percent = (((price - product_total_cost) / product_total_cost) * 100) - seller_profit_percent
+    company_profit_percent_element = $( this.closest('tr') ).find("input[id$='_company_profit_percent']")[0];
+    company_profit_percent_element.value = company_profit_percent;
 });
 
 // cuando cambia el select de mix_box
 $(document).on("change", "#product_is_mix_box", function() {
     if (this.value == 'true') {
-        //$("#product_units_sale_allowed").val("true");
-        //$('#not_mix_box').css('display', 'none');
         $("#mix_box").css('display', 'block');
     } else {
-        //$("#product_units_sale_allowed").val("false");
-        $('#not_mix_box').css('display', 'block');
         $("#mix_box").css('display', 'none');
     }
 });
+
+
+
+
+
 
 
 

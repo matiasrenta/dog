@@ -1,0 +1,65 @@
+<article class="col-sm-6">
+  <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>">
+
+    <header>
+      <%= "<h3>#{t('activerecord.models.price.other')}</h3>".html_safe %>
+    </header>
+
+
+    <div class="no-padding">
+      <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-1" style="display:none;">
+        <div class="col-md-9 col-sm-12 no-padding">
+          <%= search_form_for(@q, url: product_path(@product), html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="widget-body">
+        <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
+          <thead>
+          <tr>
+            <th class='all control'><%= t('simple_form.labels.defaults.customer_category') %></th>
+            <th>Margen<%#= t('simple_form.labels.defaults.company_profit_percent') %></th>
+            <th><%= t('simple_form.labels.defaults.seller_commission_over_price_percent') %></th>
+            <th><%= t('simple_form.labels.defaults.price') %></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @prices.each do |price| %>
+              <tr>
+                <td><%= price.customer_category.try(:name) %> <%#= "(#{t('simple_form.labels.defaults.company_profit_percent')} #{price.customer_category.try(:company_profit_percent)}%)" %> </td>
+                <td align='right'>
+
+
+                  <table class="table-bordered">
+                    <tr>
+                      <td align="right" style="padding-right: 5px;">Empresa</td>
+                      <td align="right" style="padding-right: 5px;">Venta</td>
+                      <td align="right" style="padding-right: 5px;">Total</td>
+                    </tr>
+                    <tr>
+                      <td align="right" style="padding-right: 5px;"><%= price.company_profit_percent  %>%</td>
+                      <td align="right" style="padding-right: 5px;"><%= price.seller_profit_percent  %>%</td>
+                      <td align="right" style="padding-right: 5px;"><%= price.company_profit_percent + price.seller_profit_percent  %>%</td>
+                    </tr>
+                  </table>
+
+
+                </td>
+                <td align='right'><%= price.seller_commission_over_price_percent  %>%</td>
+                <td align='right'><%= price.price ? number_to_currency(price.price, unit: '') : nil %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+

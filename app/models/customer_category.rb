@@ -11,21 +11,21 @@ class CustomerCategory < ActiveRecord::Base
           }
 
   has_many :customers, dependent: :restrict_with_error
-  has_many :product_prices, dependent: :delete_all
+  has_many :prices, dependent: :delete_all
 
-  validates :name, :profit_percent, :sales_commission, presence: true
-  validates :profit_percent, :sales_commission, numericality: true
+  validates :name, :company_profit_percent, :seller_profit_percent, presence: true
+  validates :company_profit_percent, :seller_profit_percent, numericality: true
   validates :name, uniqueness: true
 
   after_create do
-    #ProductPrice.transaction do
-      Product.all.each do |product|
-        product_price = ProductPrice.new(product_id: product.id, customer_category_id: self.id, price: calculate_product_price(product))
-        product_price.save
-      end
-    #end
+    Product.all.each do |product|
+      price = Price.new(priceable_id: product.id, priceable_type: product, customer_category_id: self.id, price: product.calculate_price(self))
+      price.save
+    end
   end
 
+  #todo: no se actualizan los precios si se hace update de un customer_category. esto rompería los precios "lindos" que se han hecho a mano
+  # la idea es que esto sea un template solo para la creación
 #  after_update do
 #    if self.profit_percent_changed? || self.sales_commission_changed?
 #     # ProductPrice.transaction do
@@ -44,9 +44,4 @@ class CustomerCategory < ActiveRecord::Base
     [:id, :updated_at]
   end
 
-  private
-
-  def calculate_product_price(product)
-    product.total_cost + (product.total_cost * (self.profit_percent.to_f / 100)) + (product.total_cost * (self.sales_commission.to_f / 100))
-  end
 end

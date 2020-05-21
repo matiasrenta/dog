@@ -15,8 +15,9 @@
                           } do |f| %>
           <div class="form-inputs edit">
             <%= f.input :name %>
-            <%= f.input :profit_percent, placeholder: '%', hint: 'Ejemplo: 20 (quiere decir 20%). Este número cambiará todos los precios de todos los productos para esta categoría.' %>
-            <%= f.input :sales_commission, placeholder: '%', hint: 'Ejemplo: 5 (quiere decir 5%). Este número cambiará todos los precios de todos los productos para esta categoría.' %>
+            <%= f.input :company_profit_percent, placeholder: '%', hint: 'Ejemplo: 20 (quiere decir 20%). Este número cambiará todos los precios de todos los productos para esta categoría.' %>
+            <%= f.input :seller_profit_percent, placeholder: '%', hint: 'Ejemplo: 5 (quiere decir 5%). Este número cambiará todos los precios de todos los productos para esta categoría.' %>
+            <%= f.input :seller_commission_over_price_percent, placeholder: '%', hint: 'Ejemplo: 5 (quiere decir 5%). Este número cambiará todos los precios de todos los productos para esta categoría.' %>
 
             <div class="widget-footer">
               <div class="form-actions">

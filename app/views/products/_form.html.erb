@@ -16,49 +16,44 @@
             <%= f.input :code %>
             <%= f.input :name %>
             <%= f.association :product_brand %>
-            <%= f.input :product_cost%>
-            <%= f.input :cargo_cost %>
-            <%= f.input :total_cost, input_html: {readonly: true} %>
-            <%= f.input :is_mix_box, as: :select, collection: options_for_boolean, include_blank: false %>
 
-            <div id="not_mix_box">
-              <%#= f.input :units_sale_allowed, as: :select, collection: [[t('true'), 'true'], [t('false'), 'false']], include_blank: false%>
-              <div class="form-group">
-                <label class="col-xs-12 col-sm-3 control-label" for=""><%= 'Se vende por' %></label>
-                <div class="col-sm-9">
-                  <div class="table-responsive">
-                    <table id="product_boxes" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
-                      <tr>
-                        <th class="all control"><%= t('simple_form.labels.defaults.box') %></th>
-                        <th><%= t('simple_form.labels.defaults.stock_min') %></th>
-                        <th><%= t('simple_form.labels.defaults.stock_max') %></th>
-                        <th class="all"></th>
+          <div class="form-group">
+            <label class="col-xs-12 col-sm-3 control-label" for=""><%= 'Se vende por' %></label>
+            <div class="col-sm-9">
+              <div class="table-responsive">
+                <table id="product_boxes" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
+                  <tr>
+                    <th class="all control"><%= t('simple_form.labels.defaults.box') %></th>
+                    <th><%= t('simple_form.labels.defaults.stock_min') %></th>
+                    <th><%= t('simple_form.labels.defaults.stock_max') %></th>
+                    <th class="all"></th>
+                  </tr>
+                  <%= f.fields_for :product_boxes, :wrapper => false do |product_box_form| %>
+                      <tr class="fields">
+                        <td width="55%"><%= product_box_form.association :box, wrapper: :clean %></td>
+                        <td width="20%"><%= product_box_form.input :stock_min, wrapper: :clean %></td>
+                        <td width="20%"><%= product_box_form.input :stock_max, wrapper: :clean %></td>
+                        <td width="5%"align="center">
+                          <%= product_box_form.link_to_remove do %>
+                              <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
+                          <% end %>
+                        </td>
                       </tr>
-                      <%= f.fields_for :product_boxes, :wrapper => false do |product_box_form| %>
-                          <tr class="fields">
-                            <td width="55%"><%= product_box_form.association :box, wrapper: :clean %></td>
-                            <td width="20%"><%= product_box_form.input :stock_min, wrapper: :clean %></td>
-                            <td width="20%"><%= product_box_form.input :stock_max, wrapper: :clean %></td>
-                            <td width="5%"align="center">
-                              <%= product_box_form.link_to_remove do %>
-                                  <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
-                              <% end %>
-                            </td>
-                          </tr>
-                      <% end %>
-                    </table>
-                    <div class="well well-sm">
-                <span class="btn bg-color-blue txt-color-white btn-xs">
-                  <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :product_boxes, :data => {:target => "#product_boxes"} %>
-                </span>
-                    </div>
-                  </div>
+                  <% end %>
+                </table>
+                <div class="well well-sm">
+            <span class="btn bg-color-blue txt-color-white btn-xs">
+              <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :product_boxes, :data => {:target => "#product_boxes"} %>
+            </span>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div id="mix_box">
-                <div class="form-group" style="display: <%= @product.is_mix_box ? 'block' : 'none' %>;">
+            <%= f.input :is_mix_box, as: :select, collection: options_for_boolean, include_blank: false %>
+
+            <div id="mix_box" style="display: <%= @product.is_mix_box ? 'block' : 'none' %>;">
+                <div class="form-group">
                   <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('activerecord.models.product.other') %></label>
                   <div class="col-sm-9">
                     <div class="table-responsive">
@@ -92,31 +87,40 @@
                 </div>
             </div>
 
-            <% if updating? %>
-                <div class="form-group">
-                  <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.prices') %></label>
-                  <div class="col-sm-9">
-                    <div class="table-responsive">
-                      <table id="branches" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
-                        <tr>
-                          <th class="all control"><%= t('simple_form.labels.defaults.customer_category') %></th>
-                          <th><%= t('simple_form.labels.defaults.profit_percent') %></th>
-                          <th><%= t('simple_form.labels.defaults.sales_commission') %></th>
-                          <th><%= t('simple_form.labels.defaults.price') %></th>
+
+            <%= f.input :product_cost%>
+            <%= f.input :cargo_cost %>
+            <%= f.input :total_cost, input_html: {readonly: true} %>
+
+
+            <div class="form-group">
+              <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.prices') %></label>
+              <div class="col-sm-9">
+                <div class="table-responsive">
+                  <table id="branches" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
+                    <tr>
+                      <th class="all control"><%= t('simple_form.labels.defaults.customer_category') %></th>
+                      <th><%= t('simple_form.labels.defaults.company_profit_percent') %></th>
+                      <th><%= t('simple_form.labels.defaults.seller_profit_percent') %></th>
+                      <th><%= t('simple_form.labels.defaults.total_profit_percent') %></th>
+                      <th><%= t('simple_form.labels.defaults.price') %></th>
+                      <th><%= t('simple_form.labels.defaults.seller_commission_over_price_percent') %></th>
+                    </tr>
+                    <%= f.fields_for :prices, :wrapper => false do |price_form| %>
+                        <%= price_form.input :customer_category_id, as: :hidden %>
+                        <tr class="fields">
+                          <td><%= price_form.object.try(:customer_category).try(:name) %> <%= "(#{t('simple_form.labels.defaults.company_profit_percent')} #{price_form.object.customer_category.try(:company_profit_percent)}%)" %></td>
+                          <td><%= price_form.input :company_profit_percent, wrapper: :clean %></td>
+                          <td><%= price_form.input :seller_profit_percent, wrapper: :clean %></td>
+                          <td><%= price_form.input :total_profit_percent, wrapper: :clean %></td>
+                          <td><%= price_form.input :price, wrapper: :clean %></td>
+                          <td><%= price_form.input :seller_commission_over_price_percent, wrapper: :clean %></td>
                         </tr>
-                        <%= f.fields_for :product_prices, :wrapper => false do |product_price_form| %>
-                            <tr class="fields">
-                              <td><%= product_price_form.object.try(:customer_category).try(:name) %> <%= "(#{t('simple_form.labels.defaults.profit_percent')} #{product_price_form.object.customer_category.try(:profit_percent)}%)" %></td>
-                              <td><%= product_price_form.input :profit_percent, wrapper: :clean %></td>
-                              <td><%= product_price_form.input :sales_commission, wrapper: :clean %></td>
-                              <td><%= product_price_form.input :price, wrapper: :clean %></td>
-                            </tr>
-                        <% end %>
-                      </table>
-                    </div>
-                  </div>
+                    <% end %>
+                  </table>
                 </div>
-            <% end %>
+              </div>
+            </div>
 
             <div class="widget-footer">
               <div class="form-actions">

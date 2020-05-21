@@ -32,6 +32,34 @@
             <%= f.input :published, as: :select, collection: options_for_boolean, include_blank: false %>
             <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
 
+            <%= f.input :product_total_cost %>
+
+            <div class="form-group">
+              <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.prices') %></label>
+              <div class="col-sm-9">
+                <div class="table-responsive">
+                  <table id="branches" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
+                    <tr>
+                      <th class="all control"><%= t('simple_form.labels.defaults.customer_category') %></th>
+                      <th><%= t('simple_form.labels.defaults.company_profit_percent') %></th>
+                      <th><%= t('simple_form.labels.defaults.seller_profit_percent') %></th>
+                      <th><%= t('simple_form.labels.defaults.seller_commission_over_price_percent') %></th>
+                      <th><%= t('simple_form.labels.defaults.price') %></th>
+                    </tr>
+                    <%= f.fields_for :prices, :wrapper => false do |price_form| %>
+                        <%= price_form.input :customer_category_id, as: :hidden %>
+                        <tr class="fields">
+                          <td><%= price_form.try(:object).try(:customer_category).try(:name) %> </td>
+                          <td><%= price_form.input :company_profit_percent, wrapper: :clean %></td>
+                          <td><%= price_form.input :seller_profit_percent, wrapper: :clean %></td>
+                          <td><%= price_form.input :seller_commission_over_price_percent, wrapper: :clean %></td>
+                          <td><%= price_form.input :price, wrapper: :clean %></td>
+                        </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
 
             <div class="widget-footer">
               <div class="form-actions">

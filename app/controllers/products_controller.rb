@@ -8,17 +8,16 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
-    @product_prices = indexize(ProductPrice, collection: @product.product_prices)
+    @prices = indexize(Price, collection: @product.prices)
     @product_boxes = indexize(ProductBox, collection: @product.product_boxes, query_param: :q_box)
     @mix_box_details = indexize(MixBoxDetail, collection: @product.mix_box_details, query_param: :q_mix_box)
   end
 
   # GET /products/new
   def new
-    # para que aparezcan en el form hago build de los precios
-    #CustomerCategory.all.each do |cc|
-      #@product.product_prices.build(customer_category_id: cc.id, profit_percent: cc.profit_percent)
-    #end
+    CustomerCategory.all.each do |cc|
+      @product.prices.build(customer_category_id: cc.id, company_profit_percent: cc.company_profit_percent, seller_profit_percent: cc.seller_profit_percent, seller_commission_over_price_percent: cc.seller_commission_over_price_percent, price: nil)
+    end
   end
 
   # GET /products/1/edit
@@ -28,8 +27,7 @@ class ProductsController < ApplicationController
   # POST /products
   def create
     if @product.save
-      #format.html { redirect_to(@therapist); flash[:info] = "Ingrese los rangos horarios en que trabaja este terapeuta" }
-      flash[:info] = t('simple_form.flash.info.check_prices')
+      #flash[:info] = t('simple_form.flash.info.check_prices')
       redirect_to @product, notice: t("simple_form.flash.successfully_created")
     else
       puts @product.errors.messages
@@ -63,7 +61,7 @@ class ProductsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def product_params
       params.require(:product).permit(:code, :name, :product_brand_id, :product_cost, :cargo_cost, :total_cost, :units_sale_allowed, :is_mix_box,
-                                      {product_prices_attributes: [:id, :price, :sales_commission, :profit_percent]},
+                                      {prices_attributes: [:id, :customer_category_id, :company_profit_percent, :seller_profit_percent, :total_profit_percent, :seller_commission_over_price_percent, :price]},
                                       {product_boxes_attributes: [:_destroy, :id, :box_id, :stock_min, :stock_max]},
                                       {mix_box_details_attributes: [:_destroy, :id, :product_id, :quantity]},
                                       {box_ids: []})

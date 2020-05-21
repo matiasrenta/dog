@@ -57,7 +57,7 @@ class OrdersController < ApplicationController
         @stock_available = Inventory.stock_available(@product.id, @product.boxes.first.id)
       end
       customer = Customer.find params[:order][:customer_id]
-      @unit_price = @product.product_prices.where(customer_category_id: customer.customer_category_id).first.price
+      @unit_price = @product.prices.where(customer_category_id: customer.customer_category_id).first.price
 
       if params[:the_this_html_id].include?("order_order_details_attributes")
         #debo de obtener el id del dropdown que tiene los horarios, se diferencian por el nro, son del tipo:

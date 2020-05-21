@@ -33,7 +33,6 @@ class CustomerCategoriesController < ApplicationController
     if @customer_category.update(customer_category_params)
       redirect_to @customer_category, notice: t("simple_form.flash.successfully_updated")
     else
-      puts "@@@@@@@@@@@@@@@@@@@ @customer_category.errors: #{@customer_category.errors.messages}"
       generate_flash_msg_no_keep(@customer_category)
       render :edit
     end
@@ -53,6 +52,6 @@ class CustomerCategoriesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def customer_category_params
-      params.require(:customer_category).permit(:name, :profit_percent, :sales_commission)
+      params.require(:customer_category).permit(:name, :company_profit_percent, :seller_profit_percent, :seller_commission_over_price_percent)
     end
 end

@@ -78,9 +78,10 @@ es:
         cargo_cost: 'Costo del flete'
         total_cost: 'Costo Total'
         sale_price: 'Precio de venta'
-        profit_percent: 'Margen'
-        sales_commission: 'Comisión venta'
-        saleman_fee_percent:
+        company_profit_percent: 'Margen empresa'
+        seller_profit_percent: 'Margen vendedor'
+        total_profit_percent: 'Margen total'
+        seller_commission_over_price_percent: 'Comisión venta'
         notes: 'Notas'
         phones: 'Teléfonos'
         address: 'Domicilio'

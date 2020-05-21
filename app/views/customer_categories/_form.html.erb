@@ -15,10 +15,11 @@
                           } do |f| %>
           <div class="form-inputs edit">
             <%= f.input :name %>
-            <%= f.input :company_profit_percent, placeholder: '%', hint: 'Ejemplo: 20 (quiere decir 20%). Este número cambiará todos los precios de todos los productos para esta categoría.' %>
-            <%= f.input :seller_profit_percent, placeholder: '%', hint: 'Ejemplo: 5 (quiere decir 5%). Este número cambiará todos los precios de todos los productos para esta categoría.' %>
-            <%= f.input :seller_commission_over_price_percent, placeholder: '%', hint: 'Ejemplo: 5 (quiere decir 5%). Este número cambiará todos los precios de todos los productos para esta categoría.' %>
-
+            <%= f.input :order, input_html: {class: 'field_with_popover_lf', data: {pop: 'popover-hover', placement: 'top', title: 'Número entero', content: 'Las categorías aparecerán ordenadas en las listas según este número (el 1 aparecerá más arriba, los números grandes más abajo)', icon: 'fa fa-question'}} %>
+            <%= f.input :total_profit_percent, placeholder: '%', placeholder: 'Ejemplo: 20 (quiere decir 20%).' %>
+            <%= f.input :seller_commission_over_price_percent, placeholder: 'Ejemplo: 20 (quiere decir 20%).' %>
+            <%= f.input :company_profit_percent, placeholder: '%', placeholder: 'Ejemplo: 20 (quiere decir 20%).', input_html: {readonly: true} %>
+            <%= f.input :seller_profit_percent, placeholder: '%', placeholder: 'Ejemplo: 20 (quiere decir 20%).', input_html: {readonly: true} %>
             <div class="widget-footer">
               <div class="form-actions">
                 <div class="btn-group">
@@ -36,3 +37,8 @@
     </div>
   </div>
 </div>
+
+
+<% content_for :javascript_per_page do %>
+    <%= javascript_include_tag "customer_categories", 'data-turbolinks-track' => true %>
+<% end %>

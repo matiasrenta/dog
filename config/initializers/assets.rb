@@ -17,4 +17,5 @@ mentions.js
 products.js
 orders.js
 promotions.js
+customer_categories.js
 )

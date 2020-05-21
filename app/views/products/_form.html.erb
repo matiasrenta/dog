@@ -109,7 +109,7 @@
                     <%= f.fields_for :prices, :wrapper => false do |price_form| %>
                         <%= price_form.input :customer_category_id, as: :hidden %>
                         <tr class="fields">
-                          <td><%= price_form.object.try(:customer_category).try(:name) %> <%= "(#{t('simple_form.labels.defaults.company_profit_percent')} #{price_form.object.customer_category.try(:company_profit_percent)}%)" %></td>
+                          <td><%= price_form.object.customer_category.try(:name) %></td>
                           <td><%= price_form.input :company_profit_percent, wrapper: :clean %></td>
                           <td><%= price_form.input :seller_profit_percent, wrapper: :clean %></td>
                           <td><%= price_form.input :total_profit_percent, wrapper: :clean %></td>
@@ -139,8 +139,6 @@
     </div>
   </div>
 </div>
-
-
 
 <% content_for :javascript_per_page do %>
     <%= javascript_include_tag "products", 'data-turbolinks-track' => true %>

@@ -85,11 +85,12 @@ class Product < ActiveRecord::Base
     [:id, :updated_at]
   end
 
-  private
 
   def calculate_price(instance)
-      self.total_cost + (self.total_cost * ((instance.company_profit_percent + instance.seller_profit_percent).to_f / 100))
+    self.total_cost + (self.total_cost * (instance.total_profit_percent / 100))
   end
+
+  private
 
   def must_have_2_products_at_least
     products_not_destroyed = self.mix_box_details.select{|pmb| !pmb.marked_for_destruction?}

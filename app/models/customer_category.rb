@@ -13,13 +13,20 @@ class CustomerCategory < ActiveRecord::Base
   has_many :customers, dependent: :restrict_with_error
   has_many :prices, dependent: :delete_all
 
-  validates :name, :company_profit_percent, :seller_profit_percent, presence: true
-  validates :company_profit_percent, :seller_profit_percent, numericality: true
+  default_scope -> {order(order: :asc)}
+
+  validates :name, :company_profit_percent, :seller_profit_percent, :total_profit_percent, :seller_commission_over_price_percent, :order, presence: true
+  validates :company_profit_percent, :seller_profit_percent, :total_profit_percent, :seller_commission_over_price_percent, :order, numericality: true
   validates :name, uniqueness: true
 
   after_create do
     Product.all.each do |product|
-      price = Price.new(priceable_id: product.id, priceable_type: product, customer_category_id: self.id, price: product.calculate_price(self))
+      price = Price.new(priceable_id: product.id, priceable_type: product.class.name, customer_category_id: self.id,
+                        company_profit_percent: self.company_profit_percent,
+                        seller_profit_percent: self.seller_profit_percent,
+                        total_profit_percent: self.total_profit_percent,
+                        seller_commission_over_price_percent: self.seller_commission_over_price_percent,
+                        price: product.calculate_price(self))
       price.save
     end
   end

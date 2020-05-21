@@ -36,20 +36,20 @@ function calculate_total_cost(){
 }
 
 // calcula: price, company_profit_percent, seller_profit_percent
-// en base a: total_cost, total_profit y seller_comm.
+// en base a: total_cost, total_profit_percent y seller_comm.
 function calculate_prices(){
     total_cost = parseFloat($('#product_total_cost').val());
     tppa = $(document).find("input[id$='_total_profit_percent']");
 
     for(i=0; i < tppa.size(); i++){
-        total_profit = parseFloat($('#product_prices_attributes_' + i + '_total_profit_percent').val());
+        total_profit_percent = parseFloat($('#product_prices_attributes_' + i + '_total_profit_percent').val());
         seller_comm  = parseFloat($('#product_prices_attributes_' + i + '_seller_commission_over_price_percent').val());
 
-        price = total_cost + (total_cost * (total_profit / 100));
+        price = total_cost + (total_cost * (total_profit_percent / 100));
         seller_comm_amount = price * (seller_comm / 100);
         temp_price = price - seller_comm_amount;
         company_profit_percent = ((temp_price - total_cost) / total_cost) * 100;
-        seller_profit_percent = total_profit - company_profit_percent;
+        seller_profit_percent = total_profit_percent - company_profit_percent;
 
         $('#product_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent);
         $('#product_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent);
@@ -65,15 +65,15 @@ function calculate_profits(){
         price = parseFloat($('#product_prices_attributes_' + i + '_price').val());
         seller_comm = parseFloat($('#product_prices_attributes_' + i + '_seller_commission_over_price_percent').val());
 
-        total_profit = (((price - total_cost) / total_cost) * 100);
+        total_profit_percent = (((price - total_cost) / total_cost) * 100);
         seller_comm_amount = price * (seller_comm / 100);
         temp_price = price - seller_comm_amount;
         company_profit_percent = ((temp_price - total_cost) / total_cost) * 100;
-        seller_profit_percent = total_profit - company_profit_percent;
+        seller_profit_percent = total_profit_percent - company_profit_percent;
 
         $('#product_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent);
         $('#product_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent);
-        $('#product_prices_attributes_' + i + '_total_profit_percent').val(total_profit);
+        $('#product_prices_attributes_' + i + '_total_profit_percent').val(total_profit_percent);
     }
 }
 
@@ -84,9 +84,10 @@ function calculate_seller_profit_and_commision(){
 
     for(i=0; i < tppa.size(); i++){
         price = parseFloat($('#product_prices_attributes_' + i + '_price').val());
+        total_profit_percent = parseFloat($('#product_prices_attributes_' + i + '_total_profit_percent').val());
         company_profit_percent = parseFloat($('#product_prices_attributes_' + i + '_company_profit_percent').val());
 
-        seller_profit_percent = total_profit - company_profit_percent;
+        seller_profit_percent = total_profit_percent - company_profit_percent;
         seller_comm_amount = total_cost * (seller_profit_percent / 100);
         seller_comm = (seller_comm_amount / price) * 100;
 
@@ -101,9 +102,10 @@ function calculate_company_profit_and_commision(){
 
     for(i=0; i < tppa.size(); i++){
         price = parseFloat($('#product_prices_attributes_' + i + '_price').val());
+        total_profit_percent = parseFloat($('#product_prices_attributes_' + i + '_total_profit_percent').val());
         seller_profit_percent = parseFloat($('#product_prices_attributes_' + i + '_seller_profit_percent').val());
 
-        company_profit_percent = total_profit - seller_profit_percent;
+        company_profit_percent = total_profit_percent - seller_profit_percent;
         seller_comm_amount = total_cost * (seller_profit_percent / 100);
         seller_comm = (seller_comm_amount / price) * 100;
 
@@ -111,56 +113,6 @@ function calculate_company_profit_and_commision(){
         $('#product_prices_attributes_' + i + '_seller_commission_over_price_percent').val(seller_comm);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// cuando ingreso el margen de ganancia (company_profit_percent) calculo el precio
-$(document).on("input", "input[id$='_company_profit_percent']", function() {
-    company_profit_percent = parseFloat(this.value);
-    seller_profit_percent = parseFloat( $($( this.closest('tr') ).find("input[id$='_seller_profit_percent']")[0]).val() );
-    product_total_cost = parseFloat($("#product_total_cost").val());
-    price = product_total_cost + (product_total_cost * (parseFloat(company_profit_percent + seller_profit_percent) / 100));
-    price_element = $( this.closest('tr') ).find("input[id$='_price']")[0];
-    price_element.value = price;
-});
-
-// cuando ingreso la comisión de venta (seller_profit_percent) calculo el precio
-$(document).on("input", "input[id$='_seller_profit_percent']", function() {
-    company_profit_percent = parseFloat( $($( this.closest('tr') ).find("input[id$='_company_profit_percent']")[0]).val() );
-    seller_profit_percent = parseFloat(this.value);
-    product_total_cost = parseFloat($("#product_total_cost").val());
-    price = product_total_cost + (product_total_cost * (parseFloat(company_profit_percent + seller_profit_percent) / 100));
-    price_element = $( this.closest('tr') ).find("input[id$='_price']")[0];
-    price_element.value = price;
-});
-
-// cuando ingreso el precio calculo el margen de ganancia (company_profit_percent). el seller_profit_percent lo dejo como está.
-$(document).on("input", "input[id$='_price']", function() {
-    price = parseFloat(this.value);
-    product_total_cost = parseFloat($("#product_total_cost").val());
-    seller_profit_percent = parseFloat( $($( this.closest('tr') ).find("input[id$='_seller_profit_percent']")[0]).val() );
-    company_profit_percent = (((price - product_total_cost) / product_total_cost) * 100) - seller_profit_percent
-    company_profit_percent_element = $( this.closest('tr') ).find("input[id$='_company_profit_percent']")[0];
-    company_profit_percent_element.value = company_profit_percent;
-});
 
 // cuando cambia el select de mix_box
 $(document).on("change", "#product_is_mix_box", function() {

@@ -52,6 +52,6 @@ class CustomerCategoriesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def customer_category_params
-      params.require(:customer_category).permit(:name, :company_profit_percent, :seller_profit_percent, :seller_commission_over_price_percent)
+      params.require(:customer_category).permit(:name, :company_profit_percent, :seller_profit_percent, :total_profit_percent, :seller_commission_over_price_percent, :order)
     end
 end

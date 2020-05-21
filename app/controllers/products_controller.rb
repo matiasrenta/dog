@@ -16,7 +16,11 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     CustomerCategory.all.each do |cc|
-      @product.prices.build(customer_category_id: cc.id, company_profit_percent: cc.company_profit_percent, seller_profit_percent: cc.seller_profit_percent, seller_commission_over_price_percent: cc.seller_commission_over_price_percent, price: nil)
+      @product.prices.build(customer_category_id: cc.id,
+                            company_profit_percent: cc.company_profit_percent,
+                            seller_profit_percent: cc.seller_profit_percent,
+                            total_profit_percent: cc.total_profit_percent,
+                            seller_commission_over_price_percent: cc.seller_commission_over_price_percent, price: nil)
     end
   end
 

@@ -92,7 +92,7 @@
             </div>
 
             <%= f.input :iva %>
-            <%= f.input :total_amount, input_html: {disabled: true} %>
+            <%= f.input :total_amount, input_html: {readonly: true} %>
             <%= f.input :status, as: :select, collection: Order::STATUS_TYPES if updating?%>
 
 

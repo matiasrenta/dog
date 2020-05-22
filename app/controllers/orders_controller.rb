@@ -52,7 +52,7 @@ class OrdersController < ApplicationController
 
   def ajax_get_product_info
     unless params[:the_id].blank? || params[:order].blank? || params[:order][:customer_id].blank?
-      @product ||= Product.find params[:the_id] # cuando lo llamo desde "ajax_get_stock" ya está seteado @product
+      @product = Product.find params[:the_id] if !@product # cuando lo llamo desde "ajax_get_stock" ya está seteado @product
       if !@stock_available && @product.boxes.size == 1
         @stock_available = Inventory.stock_available(@product.id, @product.boxes.first.id)
       end

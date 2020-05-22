@@ -26,7 +26,6 @@ class Order < ActiveRecord::Base
 
   before_validation on: :create do
     self.status = STATUS_TYPES[0][1]
-    calculate_total_amount
   end
 
   validates :customer_id, :customer_branch_id, :user_id, :total_amount, :status, presence: true
@@ -40,10 +39,6 @@ class Order < ActiveRecord::Base
   end
 
   scope :created, -> { where(status: STATUS_TYPES[0][1]) }
-
-  before_save do
-    calculate_total_amount
-  end
 
   #un array con solo los status que van a la bbdd
   def self.system_status_array

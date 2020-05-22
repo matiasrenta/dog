@@ -4,7 +4,7 @@
 <% end %>
 
 <% if @unit_price && @stock_available %>
-    $('<%=@unit_price_html_input_id%>').val(<%= number_to_currency(@unit_price, unit: "") %>);
+    $('<%=@unit_price_html_input_id%>').val(<%= @unit_price %>);
     $('<%=@stock_at_create_html_input_id%>').val(<%= @stock_available %>);
     $('<%=@quantity_html_input_id%>').attr('readonly', false);
 <% else %>

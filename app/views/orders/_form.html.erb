@@ -26,70 +26,7 @@
             <%= f.association :user, collection: users_hide_or_show_superusers if current_user.superuser? || current_user.admin? %>
             <%= f.input :delivery_date, as: :string, placeholder: 'dd/mm/aaaa HH:MM', input_html: {class: 'datetimepicker', value: format_datetime_field(@order.delivery_date)} %>
 
-            <div class="form-group">
-              <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('activerecord.models.product.other') %></label>
-              <div class="col-sm-9">
-                <div class="table-responsive">
-                  <table id="order_details" width="100%" class="display tableAlt table-striped table-bordered table-hover no-margin" style="margin:0 padding-top:0px">
-                    <%= f.fields_for :order_details, :wrapper => false do |order_detail_form| %>
-                        <tr class="fields">
-                          <td colspan="4">
-                            <table width="100%">
-                              <% if order_detail_form.object.new_record? %>
-                                  <tr>
-                                    <td colspan="3" style="padding-bottom: 10px;">
-                                      <%= order_detail_form.association :product, as: :select2, collection: Product.code_and_name, wrapper: :clean, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}}, class: [:enable_me, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info', extraparams: 'order_customer_id'} } %>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td style="padding: 0px 10px 10px 0px;">
-                                      <%= order_detail_form.association :box, collection: order_detail_form.object.product_id.blank? ? [] : options_select_for_box(order_detail_form.object.product) , wrapper: :clean, placeholder: 'Elejir Caja', allow_blank: false, input_html: {style: 'max-width:100%;', class: [:box, :ajax_dropdown], data: {url: '/orders/ajax_get_stock', findproductid: 'true', extraparams: 'order_customer_id'} } %>
-                                    </td>
-                                    <td><%= order_detail_form.input :quantity, placeholder: t('simple_form.labels.defaults.quantity'),   wrapper: :clean, input_html: {class: :quantity, style: 'margin-bottom: 10px;'} %></td>
-                                    <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'),      wrapper: :clean, input_html: {readonly: true, style: 'margin-bottom: 10px;'} %></td>
-                                  </tr>
-                                  <tr>
-                                    <td><%= order_detail_form.input :quantity_units,  placeholder: t('simple_form.placeholders.units'),   wrapper: :clean, input_html: {readonly: true, class: :quantity_units} %></td>
-                                    <td><%= order_detail_form.input :unit_price,      placeholder: t('simple_form.labels.defaults.unit_price'), wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>
-                                    <td><%= order_detail_form.input :subtotal,        placeholder: t('simple_form.labels.defaults.subtotal'),   wrapper: :clean, input_html: {readonly: true, class: :subtotal} %></td>
-                                  </tr>
-                            <% else %>
-                                  <tr>
-                                    <td colspan="3" style="padding-bottom: 10px;"><%= order_detail_form.object.product.code %> <%= order_detail_form.object.product.name %></td>
-                                  </tr>
-                                  <tr>
-                                    <td style="padding: 0px 10px 10px 0px;"><%= order_detail_form.object.box.try(:name) %></td>
-                                    <td><%= order_detail_form.object.quantity %></td>
-                                    <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'),      wrapper: :clean, input_html: {readonly: true} %></td>
-                                  </tr>
-                                  <tr>
-                                    <td><%= order_detail_form.input :quantity_units,        placeholder: t('simple_form.placeholders.units'),   wrapper: :clean, input_html: {readonly: true, class: :quantity_units} %></td>
-                                    <td><%= order_detail_form.input :unit_price,      placeholder: t('simple_form.labels.defaults.unit_price'), wrapper: :clean, input_html: {readonly: true, class: :unit_price} %></td>
-                                    <td><%= order_detail_form.input :subtotal,        placeholder: t('simple_form.labels.defaults.subtotal'),   wrapper: :clean, input_html: {readonly: true, class: :subtotal} %></td>
-                                  </tr>
-                            <% end %>
-                            </table>
-                          </td>
-                          <td align="center" style="vertical-align:middle">
-                            <% if @order.created? || creating? %>
-                                <%= order_detail_form.link_to_remove do %>
-                                    <i class="fa fa-trash fa-lg" data-original-title="<%= t('simple_form.tooltips.destroy') %>" data-placement="top" rel="tooltip"></i>
-                                <% end %>
-                            <% end %>
-                          </td>
-                        </tr>
-                    <% end %>
-                  </table>
-                  <% if @order.created? || creating? %>
-                      <div class="well well-sm">
-                        <span class="btn bg-color-blue txt-color-white btn-xs">
-                          <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :order_details, :data => {:target => "#order_details"}  %>
-                        </span>
-                      </div>
-                  <% end %>
-                </div>
-              </div>
-            </div>
+            <%= render 'form_order_details', locals: {f: f}  %>
 
             <%= f.input :iva %>
             <%= f.input :total_amount, input_html: {readonly: true} %>

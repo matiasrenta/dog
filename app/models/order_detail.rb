@@ -20,7 +20,7 @@ class OrderDetail < ActiveRecord::Base
   validates :quantity, presence: true #, unless: -> { box_id == 0 }
   validates :quantity, numericality: true #, unless: -> { box_id == 0 }
 
-  scope :created, -> { joins(:order).where( "orders.status = 'CREATED'") }
+  scope :created, -> { joins(:order).where("orders.status = ?", Order::STATUS_CREATED) }
   scope :by_product_id, -> (product_id) { where(product_id: product_id)}
   scope :by_box_id, -> (box_id) { where(box_id: box_id)}
 

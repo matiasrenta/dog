@@ -10,13 +10,22 @@ class Order < ActiveRecord::Base
               :model_label => proc {|controller, model| model.try(:name)}
           }
 
-  STATUS_TYPES = [['CREADO', 'CREATED'],
-                  ['EMPACADO', 'PACKED'],
-                  ['ENVIADO', 'SENT'],
-                  ['ENTREGADO', 'DELIVERED'],
-                  ['COBRADO', 'CHARGED'],
-                  ['COMISIONADO', 'COMMISSIONED'],
-                  ['CANCELADO', 'CANCELED']]
+
+  STATUS_CREATED      = 'CREATED'
+  STATUS_PACKED       = 'PACKED'
+  STATUS_SENT         = 'SENT'
+  STATUS_DELIVERED    = 'DELIVERED'
+  STATUS_CHARGED      = 'CHARGED'
+  STATUS_COMMISSIONED = 'COMMISSIONED'
+  STATUS_CANCELED     = 'CANCELED'
+
+  STATUS_TYPES = [['CREADO', STATUS_CREATED],
+                  ['EMPACADO', STATUS_PACKED],
+                  ['ENVIADO', STATUS_SENT],
+                  ['ENTREGADO', STATUS_DELIVERED],
+                  ['COBRADO', STATUS_CHARGED],
+                  ['COMISIONADO', STATUS_COMMISSIONED],
+                  ['CANCELADO', STATUS_CANCELED]]
 
   belongs_to :user
   belongs_to :customer

@@ -19,6 +19,7 @@ class Box < ActiveRecord::Base
 
   validates :name, :quantity, presence: true
   validates :name, uniqueness: true
+  validates :quantity, uniqueness: true
   validates :quantity, numericality: true
 
   UNITS_BOX_NAME = 'UNIDADES'

@@ -8,12 +8,17 @@ class PromotionsController < ApplicationController
 
   # GET /promotions/1
   def show
+    @prices = @promotion.prices
   end
 
   # GET /promotions/new
   def new
     CustomerCategory.all.each do |cc|
-      @promotion.prices.build(customer_category_id: cc.id, company_profit_percent: cc.company_profit_percent, seller_profit_percent: cc.seller_profit_percent, seller_commission_over_price_percent: cc.seller_commission_over_price_percent, price: nil)
+      @promotion.prices.build(customer_category_id: cc.id,
+                              company_profit_percent: cc.company_profit_percent,
+                              seller_profit_percent: cc.seller_profit_percent,
+                              total_profit_percent: cc.total_profit_percent,
+                              seller_commission_over_price_percent: cc.seller_commission_over_price_percent, price: nil)
     end
   end
 
@@ -55,6 +60,7 @@ class PromotionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def promotion_params
-      params.require(:promotion).permit(:product_id, :box_id, :expiration_date, :quantity_start, :quantity_available, :from_date, :end_with, :to_date, :name, :notes, :promo_type)
+      params.require(:promotion).permit(:product_id, :box_id, :expiration_date, :quantity_start, :quantity_available, :from_date, :end_with, :to_date, :name, :notes, :promo_type, :published, :product_total_cost,
+                                        {prices_attributes: [:id, :customer_category_id, :company_profit_percent, :seller_profit_percent, :total_profit_percent, :seller_commission_over_price_percent, :price]})
     end
 end

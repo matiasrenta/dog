@@ -12,7 +12,7 @@
       <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-1" style="display:none;">
         <div class="col-md-9 col-sm-12 no-padding">
 
-          <%= search_form_for(@q, url: product_path(@product), html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
+          <%= search_form_for(@q_box, url: product_path(@product), html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
 
           <% end %>
         </div>
@@ -22,8 +22,8 @@
           <thead>
           <tr>
             <th class='all control'><%= sort_link(@q_box, :box_name, t('simple_form.labels.defaults.box')) %></th>
-            <th><%= sort_link(@q, :stock_min, t('simple_form.labels.defaults.stock_min')) %></th>
-            <th><%= sort_link(@q, :stock_max, t('simple_form.labels.defaults.stock_max')) %></th>
+            <th><%= sort_link(@q_box, :stock_min, t('simple_form.labels.defaults.stock_min')) %></th>
+            <th><%= sort_link(@q_box, :stock_max, t('simple_form.labels.defaults.stock_max')) %></th>
           </tr>
           </thead>
           <tbody>

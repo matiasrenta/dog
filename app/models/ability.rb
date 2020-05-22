@@ -94,6 +94,8 @@ class Ability
     #todo: cannot manage para todas las entidades que son CONSTANT
     #ejemplo: cannot [:create, :update, :destroy], User
 
+		cannot [:update, :destroy], Box, name: Box::UNITS_BOX_NAME
+
 		unless @user.superuser?
 			cannot [:create, :read, :update, :destroy], User, role_id: Role.find_by_name('superuser').id
 			cannot [:create, :read, :update, :destroy], Role, id: Role.find_by_name('superuser').id

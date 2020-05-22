@@ -78,10 +78,10 @@ es:
         cargo_cost: 'Costo del flete'
         total_cost: 'Costo Total'
         sale_price: 'Precio de venta'
-        company_profit_percent: 'Margen empresa'
-        seller_profit_percent: 'Margen vendedor'
-        total_profit_percent: 'Margen total'
-        seller_commission_over_price_percent: 'Comisión vendedor'
+        company_profit_percent: 'M. empresa'
+        seller_profit_percent: 'M. vendedor'
+        total_profit_percent: 'M. total'
+        seller_commission_over_price_percent: 'Comisión vend.'
         notes: 'Notas'
         phones: 'Teléfonos'
         address: 'Domicilio'
@@ -119,6 +119,10 @@ es:
         lot: 'Lote'
         quantity_available: Cantidad disponible
         order: 'Orden en pantalla'
+        promo_type: 'Tipo de promo'
+        end_with: 'Finaliza con'
+        from_date: 'Desde'
+        to_date: 'Hasta'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

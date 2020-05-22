@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
-    @prices = indexize(Price, collection: @product.prices)
+    @prices = @product.prices
     @product_boxes = indexize(ProductBox, collection: @product.product_boxes, query_param: :q_box)
     @mix_box_details = indexize(MixBoxDetail, collection: @product.mix_box_details, query_param: :q_mix_box)
   end

@@ -13,7 +13,7 @@ class Promotion < ActiveRecord::Base
 
   belongs_to :box
   belongs_to :product
-  has_many :prices, as: :priceable, dependent: :delete_all
+  has_many :prices, -> { joins(:customer_category).order('customer_categories.order ASC') }, as: :priceable, dependent: :delete_all
   accepts_nested_attributes_for :prices
 
   PROMO_TYPE_WITH_STOCK = 'WITH_STOCK'
@@ -38,6 +38,15 @@ class Promotion < ActiveRecord::Base
   def end_with_date?
     self.end_with == END_WITH_DATE
   end
+
+  def i18n_promo_type
+    PROMO_TYPES_FOR_SELECT.find { |e| e[1] == self.promo_type}[0]
+  end
+
+  def i18n_end_with
+    END_WITH_FOR_SELECT.find { |e| e[1] == self.end_with}[0]
+  end
+
 
 
   def except_attr_in_public_activity

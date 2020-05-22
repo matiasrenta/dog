@@ -27,7 +27,7 @@ class Product < ActiveRecord::Base
   #has_many :products, class_name: 'MixBoxDetail', foreign_key: :product_id # si este producto es una mix_box entonces tiene muchos (has_many) items
 
   #has_many :product_prices, inverse_of: :product, dependent: :delete_all
-  has_many :prices, as: :priceable, dependent: :delete_all
+  has_many :prices, -> { joins(:customer_category).order('customer_categories.order ASC') }, as: :priceable, dependent: :delete_all
   #accepts_nested_attributes_for :product_prices, update_only: true
   accepts_nested_attributes_for :prices
   accepts_nested_attributes_for :product_boxes, allow_destroy: true

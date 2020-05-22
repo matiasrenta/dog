@@ -19,92 +19,92 @@
           <div class="widget-body">
 
             <div class="form-group">
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.product') %></strong></label>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.name') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @promotion.name %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.product') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @promotion.product.try(:name) %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.box') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @promotion.box.try(:name) %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.expiration_date') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= l(@promotion.expiration_date, :format => :long) if @promotion.expiration_date %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.promo_type') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @promotion.i18n_promo_type %>
+                </div>
+              </div>
+
+              <% if @promotion.with_stock? %>
+                  <div class="row show-details">
+                    <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.quantity_start') %></strong></label>
+
                     <div class="col-lg-9 details-data">
-                                                                              <%= @promotion.product.try(:name) %>
-                                                                    </div>
+                      <%= @promotion.quantity_start %>
+                    </div>
                   </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.box') %></strong></label>
+                  <div class="row show-details">
+                    <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.quantity_available') %></strong></label>
+
                     <div class="col-lg-9 details-data">
-                                                                              <%= @promotion.box.try(:name) %>
-                                                                    </div>
+                      <%= @promotion.quantity_available %>
+                    </div>
                   </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.expiration_date') %></strong></label>
+              <% end %>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.from_date') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= l(@promotion.from_date, :format => :long) if @promotion.from_date %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.end_with') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= @promotion.i18n_end_with %>
+                </div>
+              </div>
+
+              <% if @promotion.end_with_date? %>
+                  <div class="row show-details">
+                    <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.to_date') %></strong></label>
                     <div class="col-lg-9 details-data">
-                                                <%= l(@promotion.expiration_date, :format => :long) if @promotion.expiration_date %>
-                                          </div>
+                      <%= l(@promotion.to_date, :format => :long) if @promotion.to_date %>
+                    </div>
                   </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.quantity_start') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                                              <%= @promotion.quantity_start %>
-                                                                    </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.quantity_available') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                                              <%= @promotion.quantity_available %>
-                                                                    </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.from_date') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= l(@promotion.from_date, :format => :long) if @promotion.from_date %>
-                                          </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.end_with') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= @promotion.end_with %>
-                                          </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.to_date') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= l(@promotion.to_date, :format => :long) if @promotion.to_date %>
-                                          </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.name') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= @promotion.name %>
-                                          </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.notes') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= @promotion.notes %>
-                                          </div>
-                  </div>
-                                                  <div class="row show-details">
-                    <label class="col-lg-3 col-md-4 control-label"><strong><%=t('simple_form.labels.defaults.promo_type') %></strong></label>
-                    <div class="col-lg-9 details-data">
-                                                <%= @promotion.promo_type %>
-                                          </div>
-                  </div>
-                          </div>
+              <% end %>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.notes') %></strong></label>
+
+                <div class="col-lg-9 details-data">
+                  <%= @promotion.notes %>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </article>
 
-    <!--
-    <article class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-      <div id="wid-id-1" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
-        <header><span class="widget-icon"><i class="fa fa-info"></i></span>
-          <h2>Details</h2>
-        </header>
-        <div class="no-padding">
-          <div class="widget-body">
+    <%= render 'products/index_prices' %>
 
-          </div>
-        </div>
-      </div>
-    </article>
-    -->
   </div>
 </section>
 

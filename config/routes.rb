@@ -14,8 +14,9 @@ Rails.application.routes.draw do
   resources :suppliers
   resources :orders, shallow: true do
     resources :order_details
-    get :ajax_get_product_info, on: :collection
-    get :ajax_get_stock, on: :collection
+    get :ajax_get_info_from_promotion, on: :collection
+    get :ajax_get_info_from_product, on: :collection
+    get :ajax_get_info_from_box, on: :collection
   end
 
   resources :customers, shallow: true do

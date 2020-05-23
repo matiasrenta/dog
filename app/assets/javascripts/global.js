@@ -33,8 +33,12 @@ $(document).on('nested:fieldAdded', function(event){
 function nested_select2(event){
     // this field was just inserted into your form
     var field = event.field;
+
     // ver el codigo fuente del gem simple_form_auto_select2 para ver las clases otras clases que se le pueden agregar (con ajax, mukltiple etc) (url en gemfile). o bien inspeccionar el elemento antes que se le aplique .select2()
     field.find(".auto-static-select2").select2({matcher: function(params, data) {return matchStart(params, data);}});
+
+    // esto es para ponerle background color. el problema es que le pone a todos los selects porque está en global.js
+    //field.find(".auto-static-select2").select2({matcher: function(params, data) {return matchStart(params, data);}, containerCssClass: 'custom-container', dropdownCssClass: 'custom-dropdown'});
 }
 
 // para que el select2 busque por OR operator. cada palabra que se escribe debe conisidir con cada inicio de palabra en el nombre del prducto
@@ -67,7 +71,6 @@ function nested_ajax_dropdown(event){
             params_string = params_string + ',' + $('#' + this.id).data("extraparams");
         }
 
-
         var obj = {};
 
         //parche para obtener el valor el product_id del order_detail form
@@ -80,8 +83,6 @@ function nested_ajax_dropdown(event){
 
         var paramsToRetrieve = params_string.split(',');
         //$('#' + this.id).data("parameter") === this.id;
-
-
 
         obj["the_id"] = $("#" + paramsToRetrieve[0]).val(); // solo por conveniencia algunas veces puede ser mejor desde rails obtener un id desde este param llamado "the_id", solo funciona para uno solo no para varios ids
         obj["the_this_html_id"] = this.id; // para lo que es nested form necesito el id de quien dispara el ajax, con ese id puedo conseguir los ids de los otros campos hermanos

@@ -13,10 +13,9 @@ $('#order_iva').change(function() {
 });
 
 
-// cuando se selecciona iva calcula el total_amount
-$('.box').change(function() {
-    quantity_in_the_box = this.closest('td').getElementsByClassName('quantity_in_the_box')[0].value
-});
+//$('.box').change(function() {
+//    quantity_in_the_box = this.closest('td').getElementsByClassName('quantity_in_the_box')[0].value
+//});
 
 // cuando cambio de caja limpio las cantidades y abilito/desabilito las cantidades
 $(document).on("change", ".box", function() {
@@ -77,3 +76,7 @@ function calculate_total_amount(){
 $('#order_customer_id').dynamicSelectable();
 //$('[data-dynamic-selectable-url][data-dynamic-selectable-target]').dynamicSelectable();
 
+$('#order_customer_id').select2({
+    containerCssClass: "matutecon",
+    dropdownCssClass: "matutondrop",
+});

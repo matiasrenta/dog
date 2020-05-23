@@ -14,7 +14,27 @@ class Promotion < ActiveRecord::Base
   belongs_to :box
   belongs_to :product
   has_many :prices, -> { joins(:customer_category).order('customer_categories.order ASC') }, as: :priceable, dependent: :delete_all
+  has_many :order_details, dependent: :restrict_with_error
   accepts_nested_attributes_for :prices
+
+  scope :published, -> {where(published: true)}
+  scope :from_date_has_past, -> {where('from_date >= ?', Date.today)}
+  scope :to_date_doesnt_has_past, -> {where('to_date IS NOT NULL AND to_date >= ?', Date.today)}
+
+  scope :into_from_to_dates, -> {from_date_has_past.to_date_doesnt_has_past}
+
+  scope :end_with_date, -> {where(end_with: END_WITH_DATE)}
+  scope :end_with_stock, -> {where(end_with: END_WITH_STOCK)}
+  scope :end_with_endless, -> {where(end_with: END_WITH_ENDLESS)}
+  scope :promo_type_with_stock, -> {where(promo_type: PROMO_TYPE_WITH_STOCK)}
+  scope :promo_type_without_stock, -> {where(promo_type: PROMO_TYPE_WITHOUT_STOCK)}
+
+  scope :with_stock_available_stock, ->{promo_type_with_stock.where('quantity_available IS NOT NULL AND quantity_available > 0')}
+  scope :without_stock_available_stock, ->{promo_type_without_stock} # hay que pensar el join con Inventory para ver si exists and is bigger than 0
+
+  #scope :actives_end_with_date,
+
+  scope :actives, -> {published}
 
   PROMO_TYPE_WITH_STOCK = 'WITH_STOCK'
   PROMO_TYPE_WITHOUT_STOCK = 'WITHOUT_STOCK'
@@ -45,6 +65,11 @@ class Promotion < ActiveRecord::Base
 
   def i18n_end_with
     END_WITH_FOR_SELECT.find { |e| e[1] == self.end_with}[0]
+  end
+
+  def stock_available(box_id)
+    #todo:  si es con stoc propioandar ese stock sino el del product/box
+    Inventory.stock_available(self.id, box_id)
   end
 
 

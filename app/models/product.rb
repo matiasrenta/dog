@@ -16,7 +16,6 @@ class Product < ActiveRecord::Base
   #has_and_belongs_to_many :boxes, join_table: 'boxes_products'
   has_many :product_boxes, dependent: :destroy
   has_many :boxes, through: :product_boxes
-  has_many :order_details #NO VEO LA UTILIDAD DE ESTE LADO DE LA RELACION. CREO QUE NUNCA LA USARÉ
   has_many :inventories, dependent: :restrict_with_error
 
   # mix_box_details es la relacion tipo Factura - Detalle. En este caso el producto es la Mix Box
@@ -28,6 +27,8 @@ class Product < ActiveRecord::Base
 
   #has_many :product_prices, inverse_of: :product, dependent: :delete_all
   has_many :prices, -> { joins(:customer_category).order('customer_categories.order ASC') }, as: :priceable, dependent: :delete_all
+  has_many :order_details, dependent: :restrict_with_error
+
   #accepts_nested_attributes_for :product_prices, update_only: true
   accepts_nested_attributes_for :prices
   accepts_nested_attributes_for :product_boxes, allow_destroy: true
@@ -85,6 +86,9 @@ class Product < ActiveRecord::Base
     [:id, :updated_at]
   end
 
+  def stock_available(box_id)
+    Inventory.stock_available(self.id, box_id)
+  end
 
   def calculate_price(instance)
     self.total_cost + (self.total_cost * (instance.total_profit_percent / 100))

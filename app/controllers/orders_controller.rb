@@ -50,46 +50,73 @@ class OrdersController < ApplicationController
     end
   end
 
-  def ajax_get_product_info
+  def ajax_get_info_from_promotion
     unless params[:the_id].blank? || params[:order].blank? || params[:order][:customer_id].blank?
-      @product = Product.find params[:the_id] if !@product # cuando lo llamo desde "ajax_get_stock" ya está seteado @product
-      if !@stock_available && @product.boxes.size == 1
-        @stock_available = Inventory.stock_available(@product.id, @product.boxes.first.id)
-      end
+      @promotion = Promotion.find params[:the_id]
+      @product = @promotion.product
+      @stock_available = @product.stock_available(@promotion.box_id)
       customer = Customer.find params[:order][:customer_id]
-      @unit_price = @product.prices.where(customer_category_id: customer.customer_category_id).first.price
-
-      if params[:the_this_html_id].include?("order_order_details_attributes")
-        #debo de obtener el id del dropdown que tiene los horarios, se diferencian por el nro, son del tipo:
-        #para el new: patient_therapies_attributes_1400520810110_therapist_schedule_ids
-        #para el edit: patient_therapies_attributes_1_therapist_schedule_ids
-
-        # order_order_details_attributes_1587229395946_product_id
-        params[:the_this_html_id].split('_').each do |the_number|
-          tn = the_number.to_i
-          entity = "order_details"
-          @box_id_html_input_id = "#order_#{entity}_attributes_#{tn}_box_id" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
-          @quantity_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
-          @quantity_units_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity_units" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
-          @unit_price_html_input_id = "#order_#{entity}_attributes_#{tn}_unit_price" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
-          @stock_at_create_html_input_id = "#order_#{entity}_attributes_#{tn}_stock_at_create" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
-        end
-      end
+      @unit_price = @promotion.prices.where(customer_category_id: customer.customer_category_id).first.price
     end
+    set_html_ids
   end
 
-  def ajax_get_stock
-    @product = Product.find params[:the_product_id]
-    @box = Box.find_by_quantity params[:the_id] # chapusa, parche, porque no supe resolvero un un json en un hidden. este id en realidad es la cantidad que tiene la caja
-    @stock_available = Inventory.stock_available(@product.id, @box.id)
-    ajax_get_product_info
-    render 'ajax_get_product_info'
+  def ajax_get_info_from_product
+    unless params[:the_id].blank? || params[:order].blank? || params[:order][:customer_id].blank?
+      @product = Product.find params[:the_id]
+      if @product.boxes.size == 1
+        @box = @product.boxes.first
+        @stock_available = @product.stock_available(@box)
+      end
+
+      customer = Customer.find params[:order][:customer_id]
+      @unit_price = @product.prices.where(customer_category_id: customer.customer_category_id).first.price
+    end
+    set_html_ids
+  end
+
+  def ajax_get_info_from_box
+    unless params[:the_id].blank? || params[:the_product_id].blank?
+      @product = Product.find params[:the_product_id]
+      @box = Box.find_by_quantity params[:the_id] # chapusa, parche, porque no supe resolvero un un json en un hidden. este id en realidad es la cantidad que tiene la caja
+      @stock_available = @product.stock_available(@box.id)
+      customer = Customer.find params[:order][:customer_id]
+      @unit_price = @product.prices.where(customer_category_id: customer.customer_category_id).first.price
+      set_html_ids
+    end
+    set_html_ids
   end
 
   private
 
-    # Only allow a trusted parameter "white list" through.
-    def order_params
-      params.require(:order).permit(:customer_id, :customer_branch_id, :user_id, :iva, :total_amount, :status, :delivery_date, {order_details_attributes: [:_destroy, :id, :product_id, :box_id, :quantity, :quantity_units, :unit_price, :stock_at_create, :subtotal]})
+  def set_html_ids
+    if params[:the_this_html_id].include?("order_order_details_attributes")
+      #debo de obtener el id del dropdown que tiene los horarios, se diferencian por el nro, son del tipo:
+      #para el new: patient_therapies_attributes_1400520810110_therapist_schedule_ids
+      #para el edit: patient_therapies_attributes_1_therapist_schedule_ids
+
+      # order_order_details_attributes_1587229395946_product_id
+      params[:the_this_html_id].split('_').each do |the_number|
+        tn = the_number.to_i
+        entity = "order_details"
+        @product_id_html_input_id = "#order_#{entity}_attributes_#{tn}_product_id" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
+        @box_id_html_input_id = "#order_#{entity}_attributes_#{tn}_box_id" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
+        @quantity_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
+        @quantity_units_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity_units" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
+        @unit_price_html_input_id = "#order_#{entity}_attributes_#{tn}_unit_price" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
+        @stock_at_create_html_input_id = "#order_#{entity}_attributes_#{tn}_stock_at_create" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
+        @subtotal_html_input_id = "#order_#{entity}_attributes_#{tn}_subtotal" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
+      end
     end
+  end
+
+
+  # Only allow a trusted parameter "white list" through.
+  def order_params
+    params.require(:order).permit(:customer_id, :customer_branch_id, :user_id, :iva, :total_amount, :status, :delivery_date,
+                                  {order_details_attributes: [:_destroy, :id, :product_id, :promotion_id, :box_id, :quantity, :quantity_units, :unit_price, :stock_at_create, :subtotal]})
+  end
+
+
+
 end

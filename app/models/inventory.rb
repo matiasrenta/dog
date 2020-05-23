@@ -41,9 +41,9 @@ class Inventory < ActiveRecord::Base
 
   def self.update_stock(entity, data = {event: nil, reason: nil, expiration_date: nil})
     if data[:event] == InventoryEvent::EVENT_ADD && InventoryEvent::ADD_REASONS.include?(data[:reason])
-      add(entity, data)
+      add(data)
     elsif data[:event] == InventoryEvent::EVENT_REMOVE && InventoryEvent::REMOVE_REASONS.include?(data[:reason])
-      remove(entity, data)
+      remove(data)
     elsif data[:event] == InventoryEvent::EVENT_ADJUST && InventoryEvent::ADJUST_REASONS.include?(data[:reason])
       adjust(entity, data)
     elsif data[:event] == InventoryEvent::EVENT_CONVERT && InventoryEvent::CONVERT_REASONS.include?(data[:reason])
@@ -51,6 +51,7 @@ class Inventory < ActiveRecord::Base
     else
       raise(I18n.t('activerecord.errors.models.inventory_event.attributes.event.reason_not_matching'))
     end
+    
 
     #InventoryEvent.handle_event_creation(event: data[:event],
     #                                     reason: data[:reason],
@@ -81,17 +82,17 @@ class Inventory < ActiveRecord::Base
   private
 
   # ADD
-  def self.add(entity, data = {})
-    inventory = get_or_initialize_inventory(entity.product_id, entity.box_id, data[:expiration_date])
-    inventory.quantity_available = inventory.quantity_available + entity.quantity
+  def self.add(data)
+    inventory = get_or_initialize_inventory(data[:product_id], data[:box_id], data[:expiration_date])
+    inventory.quantity_available = inventory.quantity_available + data[:quantity]
     inventory.save
   end
 
   # REMOVE
-  def self.remove(entity, data = {})
+  def self.remove(data)
     if data[:expiration_date].present?
-      inventory = get_or_initialize_inventory(entity.product_id, entity.box_id, data[:expiration_date])
-      quantity_to_remove = entity.quantity
+      inventory = get_or_initialize_inventory(data[:product_id], data[:box_id], data[:expiration_date])
+      quantity_to_remove = data[:quantity]
       if inventory.quantity_available >= quantity_to_remove
         inventory.quantity_available = inventory.quantity_available - quantity_to_remove
         inventory.save
@@ -100,12 +101,12 @@ class Inventory < ActiveRecord::Base
       end
     else
       # si no se pasa un expiration_date entonces puede que sean muchos inventories (InventoryGroup)
-      inventory_group = InventoryGroup.new(product_id: entity.product_id, box_id: entity.box_id)
-      quantity_to_remove = entity.quantity
+      inventory_group = InventoryGroup.new(product_id: data[:product_id], box_id: data[:box_id])
+      quantity_to_remove = data[:quantity]
       if inventory_group.quantity_available >= quantity_to_remove
         inventory_group.fefo_remove(quantity_to_remove)
       else
-        raise("no hay stock suficiente. Stock actual: #{inventory_group.quantity_available} #{entity.box.name}")
+        raise("no hay stock suficiente. Stock actual: #{inventory_group.quantity_available} #{Box.find(data[:box_id]).name}")
       end
     end
   end

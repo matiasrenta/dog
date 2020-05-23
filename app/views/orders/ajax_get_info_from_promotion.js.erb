@@ -1,0 +1,17 @@
+
+$("<%= @product_id_html_input_id %>").select2('data', {id: '<%= @product.id%>', text: '<%= "#{@product.code} #{@product.name}"%>'});
+
+<% options = options_select_for_box(@product) %>
+$("<%= @box_id_html_input_id %>").html('<%= raw options_for_select(options).gsub(/\n/, '') %>');
+$("<%= @box_id_html_input_id %>").val('<%= @promotion.box.quantity %>');
+
+$('<%=@unit_price_html_input_id%>').val(<%= @unit_price %>);
+$('<%=@stock_at_create_html_input_id%>').val(<%= @stock_available %>);
+$('<%=@quantity_html_input_id%>').val('');
+$('<%=@quantity_units_html_input_id%>').val('');
+$('<%=@subtotal_html_input_id%>').val('');
+
+$('<%=@quantity_html_input_id%>').attr('readonly', false);
+$('<%=@box_id_html_input_id%>').attr('disabled', true);
+$('<%=@product_id_html_input_id%>').attr('disabled', true);
+

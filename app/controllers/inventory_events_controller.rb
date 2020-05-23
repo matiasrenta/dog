@@ -20,22 +20,12 @@ class InventoryEventsController < ApplicationController
 
   # POST /inventory_events
   def create
-    if @inventory_event.valid?
-      #ret = Inventory.add(@inventory_event, {expiration_date: @inventory_event.expiration_date.present? ? @inventory_event.expiration_date : nil})
-      ret = Inventory.update_stock(@inventory_event, {event: @inventory_event.event, reason: @inventory_event.reason, expiration_date: @inventory_event.expiration_date} )
+    if @inventory_event.save
       redirect_to inventories_path, notice: t("simple_form.flash.successfully_created")
     else
       generate_flash_msg_no_keep(@inventory_event)
       render :new
     end
-
-    #if @inventory_event.save
-    #  redirect_to @inventory_event, notice: t("simple_form.flash.successfully_created")
-    #else
-    #  puts "@@@@@@@@@@@@@@@@@@@@@@ #{@inventory_event.errors.full_messages}"
-    #  generate_flash_msg_no_keep(@inventory_event)
-    #  render :new
-    #end
   end
 
   # PATCH/PUT /inventory_events/1

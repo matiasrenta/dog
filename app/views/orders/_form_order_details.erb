@@ -1,4 +1,5 @@
 <% f = locals[:f] %>
+
 <div class="form-group">
   <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('activerecord.models.product.other') %></label>
 
@@ -10,14 +11,21 @@
               <td colspan="4">
                 <table width="100%">
                   <% if order_detail_form.object.new_record? %>
+                      <% if Promotion.actives.count > 0 %>
+                          <tr>
+                            <td colspan="3" style="padding-bottom: 10px;">
+                              <%= order_detail_form.association :promotion, as: :select2, collection: options_select_for_promotion, wrapper: :clean, placeholder: 'Promociones', input_html: {style: 'max-width:100%;', data: {s2: {limit: 10}}, class: [:ajax_dropdown], data: {url: '/orders/ajax_get_info_from_promotion', extraparams: 'order_customer_id'}} %>
+                            </td>
+                          </tr>
+                      <% end %>
                       <tr>
                         <td colspan="3" style="padding-bottom: 10px;">
-                          <%= order_detail_form.association :product, as: :select2, collection: Product.code_and_name, wrapper: :clean, placeholder: 'Buscar', input_html: {style: 'max-width:100%;', data: {s2: {limit: 10}}, class: [:enable_me, :ajax_dropdown], data: {url: '/orders/ajax_get_product_info', extraparams: 'order_customer_id'}} %>
+                          <%= order_detail_form.association :product, as: :select2, collection: options_select_for_product, wrapper: :clean, placeholder: 'Productos', input_html: {style: 'max-width:100%;', data: {s2: {limit: 10}}, class: [:ajax_dropdown], data: {url: '/orders/ajax_get_info_from_product', extraparams: 'order_customer_id'}} %>
                         </td>
                       </tr>
                       <tr>
                         <td style="padding: 0px 10px 10px 0px;">
-                          <%= order_detail_form.association :box, collection: order_detail_form.object.product_id.blank? ? [] : options_select_for_box(order_detail_form.object.product), wrapper: :clean, placeholder: 'Elejir Caja', allow_blank: false, input_html: {style: 'max-width:100%;', class: [:box, :ajax_dropdown], data: {url: '/orders/ajax_get_stock', findproductid: 'true', extraparams: 'order_customer_id'}} %>
+                          <%= order_detail_form.association :box, collection: order_detail_form.object.product_id.blank? ? [] : options_select_for_box(order_detail_form.object.product), wrapper: :clean, placeholder: 'Elejir Caja', allow_blank: false, input_html: {style: 'max-width:100%;', class: [:box, :ajax_dropdown], data: {url: '/orders/ajax_get_info_from_box', findproductid: 'true', extraparams: 'order_customer_id'}} %>
                         </td>
                         <td><%= order_detail_form.input :quantity, placeholder: t('simple_form.labels.defaults.quantity'), wrapper: :clean, input_html: {class: :quantity, style: 'margin-bottom: 10px;'} %></td>
                         <td><%= order_detail_form.input :stock_at_create, placeholder: t('simple_form.labels.defaults.stock'), wrapper: :clean, input_html: {readonly: true, style: 'margin-bottom: 10px;'} %></td>
@@ -64,3 +72,5 @@
     </div>
   </div>
 </div>
+
+

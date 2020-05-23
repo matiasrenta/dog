@@ -78,7 +78,7 @@ class OrdersController < ApplicationController
   def ajax_get_info_from_box
     unless params[:the_id].blank? || params[:the_product_id].blank?
       @product = Product.find params[:the_product_id]
-      @box = Box.find_by_quantity params[:the_id] # chapusa, parche, porque no supe resolvero un un json en un hidden. este id en realidad es la cantidad que tiene la caja
+      @box = Box.find params[:the_id]
       @stock_available = @product.stock_available(@box.id)
       customer = Customer.find params[:order][:customer_id]
       @unit_price = @product.prices.where(customer_category_id: customer.customer_category_id).first.price
@@ -101,6 +101,7 @@ class OrdersController < ApplicationController
         entity = "order_details"
         @product_id_html_input_id = "#order_#{entity}_attributes_#{tn}_product_id" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
         @box_id_html_input_id = "#order_#{entity}_attributes_#{tn}_box_id" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
+        @quantity_in_the_box_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity_in_the_box" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
         @quantity_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
         @quantity_units_html_input_id = "#order_#{entity}_attributes_#{tn}_quantity_units" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
         @unit_price_html_input_id = "#order_#{entity}_attributes_#{tn}_unit_price" if tn != 0 || the_number == "0" # este if tiene sentido aunque parezca que no. tn puede ser cero porque no hay numeros en the_number al hacer the_number.to_i
@@ -114,7 +115,7 @@ class OrdersController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def order_params
     params.require(:order).permit(:customer_id, :customer_branch_id, :user_id, :iva, :total_amount, :status, :delivery_date,
-                                  {order_details_attributes: [:_destroy, :id, :product_id, :promotion_id, :box_id, :quantity, :quantity_units, :unit_price, :stock_at_create, :subtotal]})
+                                  {order_details_attributes: [:_destroy, :id, :product_id, :promotion_id, :box_id, :quantity_in_the_box, :quantity, :quantity_units, :unit_price, :stock_at_create, :subtotal]})
   end
 
 

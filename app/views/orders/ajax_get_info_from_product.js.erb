@@ -2,13 +2,15 @@
 $("<%= @box_id_html_input_id %>").html('<%= raw options_for_select(options).gsub(/\n/, '') %>');
 
 <% if @box %>
-    $("<%= @box_id_html_input_id %>").val('<%= @box.quantity %>');
+    $("<%= @box_id_html_input_id %>").val('<%= @box.id %>');
+    $("<%= @quantity_in_the_box_html_input_id %>").val('<%= @box.quantity %>');
 
     $('<%=@stock_at_create_html_input_id%>').val('<%= @stock_available %>');
     $('<%=@unit_price_html_input_id%>').val('<%= @unit_price %>');
 <% else %>
     $('<%=@stock_at_create_html_input_id%>').val('');
     $('<%=@unit_price_html_input_id%>').val('');
+    $("<%= @quantity_in_the_box_html_input_id %>").val('');
 <% end %>
 
 $('<%=@quantity_html_input_id%>').val('');

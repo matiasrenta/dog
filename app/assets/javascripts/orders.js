@@ -15,39 +15,11 @@ $('#order_iva').change(function() {
     calculate_total_amount();
 });
 
-
-//$('.box').change(function() {
-//    quantity_in_the_box = this.closest('td').getElementsByClassName('quantity_in_the_box')[0].value
-//});
-
-// cuando cambio de caja limpio las cantidades y abilito/desabilito las cantidades
-$(document).on("change", ".box", function() {
-    box_value = this.value;
-    quantity_element = this.closest('tr').getElementsByClassName('quantity')[0];
-    quantity_units_element = this.closest('table').getElementsByClassName('quantity_units')[0];
-
-    quantity_element.value = '';
-    quantity_units_element.value = '';
-    this.closest('table').getElementsByClassName('subtotal')[0].value = '';
-    calculate_total_amount();
-
-    if (box_value == '' || parseInt(box_value) > 0){
-        quantity_units_element.readOnly = true;
-        quantity_element.readOnly = false;
-    }
-    else{
-        quantity_element.readOnly = true;
-        quantity_units_element.readOnly = false;
-    }
-});
-
-
-// cuando ingreso cantidad de cajas calculo la cantidad de unidades
+// cuando ingreso cantidad de cajas calculo la cantidad de unidades y luego subtotal y total
 $(document).on("input", ".quantity", function() {
     quantity_units_element = this.closest('table').getElementsByClassName('quantity_units')[0];
-    box_value = parseInt( this.closest('table').getElementsByClassName('box')[0].value );
-    quantity_units_element.value = box_value * parseInt(this.value);
-    //quantity_units_element.trigger("input");
+    quantity_in_the_box = parseInt( $(this.closest('table')).find($("[id$='_quantity_in_the_box']"))[0].value );
+    quantity_units_element.value = quantity_in_the_box * parseInt(this.value);
     var subtotal = parseFloat(quantity_units_element.closest('table').getElementsByClassName('unit_price')[0].value) * parseInt(quantity_units_element.value);
     this.closest('table').getElementsByClassName('subtotal')[0].value = subtotal;
     calculate_total_amount();
@@ -79,7 +51,3 @@ function calculate_total_amount(){
 $('#order_customer_id').dynamicSelectable();
 //$('[data-dynamic-selectable-url][data-dynamic-selectable-target]').dynamicSelectable();
 
-$('#order_customer_id').select2({
-    containerCssClass: "matutecon",
-    dropdownCssClass: "matutondrop",
-});

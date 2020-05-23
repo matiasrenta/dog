@@ -21,6 +21,11 @@ function export_list() {
 };
 
 
+function select2_with_or_matcher(){
+    // ver el codigo fuente del gem simple_form_auto_select2 para ver las clases otras clases que se le pueden agregar (con ajax, mukltiple etc) (url en gemfile). o bien inspeccionar el elemento antes que se le aplique .select2()
+    $(document).find(".select2_with_matcher_or").select2({matcher: function(params, data) {return matchStart(params, data);}});
+}
+
 
 // Para agregar funcionalidad javascript a los fieds_added en nested forms. como ajax_dropdown, select2 o cualquier otro deberian ir todos aquí
 $(document).on('nested:fieldAdded', function(event){
@@ -56,7 +61,36 @@ function nested_ajax_dropdown(event){
     // this field was just inserted into your form
     var field = event.field;
     // it's a jQuery object already! Now you can find date input
-    var dropdown_field = field.find('.ajax_dropdown');
+    ajax_dropdown(field);
+
+    // lo mismo que la de arriba con .ajax_dropdown, pero esta es para checkbox, solo cambia cuando asigna "obj["is_checked"] = xxxxxxx". Debería solo mejorar la funcion anterior preguntando que si el elemento es un checkbox entonces setear este parametro
+    var checkbox_field = field.find('.ajax_checkbox');
+    checkbox_field.change(function() {
+        var params_string = $('#' + this.id).data('parameter');
+        if (params_string == undefined){
+            params_string = this.id
+        }
+
+        var paramsToRetrieve = params_string.split(',');
+        var obj = {};
+        for (var i = 0; i < paramsToRetrieve.length; i++){
+            var paramSelector = "#" + $.trim(paramsToRetrieve[i]);
+            obj[$(paramSelector).attr('name')] = $(paramSelector).val(); // aqui pongo como debe de ser el nombre del parametro
+            obj["is_checked"] = $("#" + this.id).attr('checked') ? "1" : "0"
+            obj["the_this_html_id"] = this.id; // para lo que es nested form necesito el id de quien dispara el ajax, con ese id puedo conseguir los ids de los otros campos hermanos
+        }
+
+        $.ajax({url: this.getAttribute("data-url"),
+            data: obj,
+            dataType: 'script'})
+    });
+}
+
+
+
+
+function ajax_dropdown(field_or_document){
+    var dropdown_field = field_or_document.find('.ajax_dropdown');
     // and activate datepicker on it
     dropdown_field.change(function() {
         $('input[type=submit]').attr('disabled', true);
@@ -97,25 +131,4 @@ function nested_ajax_dropdown(event){
             dataType: 'script'})
     });
 
-    // lo mismo que la de arriba con .ajax_dropdown, pero esta es para checkbox, solo cambia cuando asigna "obj["is_checked"] = xxxxxxx". Debería solo mejorar la funcion anterior preguntando que si el elemento es un checkbox entonces setear este parametro
-    var checkbox_field = field.find('.ajax_checkbox');
-    checkbox_field.change(function() {
-        var params_string = $('#' + this.id).data('parameter');
-        if (params_string == undefined){
-            params_string = this.id
-        }
-
-        var paramsToRetrieve = params_string.split(',');
-        var obj = {};
-        for (var i = 0; i < paramsToRetrieve.length; i++){
-            var paramSelector = "#" + $.trim(paramsToRetrieve[i]);
-            obj[$(paramSelector).attr('name')] = $(paramSelector).val(); // aqui pongo como debe de ser el nombre del parametro
-            obj["is_checked"] = $("#" + this.id).attr('checked') ? "1" : "0"
-            obj["the_this_html_id"] = this.id; // para lo que es nested form necesito el id de quien dispara el ajax, con ese id puedo conseguir los ids de los otros campos hermanos
-        }
-
-        $.ajax({url: this.getAttribute("data-url"),
-            data: obj,
-            dataType: 'script'})
-    });
 }

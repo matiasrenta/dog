@@ -1,3 +1,6 @@
+select2_with_or_matcher();
+ajax_dropdown($(document));
+
 // cuando elimino un item del formulario calculo el total_amount
 $(document).on('nested:fieldRemoved', function(event){
     // this field was just removed from your form

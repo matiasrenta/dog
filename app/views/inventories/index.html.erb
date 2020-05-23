@@ -26,7 +26,7 @@
                     <div class="row">
                       <div class="col-md-3 col-sm-6 col-xs-12">
                         <label for="q[product_id_cont]"><%= t('simple_form.labels.defaults.product') %></label>
-                        <%= f.select :product_id_eq, options_for_select(Product.code_and_name, @q.product_id_eq), {include_blank: true}, {class: "form-control input-sm auto-static-select2"} %>
+                        <%= f.select :product_id_eq, options_for_select(Product.code_and_name, @q.product_id_eq), {include_blank: true}, {class: "form-control input-sm select2_with_matcher_or"} %>
                       </div>
                       <div class="col-md-3 col-sm-6 col-xs-12">
                         <label for="q[box_id_cont]"><%= t('simple_form.labels.defaults.box') %></label>
@@ -160,3 +160,6 @@
   </div>
 </section>
 
+<script>
+    select2_with_or_matcher();
+</script>

@@ -14,7 +14,7 @@
                       <% if Promotion.actives.count > 0 %>
                           <tr>
                             <td colspan="3" style="padding-bottom: 10px;">
-                              <%= order_detail_form.association :promotion, as: :select2, collection: options_select_for_promotion, wrapper: :clean, placeholder: 'Promociones', input_html: {style: 'max-width:100%;', data: {s2: {limit: 10}}, class: [:ajax_dropdown], data: {url: '/orders/ajax_get_info_from_promotion', extraparams: 'order_customer_id'}} %>
+                              <%= order_detail_form.association :promotion, as: :select2, collection: options_select_for_promotion, wrapper: :clean, placeholder: 'Promociones', input_html: {style: 'max-width:100%;', data: {s2: {limit: 10}}, class: [:select2_with_matcher_or, :ajax_dropdown], data: {url: '/orders/ajax_get_info_from_promotion', extraparams: 'order_customer_id'}} %>
                             </td>
                           </tr>
                       <% end %>

@@ -51,7 +51,7 @@ class Inventory < ActiveRecord::Base
     else
       raise(I18n.t('activerecord.errors.models.inventory_event.attributes.event.reason_not_matching'))
     end
-    
+
 
     #InventoryEvent.handle_event_creation(event: data[:event],
     #                                     reason: data[:reason],

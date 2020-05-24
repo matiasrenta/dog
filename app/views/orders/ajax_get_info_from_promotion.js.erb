@@ -1,5 +1,4 @@
-
-$("<%= @product_id_html_input_id %>").select2('data', {id: '<%= @product.id%>', text: '<%= "#{@product.code} #{@product.name}"%>'});
+$("<%= @product_id_html_input_id %>").select2('data', {id: '<%= @product.id %>', text: '<%= "#{@product.code} #{@product.name}"%>'});
 
 <% options = options_select_for_box(@product) %>
 $("<%= @box_id_html_input_id %>").html('<%= raw options_for_select(options).gsub(/\n/, '') %>');

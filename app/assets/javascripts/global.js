@@ -43,7 +43,7 @@ function nested_select2(event){
     field.find(".select2_with_matcher_or").select2({matcher: function(params, data) {return matchStart(params, data);}});
 
     // esto es para ponerle background color. el problema es que le pone a todos los selects porque está en global.js
-    //field.find(".auto-static-select2").select2({matcher: function(params, data) {return matchStart(params, data);}, containerCssClass: 'custom-container', dropdownCssClass: 'custom-dropdown'});
+    field.find(".select2_with_matcher_or_and_background").select2({matcher: function(params, data) {return matchStart(params, data);}, containerCssClass: 'custom-container', dropdownCssClass: 'custom-dropdown'});
 }
 
 // para que el select2 busque por OR operator. cada palabra que se escribe debe conisidir con cada inicio de palabra en el nombre del prducto

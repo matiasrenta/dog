@@ -1,6 +1,15 @@
 select2_with_matcher_or();
 ajax_dropdown($(document));
 
+$('#order_customer_id').on('change', function(event){
+    if (this.value == ''){
+        $("#div_link_to_add").css('display', 'none');
+    }
+    else{
+        $("#div_link_to_add").css('display', 'block');
+    }
+});
+
 // cuando elimino un item del formulario calculo el total_amount
 $(document).on('nested:fieldRemoved', function(event){
     // this field was just removed from your form

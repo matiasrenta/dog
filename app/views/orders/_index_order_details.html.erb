@@ -48,17 +48,19 @@
         <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
           <thead>
           <tr>
-            <th class='all control'><%= sort_link(@q, :product_id, t('simple_form.labels.defaults.product')) %></th>
-            <th><%= sort_link(@q, :box_name, t('activerecord.models.box.one')) %></th>
-            <th><%= sort_link(@q, :quantity, t('simple_form.labels.defaults.quantity')) %></th>
-            <th><%= sort_link(@q, :quantity_units, t('simple_form.labels.defaults.quantity_units')) %></th>
-            <th><%= sort_link(@q, :unit_price, t('simple_form.labels.defaults.unit_price')) %></th>
-            <th><%= sort_link(@q, :subtotal, t('simple_form.labels.defaults.subtotal')) %></th>
+            <th class='all control'><%= t('activerecord.models.promotion.one') %></th>
+            <th class='all control'><%= t('simple_form.labels.defaults.product') %></th>
+            <th><%= t('activerecord.models.box.one') %></th>
+            <th><%= t('simple_form.labels.defaults.quantity') %></th>
+            <th><%= t('simple_form.labels.defaults.quantity_units') %></th>
+            <th><%= t('simple_form.labels.defaults.unit_price') %></th>
+            <th><%= t('simple_form.labels.defaults.subtotal') %></th>
           </tr>
           </thead>
           <tbody>
           <% @order_details.each do |order_detail| %>
               <tr>
+                <td><%= order_detail.promotion.try(:name) %></td>
                 <td><%= order_detail.product.try(:name) %></td>
                 <td><%= order_detail.box.try(:name) %></td>
                 <td align='right'><%= order_detail.quantity %></td>
@@ -69,9 +71,6 @@
           <% end %>
           </tbody>
         </table>
-        <div class="widget-footer">
-          <%= render 'shared/pagination', locals: {target: @order_details, model_index_path: order_order_details_path(@order)} %>
-        </div>
       </div>
     </div>
   </div>

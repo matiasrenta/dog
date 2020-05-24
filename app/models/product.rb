@@ -86,8 +86,8 @@ class Product < ActiveRecord::Base
     [:id, :updated_at]
   end
 
-  def stock_available(box_id)
-    Inventory.stock_available(self.id, box_id)
+  def stock_available(box_id, expiration_date = nil)
+    Inventory.stock_available(self.id, box_id, expiration_date)
   end
 
   def calculate_price(instance)

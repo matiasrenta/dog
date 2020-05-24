@@ -17,6 +17,8 @@ class Promotion < ActiveRecord::Base
   has_many :order_details, dependent: :restrict_with_error
   accepts_nested_attributes_for :prices
 
+  attr_accessor :actual_stock
+
   scope :published, -> {where(published: true)}
   scope :from_date_has_past, -> {where('from_date >= ?', Date.today)}
   scope :to_date_doesnt_has_past, -> {where('to_date IS NOT NULL AND to_date >= ?', Date.today)}
@@ -50,6 +52,15 @@ class Promotion < ActiveRecord::Base
   validates :product_id, :box_id, :from_date, :end_with, :name, :promo_type, :product_total_cost, presence: true
   validates :product_id, :box_id, :product_total_cost, numericality: true
 
+  validates :quantity_start, presence: true, if: -> {with_stock?}
+  validates :quantity_start, numericality: true, if: -> {quantity_start.present?}
+  validates :quantity_available, numericality: true, if: -> {quantity_available.present?}
+  validates :to_date, presence: { message: 'Si finaliza con fecha debe ingresar esa fecha' }, if: -> {end_with_date?}
+
+
+  before_create do
+    self.quantity_available = self.quantity_start
+  end
 
   def with_stock?
     self.promo_type == PROMO_TYPE_WITH_STOCK
@@ -67,12 +78,14 @@ class Promotion < ActiveRecord::Base
     END_WITH_FOR_SELECT.find { |e| e[1] == self.end_with}[0]
   end
 
-  def stock_available(box_id)
+  def stock_available
     #todo:  si es con stoc propioandar ese stock sino el del product/box
-    Inventory.stock_available(self.id, box_id)
+    if with_stock?
+      self.quantity_available
+    else
+      self.product.stock_available(self.box_id, self.expiration_date)
+    end
   end
-
-
 
   def except_attr_in_public_activity
     [:id, :updated_at]

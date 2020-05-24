@@ -124,6 +124,7 @@ es:
         from_date: 'Desde'
         to_date: 'Hasta'
         quantity_units: 'Cant. unidades'
+        quantity_start: 'Cantidad inicial'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

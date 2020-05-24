@@ -52,12 +52,12 @@ class InventoryEvent < ActiveRecord::Base
   validates :quantity, :product_id, :box_id, numericality: true
 
   before_create do
-    Inventory.update_stock(nil, {product_id: @inventory_event.product_id,
-                                     box_id: @inventory_event.box_id,
-                                   quantity: @inventory_event.quantity,
-                                      event: @inventory_event.event,
-                                     reason: @inventory_event.reason,
-                            expiration_date: @inventory_event.expiration_date} )
+    Inventory.update_stock({product_id: self.product_id,
+                                box_id: self.box_id,
+                              quantity: self.quantity,
+                                 event: self.event,
+                                reason: self.reason,
+                       expiration_date: self.expiration_date} )
   end
 
 

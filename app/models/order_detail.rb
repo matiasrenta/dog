@@ -38,22 +38,22 @@ class OrderDetail < ActiveRecord::Base
       errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
       false
     else
-      Inventory.update_stock(nil, {product_id: self.product_id,
-                                   box_id: self.box_id,
-                                   quantity: self.quantity,
-                                   event: InventoryEvent::EVENT_REMOVE,
-                                   reason: InventoryEvent::REASON_SALE})
+      Inventory.update_stock({product_id: self.product_id,
+                               box_id: self.box_id,
+                               quantity: self.quantity,
+                               event: InventoryEvent::EVENT_REMOVE,
+                               reason: InventoryEvent::REASON_SALE})
       true
     end
   end
 
   after_destroy do
     # agrego al stock lo que se quitó cuando se creó esta entidad
-    Inventory.update_stock(nil, {product_id: self.product_id,
-                                  box_id: self.box_id,
-                                  quantity: self.quantity,
-                                  event: InventoryEvent::EVENT_ADD,
-                                  reason: InventoryEvent::REASON_ORDER_DESTROY})
+    Inventory.update_stock({product_id: self.product_id,
+                            box_id: self.box_id,
+                            quantity: self.quantity,
+                            event: InventoryEvent::EVENT_ADD,
+                            reason: InventoryEvent::REASON_ORDER_DESTROY})
   end
 
 

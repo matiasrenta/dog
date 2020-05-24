@@ -8,8 +8,8 @@ class CustomersController < ApplicationController
 
   # GET /customers/1
   def show
-    @customer_branches = indexize(CustomerBranch, collection: @customer.customer_branches, query_param: :branch)
-    @customer_contacts = indexize(CustomerContact, collection: @customer.customer_contacts)
+    @customer_branches = @customer.customer_branches.accessible_by(current_ability, :read)
+    @customer_contacts = @customer.customer_contacts.accessible_by(current_ability, :read)
   end
 
   # GET /customers/new

@@ -8,9 +8,9 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
-    @prices = @product.prices
-    @product_boxes = indexize(ProductBox, collection: @product.product_boxes, query_param: :q_box)
-    @mix_box_details = indexize(MixBoxDetail, collection: @product.mix_box_details, query_param: :q_mix_box)
+    @prices = @product.prices.accessible_by(current_ability, :read)
+    @product_boxes = @product.product_boxes.accessible_by(current_ability, :read)
+    @mix_box_details = @product.mix_box_details.accessible_by(current_ability, :read)
   end
 
   # GET /products/new

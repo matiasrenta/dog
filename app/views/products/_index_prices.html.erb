@@ -7,11 +7,6 @@
 
 
     <div class="no-padding">
-      <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-1" style="display:none;">
-        <div class="col-md-9 col-sm-12 no-padding">
-        </div>
-      </div>
-
       <div class="widget-body">
         <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
           <thead>
@@ -28,7 +23,6 @@
                 <td><%= price.customer_category.try(:name) %> <%#= "(#{t('simple_form.labels.defaults.company_profit_percent')} #{price.customer_category.try(:company_profit_percent)}%)" %> </td>
                 <td align='right'>
 
-
                   <table class="table-bordered">
                     <tr>
                       <td align="right" style="padding-right: 5px;">Empresa</td>
@@ -41,7 +35,6 @@
                       <td align="right" style="padding-right: 5px;"><%= price.company_profit_percent + price.seller_profit_percent  %>%</td>
                     </tr>
                   </table>
-
 
                 </td>
                 <td align='right'><%= price.seller_commission_over_price_percent  %>%</td>

@@ -2,55 +2,19 @@
   <div id="wid-id-2" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget <%= @filter_active ? 'jarviswidget-color-redLight' : 'jarviswidget-color-darken' %>">
 
     <header>
-      <h2><%= @filter_active ? t('simple_form.buttons.filtering') : '' %></h2>
       <%= "<h3>#{t('activerecord.models.customer_contact.other')}</h3>".html_safe %>
-      <div class="widget-toolbar filter-group">
-        <%= link_to raw("<i class='fa fa-file'></i> #{t('simple_form.buttons.new')}"), new_customer_customer_contact_path(@customer), class: 'btn btn-primary' if(can? :create, CustomerContact) %>
-        <a href="javascript:void(0)" data-target="#filter-wid-id-2" id="filtrar" role="button" class="filter-button btn btn-primary"><i class="fa fa-filter"></i> <%= @filter_active ? t('simple_form.buttons.filtering') : t('simple_form.buttons.filters') %></a>
-      </div>
     </header>
 
 
     <div class="no-padding">
-      <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-2" style="display:none;">
-        <div class="col-md-9 col-sm-12 no-padding">
-
-          <%= search_form_for(@q, url: customer_path(@customer), html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
-              <fieldset>
-                <div class="row">
-                  <div class="col-md-3 col-sm-6 col-xs-12">
-                    <label for="q[name_cont]"><%= t('simple_form.labels.defaults.name') %></label>
-                    <%= f.search_field :name_cont, label: false, class: "form-control input-sm" %>
-                  </div>
-                  <div class="col-md-3 col-sm-6 col-xs-12">
-                    <label for="q[phones_cont]"><%= t('simple_form.labels.defaults.phones') %></label>
-                    <%= f.search_field :phones_cont, label: false, class: "form-control input-sm" %>
-                  </div>
-                  <div class="col-md-3 col-sm-6 col-xs-12">
-                    <label for="q[email_cont]"><%= t('simple_form.labels.defaults.email') %></label>
-                    <%= f.search_field :email_cont, label: false, class: "form-control input-sm" %>
-                  </div>
-                  <div class="col-md-3 col-sm-6 col-xs-12">
-                    <label for="q[notes_cont]"><%= t('simple_form.labels.defaults.notes') %></label>
-                    <%= f.search_field :notes_cont, label: false, class: "form-control input-sm" %>
-                  </div>
-                </div>
-                <%= render 'shared/submit_filters' %>
-              </fieldset>
-          <% end %>
-
-
-        </div>
-      </div>
       <div class="widget-body">
         <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
           <thead>
           <tr>
-            <th class='all control'><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
-            <th><%= sort_link(@q, :phones, t('simple_form.labels.defaults.phones')) %></th>
-            <th><%= sort_link(@q, :email, t('simple_form.labels.defaults.email')) %></th>
-            <th><%= sort_link(@q, :notes, t('simple_form.labels.defaults.notes')) %></th>
-            <th class="all"><%= t('simple_form.screen.actions') %></th>
+            <th class='all control'><%= t('simple_form.labels.defaults.name') %></th>
+            <th><%= t('simple_form.labels.defaults.phones') %></th>
+            <th><%= t('simple_form.labels.defaults.email') %></th>
+            <th><%= t('simple_form.labels.defaults.notes') %></th>
           </tr>
           </thead>
           <tbody>
@@ -60,16 +24,10 @@
                 <td><%= customer_contact.phones %></td>
                 <td><%= customer_contact.email %></td>
                 <td><%= customer_contact.notes %></td>
-                <td class="table-actions">
-                  <%= render 'shared/action_icons', locals: {target: customer_contact} %>
-                </td>
               </tr>
           <% end %>
           </tbody>
         </table>
-        <div class="widget-footer">
-          <%= render 'shared/pagination', locals: {target: @customer_contacts, model_index_path: customer_customer_contacts_path(@customer)} %>
-        </div>
       </div>
     </div>
   </div>

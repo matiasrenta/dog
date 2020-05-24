@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    @order_details = indexize(OrderDetail, collection: @order.order_details)
+    @order_details = @order.order_details.accessible_by(current_ability, :read)
   end
 
   # GET /orders/new

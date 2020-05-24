@@ -3,47 +3,9 @@
 
     <header>
       <%= "<h3>#{t('activerecord.models.order_detail.other')}</h3>".html_safe %>
-      <div class="widget-toolbar filter-group">
-      </div>
     </header>
 
-
     <div class="no-padding">
-      <div class="jarviswidget-editbox filter-zone" id="filter-wid-id-1" style="display:none;">
-        <div class="col-md-9 col-sm-12 no-padding">
-
-          <%= search_form_for(@q, url: order_path(@order), html: {name: 'filter_form', class: 'form-inline'}) do |f| %>
-              <fieldset>
-                <div class="row">
-                  <div class="col-md-3 col-sm-6 col-xs-12">
-                    <label for="q[product_id_cont]"><%= t('simple_form.labels.product') %></label>
-                    <%= f.select :product_id_eq, options_from_collection_for_select(Product.all, :id, :name, @q.product_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
-                  </div>
-                  <div class="col-md-3 col-sm-6 col-xs-12">
-                    <label for="q[quantity_cont]"><%= t('simple_form.labels.defaults.quantity') %></label>
-                    <%= f.search_field :quantity_cont, label: false, class: "form-control input-sm" %>
-                  </div>
-                  <div class="col-md-3 col-sm-6 col-xs-12 spanning">
-                    <label for="q[unit_price_gteq]"><%= t('simple_form.labels.defaults.unit_price') %></label>
-
-                    <div class="input-group input-group-sm block">
-                      <%= f.search_field :unit_price_gteq, label: false, placeholder: t('simple_form.placeholders.from'), class: "form-control input-sm" %>
-                    </div>
-                    <div class="input-group input-group-sm block">
-                      <%= f.search_field :unit_price_lteq, label: false, placeholder: t('simple_form.placeholders.to'), class: "form-control input-sm" %>
-                    </div>
-                  </div>
-                </div>
-                <div class="row pull-right">
-                  <div class="col-sm-12">
-                    <%= render 'shared/submit_filters' %>
-                  </div>
-                </div>
-              </fieldset>
-
-        <% end %>
-        </div>
-      </div>
       <div class="widget-body">
         <table id="dt_basic" width="100%" class="display table table-striped table-bordered table-hover" style="margin:0 padding-top:0px">
           <thead>

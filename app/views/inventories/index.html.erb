@@ -30,7 +30,7 @@
                       </div>
                       <div class="col-md-3 col-sm-6 col-xs-12">
                         <label for="q[box_id_cont]"><%= t('simple_form.labels.defaults.box') %></label>
-                        <%= f.select :box_id_eq, options_from_collection_for_select(Box.all, :id, :name, @q.box_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                        <%= f.select :box_id_eq, options_from_collection_for_select(Box.all, :id, :name, @q.box_id_eq), {include_blank: true}, {class: "form-control input-sm select2_with_matcher_or"} %>
                       </div>
 
                       <% if !session[:grouped] %>
@@ -161,5 +161,5 @@
 </section>
 
 <script>
-    select2_with_or_matcher();
+    select2_with_matcher_or();
 </script>

@@ -66,7 +66,7 @@ PROBLEMA DE DEPLOY EN MI MAC:
 si desde mi mac el deploy de capistrano dice:
 DEBUG [bfa15479] 	Permission denied (publickey).
 DEBUG [bfa15479] 	fatal: Could not read from remote repository.
-entonces ejecutar (para agregar al agente la llave): ssh-add ~/.ssh/id_rsa
+entonces ejecutar (para agregar al agente la llave): ssh-add ~/.ssh/id_rsa (o bien ocean_chucky, depende la key que esté en el server)
 ver link: http://stackoverflow.com/questions/22977714/capistrano-and-github-private-repo-permission-denied-publickey
 
 EJECUTAR CONSOLA EN PRODUCCION:

@@ -1,4 +1,4 @@
-select2_with_or_matcher();
+select2_with_matcher_or();
 ajax_dropdown($(document));
 
 // cuando elimino un item del formulario calculo el total_amount

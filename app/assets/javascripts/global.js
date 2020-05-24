@@ -21,7 +21,7 @@ function export_list() {
 };
 
 
-function select2_with_or_matcher(){
+function select2_with_matcher_or(){
     // ver el codigo fuente del gem simple_form_auto_select2 para ver las clases otras clases que se le pueden agregar (con ajax, mukltiple etc) (url en gemfile). o bien inspeccionar el elemento antes que se le aplique .select2()
     $(document).find(".select2_with_matcher_or").select2({matcher: function(params, data) {return matchStart(params, data);}});
 }
@@ -40,7 +40,7 @@ function nested_select2(event){
     var field = event.field;
 
     // ver el codigo fuente del gem simple_form_auto_select2 para ver las clases otras clases que se le pueden agregar (con ajax, mukltiple etc) (url en gemfile). o bien inspeccionar el elemento antes que se le aplique .select2()
-    field.find(".auto-static-select2").select2({matcher: function(params, data) {return matchStart(params, data);}});
+    field.find(".select2_with_matcher_or").select2({matcher: function(params, data) {return matchStart(params, data);}});
 
     // esto es para ponerle background color. el problema es que le pone a todos los selects porque está en global.js
     //field.find(".auto-static-select2").select2({matcher: function(params, data) {return matchStart(params, data);}, containerCssClass: 'custom-container', dropdownCssClass: 'custom-dropdown'});

@@ -64,7 +64,7 @@
         <% end %>
       </table>
       <% if @order.created? || creating? %>
-          <div id="div_link_to_add" class="well well-sm" style="display: none;">
+          <div id="div_link_to_add" class="well well-sm" style="display: <%= f.object.customer_id.present? ? 'block' : 'none' %>;">
             <span class="btn bg-color-blue txt-color-white btn-xs">
               <%= f.link_to_add raw("#{t('simple_form.buttons.add')} <i class='fa fa-plus-square'></i>"), :order_details, data: {target: "#order_details"} %>
             </span>

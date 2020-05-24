@@ -24,6 +24,7 @@ function export_list() {
 function select2_with_matcher_or(){
     // ver el codigo fuente del gem simple_form_auto_select2 para ver las clases otras clases que se le pueden agregar (con ajax, mukltiple etc) (url en gemfile). o bien inspeccionar el elemento antes que se le aplique .select2()
     $(document).find(".select2_with_matcher_or").select2({matcher: function(params, data) {return matchStart(params, data);}});
+    $(document).find(".select2_with_matcher_or_and_background").select2({matcher: function(params, data) {return matchStart(params, data);}, containerCssClass: 'custom-container', dropdownCssClass: 'custom-dropdown'});
 }
 
 

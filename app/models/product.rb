@@ -14,7 +14,7 @@ class Product < ActiveRecord::Base
 
   belongs_to :product_brand
   #has_and_belongs_to_many :boxes, join_table: 'boxes_products'
-  has_many :product_boxes, dependent: :destroy
+  has_many :product_boxes, -> { joins(:box).order('boxes.quantity ASC') }, dependent: :destroy
   has_many :boxes, through: :product_boxes
   has_many :inventories, dependent: :restrict_with_error
 

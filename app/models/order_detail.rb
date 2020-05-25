@@ -33,17 +33,10 @@ class OrderDetail < ActiveRecord::Base
   scope :by_box_id, -> (box_id) { where(box_id: box_id)}
 
   before_create do
-    stock_available = Inventory.stock_available(self.product_id, self.box_id)
-    if stock_available < self.quantity
-      errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
-      false
+    if promo_detail?
+      promotion_update_stock
     else
-      Inventory.update_stock({product_id: self.product_id,
-                               box_id: self.box_id,
-                               quantity: self.quantity,
-                               event: InventoryEvent::EVENT_REMOVE,
-                               reason: InventoryEvent::REASON_SALE})
-      true
+      product_update_stock
     end
   end
 
@@ -60,4 +53,36 @@ class OrderDetail < ActiveRecord::Base
   def except_attr_in_public_activity
     [:id, :updated_at]
   end
+
+  def promo_detail?
+    self.promotion_id.present?
+  end
+
+  private
+
+  def promotion_update_stock
+    stock_available = self.promotion.stock_available
+    if stock_available < self.quantity
+      errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
+      false
+    else
+      self.promotion.update_stock(self.promotion.stock_available - self.quantity)
+      true
+    end
+  end
+
+  def product_update_stock
+    stock_available = Inventory.stock_available(self.product_id, self.box_id)
+    if stock_available < self.quantity
+      errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
+      false
+    else
+      Inventory.update_stock({product_id: self.product_id,
+                              box_id: self.box_id,
+                              quantity: self.quantity,
+                              event: InventoryEvent::EVENT_REMOVE,
+                              reason: InventoryEvent::REASON_SALE})
+    end
+  end
+
 end

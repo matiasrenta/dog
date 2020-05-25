@@ -50,7 +50,7 @@
                 </div>
               </div>
 
-              <% if @promotion.with_stock? %>
+              <% if @promotion.promo_type_with_stock? %>
                   <div class="row show-details">
                     <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.quantity_start') %></strong></label>
 

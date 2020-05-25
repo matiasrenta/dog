@@ -20,7 +20,7 @@
             <%= f.association :product, as: :select2, collection: Product.code_and_name, placeholder: 'Buscar', input_html: { style: 'max-width:100%;', data:{s2:{limit: 10}, dynamic_selectable_url: dynamic_select_product_boxes_path(':product_id'), dynamic_selectable_target: '#promotion_box_id' } } %>
             <%= f.association :box %>
             <%= f.input :expiration_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@promotion.expiration_date)} %>
-            <div id="with_stock" style="display: <%= @promotion.with_stock? ? 'block' : 'none' %>;">
+            <div id="with_stock" style="display: <%= @promotion.promo_type_with_stock? ? 'block' : 'none' %>;">
                 <%= f.input :actual_stock, hint: 'el stock actual en inventario', input_html: {readonly: true} if creating? %>
                 <%= f.input :quantity_start, input_html: {class: 'field_with_popover_lf', data: {pop: 'popover-hover', placement: 'top', title: 'title', content: 'content', icon: 'fa fa-question'}} %>
                 <%= f.input :quantity_available if updating? %>

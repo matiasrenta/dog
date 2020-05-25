@@ -20,23 +20,20 @@ class Promotion < ActiveRecord::Base
   attr_accessor :actual_stock
 
   scope :published, -> {where(published: true)}
-  scope :from_date_has_past, -> {where('from_date >= ?', Date.today)}
-  scope :to_date_doesnt_has_past, -> {where('to_date IS NOT NULL AND to_date >= ?', Date.today)}
-
-  scope :into_from_to_dates, -> {from_date_has_past.to_date_doesnt_has_past}
-
-  scope :end_with_date, -> {where(end_with: END_WITH_DATE)}
-  scope :end_with_stock, -> {where(end_with: END_WITH_STOCK)}
-  scope :end_with_endless, -> {where(end_with: END_WITH_ENDLESS)}
-  scope :promo_type_with_stock, -> {where(promo_type: PROMO_TYPE_WITH_STOCK)}
-  scope :promo_type_without_stock, -> {where(promo_type: PROMO_TYPE_WITHOUT_STOCK)}
-
-  scope :with_stock_available_stock, ->{promo_type_with_stock.where('quantity_available IS NOT NULL AND quantity_available > 0')}
-  scope :without_stock_available_stock, ->{promo_type_without_stock} # hay que pensar el join con Inventory para ver si exists and is bigger than 0
-
-  #scope :actives_end_with_date,
-
-  scope :actives, -> {published}
+  scope :from_date_has_past, -> {where('from_date <= ?', Date.today)}
+  scope :into_dates_or_endless, -> {from_date_has_past.where('to_date IS NULL OR end_with = ? OR to_date >= ?', END_WITH_ENDLESS, Date.today)}
+  scope :in_stock, -> {
+    where('(promo_type = ? AND quantity_available > 0)
+          OR
+           (promo_type = ?
+            AND EXISTS (select *
+                      from inventories
+                     where inventories.product_id = promotions.product_id
+                       and inventories.box_id = promotions.box_id
+                       and promotions.expiration_date IS NULL OR inventories.expiration_date = promotions.expiration_date
+                       and inventories.quantity_available > 0))', PROMO_TYPE_WITH_STOCK, PROMO_TYPE_WITHOUT_STOCK)
+  }
+  scope :actives, -> {published.into_dates_or_endless.in_stock}
 
   PROMO_TYPE_WITH_STOCK = 'WITH_STOCK'
   PROMO_TYPE_WITHOUT_STOCK = 'WITHOUT_STOCK'
@@ -59,10 +56,35 @@ class Promotion < ActiveRecord::Base
 
 
   before_create do
+    if with_stock?
+      # quito el stock del inventario para ponerselo a esta promo
+      Inventory.update_stock({product_id: self.product_id,
+                              box_id: self.box_id,
+                              expiration_date: self.expiration_date,
+                              quantity: self.quantity_start,
+                              event: InventoryEvent::EVENT_REMOVE,
+                              reason: InventoryEvent::REASON_PROMOTION})
+    end
     self.quantity_available = self.quantity_start
   end
 
-  def with_stock?
+  after_destroy do
+    if with_stock? && stock_available > 0
+      # agrego al stock lo que tiene en stock. Debería ser igual al quantity_start porque no debería existir ningun pedido sobre esta promo. sino no podría eliminarse (solo soft delete)
+      Inventory.update_stock({product_id: self.product_id,
+                              box_id: self.box_id,
+                              expiration_date: self.expiration_date,
+                              quantity: self.quantity,
+                              event: InventoryEvent::EVENT_ADD,
+                              reason: InventoryEvent::REASON_PROMO_DESTROY})
+    end
+  end
+
+  def active?
+    Promotion.actives.include?(self)
+  end
+
+  def promo_type_with_stock?
     self.promo_type == PROMO_TYPE_WITH_STOCK
   end
 
@@ -79,11 +101,24 @@ class Promotion < ActiveRecord::Base
   end
 
   def stock_available
-    #todo:  si es con stoc propioandar ese stock sino el del product/box
     if with_stock?
       self.quantity_available
     else
       self.product.stock_available(self.box_id, self.expiration_date)
+    end
+  end
+
+  def update_stock(q)
+    if with_stock?
+      self.quantity_available = q
+      save
+    else
+      Inventory.update_stock({product_id: self.product_id,
+                              box_id: self.box_id,
+                              expiration_date: self.expiration_date,
+                              quantity: q,
+                              event: InventoryEvent::EVENT_REMOVE,
+                              reason: InventoryEvent::REASON_SALE})
     end
   end
 

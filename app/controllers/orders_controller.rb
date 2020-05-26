@@ -51,7 +51,6 @@ class OrdersController < ApplicationController
   end
 
   def ajax_get_info_from_promotion
-
     unless params[:the_id].blank? || params[:order].blank? || params[:order][:customer_id].blank?
       @promotion = Promotion.find params[:the_id]
       @product = @promotion.product

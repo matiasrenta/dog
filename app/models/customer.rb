@@ -11,6 +11,7 @@ class Customer < ActiveRecord::Base
           }
 
   belongs_to :customer_category
+  belongs_to :user
   has_many :orders, dependent: :restrict_with_error
   has_many :customer_contacts, dependent: :destroy
   has_many :customer_branches, dependent: :destroy
@@ -26,7 +27,6 @@ class Customer < ActiveRecord::Base
   validate do |customer|
     customer.errors.add(:base, :customer_branches_blank, message: 'Debe haber al menos una sucursal') if customer.customer_branches.empty?
   end
-
 
   def except_attr_in_public_activity
     [:id, :updated_at]

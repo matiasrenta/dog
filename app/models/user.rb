@@ -15,8 +15,8 @@ class User < ActiveRecord::Base
           }
 
   belongs_to :role
+  has_many :customers, dependent: :restrict_with_error
   has_many :orders, dependent: :restrict_with_error
-
   has_many :things, dependent: :restrict_with_error
   # Include default devise modules. Others available are:
   # :registerable, :confirmable and :omniauthable
@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
 
   after_destroy :remove_file
 
-  delegate :superuser?, :admin?, :vendedor?, to: :role
+  delegate :superuser?, :admin?, :admin_or_superuser?, :vendedor?, to: :role
 
   scope :less_superusers, -> {where.not(role_id: Role.superuser.id)}
   scope :actives, -> {where('deleted_at IS NULL')}

@@ -17,8 +17,8 @@
             <%= f.input :code %>
             <%= f.input :name %>
             <%= f.association :customer_category %>
-            <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
-
+            <%= f.input :user_id, as: :hidden, input_html: {value: current_user.id}  if current_user.vendedor? %>
+            <%= f.association :user, label: t('simple_form.labels.defaults.created_by'), collection: collection_with_actual(users_hide_or_show_superusers, f.object.user), selected: f.object.user_id || current_user.id if current_user.admin_or_superuser? %>
 
             <div class="form-group">
               <label class="col-xs-12 col-sm-3 control-label" for=""><%= t('simple_form.labels.defaults.branches') %></label>
@@ -89,6 +89,8 @@
                 </div>
               </div>
             </div>
+
+            <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
 
             <div class="widget-footer">
               <div class="form-actions">

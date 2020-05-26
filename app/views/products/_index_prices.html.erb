@@ -12,7 +12,9 @@
           <thead>
           <tr>
             <th class='all control'><%= t('simple_form.labels.defaults.customer_category') %></th>
-            <th>Margen<%#= t('simple_form.labels.defaults.company_profit_percent') %></th>
+            <% if can? :see_sensitive_data, Product %>
+                <th><%= t('simple_form.labels.defaults.margin') %></th>
+            <% end %>
             <th><%= t('simple_form.labels.defaults.seller_commission_over_price_percent') %></th>
             <th><%= t('simple_form.labels.defaults.price') %></th>
           </tr>
@@ -21,22 +23,22 @@
           <% @prices.each do |price| %>
               <tr>
                 <td><%= price.customer_category.try(:name) %> <%#= "(#{t('simple_form.labels.defaults.company_profit_percent')} #{price.customer_category.try(:company_profit_percent)}%)" %> </td>
-                <td align='right'>
-
-                  <table class="table-bordered">
-                    <tr>
-                      <td align="right" style="padding-right: 5px;">Empresa</td>
-                      <td align="right" style="padding-right: 5px;">Venta</td>
-                      <td align="right" style="padding-right: 5px;">Total</td>
-                    </tr>
-                    <tr>
-                      <td align="right" style="padding-right: 5px;"><%= price.company_profit_percent  %>%</td>
-                      <td align="right" style="padding-right: 5px;"><%= price.seller_profit_percent  %>%</td>
-                      <td align="right" style="padding-right: 5px;"><%= price.company_profit_percent + price.seller_profit_percent  %>%</td>
-                    </tr>
-                  </table>
-
-                </td>
+                <% if can? :see_sensitive_data, Product %>
+                    <td align='right'>
+                      <table class="table-bordered">
+                        <tr>
+                          <td align="right" style="padding-right: 5px;">Empresa</td>
+                          <td align="right" style="padding-right: 5px;">Venta</td>
+                          <td align="right" style="padding-right: 5px;">Total</td>
+                        </tr>
+                        <tr>
+                          <td align="right" style="padding-right: 5px;"><%= price.company_profit_percent  %>%</td>
+                          <td align="right" style="padding-right: 5px;"><%= price.seller_profit_percent  %>%</td>
+                          <td align="right" style="padding-right: 5px;"><%= price.company_profit_percent + price.seller_profit_percent  %>%</td>
+                        </tr>
+                      </table>
+                    </td>
+                <% end %>
                 <td align='right'><%= price.seller_commission_over_price_percent  %>%</td>
                 <td align='right'><%= price.price ? number_to_currency(price.price, unit: '') : nil %></td>
               </tr>

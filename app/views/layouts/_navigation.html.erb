@@ -9,9 +9,9 @@
         <a href="/dashboard"><i class="fa fa-lg fa-fw fa-dashboard"></i> <span class="menu-item-parent">Dashboard</span></a>
       </li>
 
-      <% if can? :read, Product %>
-          <li data-step="2" data-intro="Este es el menú de Productos.">
-            <a href="<%= products_path %>"><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent"><%= t('activerecord.models.product.other') %></span></a>
+      <% if can? :read, Order %>
+          <li data-step="2" data-intro="Este es el menú de Pedidos.">
+            <a href="<%= orders_path %>"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent"><%= t('activerecord.models.order.other') %></span></a>
           </li>
       <% end %>
 
@@ -21,9 +21,9 @@
           </li>
       <% end %>
 
-      <% if can? :read, Order %>
-          <li data-step="2" data-intro="Este es el menú de Pedidos.">
-            <a href="<%= orders_path %>"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent"><%= t('activerecord.models.order.other') %></span></a>
+      <% if can? :read, Product %>
+          <li data-step="2" data-intro="Este es el menú de Productos.">
+            <a href="<%= products_path %>"><i class="fa fa-lg fa-fw fa-tags"></i> <span class="menu-item-parent"><%= t('activerecord.models.product.other') %></span></a>
           </li>
       <% end %>
 

@@ -79,10 +79,14 @@ class Ability
 		can [:create, :read, :update, :destroy], PurchaseOrderDetail
 		can [:create, :read, :update, :destroy], OrderDetail
 		can :read, Order
-		can [:create, :update, :destroy, :ajax_get_product_info], Order, user_id: @user.id
+		can [:create, :update, :destroy], Order, user_id: @user.id
+		can [:manage], CustomerBranch
 		can [:manage], CustomerContact
-		can [:create, :read, :update], Customer
+		can [:read], Customer
+		can [:create, :update], Customer, user_id: @user.id
 		can [:read], Product
+		can [:read], Price
+		can :read, MixBoxDetail
 	end
 
 

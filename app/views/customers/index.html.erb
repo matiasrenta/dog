@@ -33,6 +33,11 @@
                       </div>
 
                       <div class="col-md-3 col-sm-6 col-xs-12">
+                        <label for="q[customer_category_id_eq]"><%= t('simple_form.labels.defaults.created_by') %></label>
+                        <%= f.select :user_id_eq, options_from_collection_for_select(users_hide_or_show_superusers, :id, :name, @q.user_id_eq), {include_blank: true}, {class: "form-control input-sm"} %>
+                      </div>
+
+                      <div class="col-md-3 col-sm-6 col-xs-12">
                         <label for="q[notes_cont]"><%= t('simple_form.labels.defaults.notes') %></label>
                         <%= f.search_field :notes_cont, label: false, class: "form-control input-sm" %>
                       </div>
@@ -53,6 +58,7 @@
                 <th class='all control'><%= sort_link(@q, :code, t('simple_form.labels.defaults.code')) %></th>
                 <th><%= sort_link(@q, :name, t('simple_form.labels.defaults.name')) %></th>
                 <th><%= sort_link(@q, :customer_category_name, t('simple_form.labels.defaults.customer_category')) %></th>
+                <th><%= sort_link(@q, :user_name, t('simple_form.labels.defaults.created_by')) %></th>
                 <th><%= sort_link(@q, :notes, t('simple_form.labels.defaults.notes')) %></th>
                 <th class="all"><%= t('simple_form.screen.actions') %></th>
               </tr>
@@ -63,6 +69,7 @@
                     <td><%= customer.code %></td>
                     <td><%= customer.name %></td>
                     <td><%= customer.customer_category.try(:name) %></td>
+                    <td><%= customer.user.try(:name) %></td>
                     <td><%= customer.notes %></td>
                     <td class="table-actions">
                       <%= render 'shared/action_icons', locals: {target: customer} %>

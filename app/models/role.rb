@@ -18,6 +18,10 @@ class Role < ActiveRecord::Base
     name == 'Administrador'
   end
 
+  def admin_or_superuser?
+    name == 'Administrador' || name == 'superuser'
+  end
+
   def vendedor?
     name == 'Vendedor'
   end

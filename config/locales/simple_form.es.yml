@@ -127,6 +127,8 @@ es:
         quantity_start: 'Cantidad inicial'
         promotion_active?: 'Activa?'
         promotion_published?: 'Publicada?'
+        margin: 'Margen'
+        created_by: 'Creado por'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

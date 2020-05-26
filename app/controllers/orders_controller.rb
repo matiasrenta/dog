@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
-  load_and_authorize_resource except: :index, param_method: :order_params
-
+  load_and_authorize_resource except: [:index, :ajax_get_info_from_promotion, :ajax_get_info_from_product, :ajax_get_info_from_box] , param_method: :order_params
+  skip_authorization_check only: [:ajax_get_info_from_promotion, :ajax_get_info_from_product, :ajax_get_info_from_box]
   # GET /orders
   def index
     @orders = indexize(Order)
@@ -51,6 +51,7 @@ class OrdersController < ApplicationController
   end
 
   def ajax_get_info_from_promotion
+
     unless params[:the_id].blank? || params[:order].blank? || params[:order][:customer_id].blank?
       @promotion = Promotion.find params[:the_id]
       @product = @promotion.product

@@ -49,6 +49,28 @@ class Order < ActiveRecord::Base
 
   scope :created, -> { where(status: STATUS_TYPES[0][1]) }
 
+  before_update do
+    if self.status_changed? && self.canceled?
+      #todo: no qiuiero que de created lo pasen a canceled. pero no me da bola al quereer hacer el destroy aqui dentro de update, ni retornando false lo destruye, pero si destruye los order_details
+      #self.destroy if self.status_was == STATUS_CREATED
+      self.order_details.each do |od|
+        # agrego al stock lo que se quitó cuando se creó esta entidad
+        Inventory.update_stock({product_id: od.product_id,
+                                box_id: od.box_id,
+                                quantity: od.quantity,
+                                event: InventoryEvent::EVENT_ADD,
+                                reason: InventoryEvent::REASON_ORDER_CANCELED})
+      end
+    end
+  end
+
+  before_destroy do
+    unless self.created?
+      errors.add(:base, "Solo pedidos en status #{Order.i18n_status(STATUS_CREATED)} pueden ser eliminados. Pero se puede CANCELAR cambiando su status a #{Order.i18n_status(STATUS_CANCELED)}")
+      false
+    end
+  end
+
   #un array con solo los status que van a la bbdd
   def self.system_status_array
     STATUS_TYPES.map{|s| s[1]}
@@ -59,7 +81,19 @@ class Order < ActiveRecord::Base
   end
 
   def created?
-    self.status == STATUS_TYPES[0][1]
+    self.status == STATUS_CREATED
+  end
+
+  def canceled?
+    self.status == STATUS_CANCELED
+  end
+
+  def i18n_status
+    STATUS_TYPES.find { |e| e[1] == self.status}[0]
+  end
+
+  def product_codes
+    order_details.includes(:product).map(){|e| e.product.try(:code)}
   end
 
   def except_attr_in_public_activity
@@ -68,8 +102,9 @@ class Order < ActiveRecord::Base
 
   private
 
-  def calculate_total_amount
-    self.total_amount = order_details.collect { |od| (od.valid? && !od.marked_for_destruction?) ? (od.quantity * od.unit_price) : 0 }.sum
-    self.total_amount = self.total_amount * ((Sett['IVA'].to_f/100) + 1) if self.iva # ((Sett['IVA']/100) + 1) == 1.21
-  end
+#  def calculate_total_amount
+#    self.total_amount = order_details.collect { |od| (od.valid? && !od.marked_for_destruction?) ? (od.quantity * od.unit_price) : 0 }.sum
+#    self.total_amount = self.total_amount * ((Sett['IVA'].to_f/100) + 1) if self.iva # ((Sett['IVA']/100) + 1) == 1.21
+#  end
+
 end

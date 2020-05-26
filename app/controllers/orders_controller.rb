@@ -54,7 +54,7 @@ class OrdersController < ApplicationController
     unless params[:the_id].blank? || params[:order].blank? || params[:order][:customer_id].blank?
       @promotion = Promotion.find params[:the_id]
       @product = @promotion.product
-      @stock_available = @product.stock_available(@promotion.box_id)
+      @stock_available = @promotion.stock_available
       customer = Customer.find params[:order][:customer_id]
       @unit_price = @promotion.prices.where(customer_category_id: customer.customer_category_id).first.price
     end

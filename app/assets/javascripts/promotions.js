@@ -14,7 +14,7 @@ $(document).on("change", "#promotion_promo_type", function() {
 
 // cuando cambia el select de end_with, show or hide to_date
 $(document).on("change", "#promotion_end_with", function() {
-    if (this.value == 'TO_DATE') {
+    if (this.value == 'DATE' || this.value == 'DATE_OR_STOCK') {
         $("#to_date").css('display', 'block');
     } else {
         $("#to_date").css('display', 'none');

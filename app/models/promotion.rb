@@ -19,6 +19,9 @@ class Promotion < ActiveRecord::Base
 
   attr_accessor :actual_stock
 
+  scope :by_product, -> (product_id){where(product_id: product_id)}
+  scope :by_box, -> (box_id){where(box_id: box_id)}
+
   scope :published, -> {where(published: true)}
   scope :from_date_has_past, -> {where('from_date <= ?', Date.today)}
   scope :into_dates_or_endless, -> {from_date_has_past.where('to_date IS NULL OR end_with = ? OR to_date >= ?', END_WITH_ENDLESS, Date.today)}
@@ -40,23 +43,26 @@ class Promotion < ActiveRecord::Base
   PROMO_TYPES_FOR_SELECT = [ ['CON STOCK', PROMO_TYPE_WITH_STOCK], ['SIN STOCK', PROMO_TYPE_WITHOUT_STOCK] ]
   PROMO_TYPES_SYSTEM_ARRAY = PROMO_TYPES_FOR_SELECT.map{|p| p[1]}
 
-  END_WITH_DATE = 'TO_DATE'
-  END_WITH_STOCK = 'TO_FINISH_STOCK'
+  END_WITH_DATE = 'DATE'
+  END_WITH_DATE_OR_STOCK = 'DATE_OR_STOCK'
+  END_WITH_STOCK = 'STOCK'
   END_WITH_ENDLESS = 'ENDLESS'
-  END_WITH_FOR_SELECT = [ ['HASTA FECHA', END_WITH_DATE], ['HASTA TERMINAR STOCK', END_WITH_STOCK], ['SIN FIN', END_WITH_ENDLESS] ]
+  END_WITH_FOR_SELECT = [ ['HASTA FECHA', END_WITH_DATE], ['HASTA TERMINAR STOCK O FECHA', END_WITH_DATE_OR_STOCK], ['HASTA TERMINAR STOCK', END_WITH_STOCK], ['SIN FIN', END_WITH_ENDLESS] ]
   END_WITH_SYSTEM_ARRAY = END_WITH_FOR_SELECT.map{|e| e[1]}
 
   validates :product_id, :box_id, :from_date, :end_with, :name, :promo_type, :product_total_cost, presence: true
   validates :product_id, :box_id, :product_total_cost, numericality: true
 
-  validates :quantity_start, presence: true, if: -> {with_stock?}
+  validates :quantity_start, presence: true, if: -> {promo_type_with_stock?}
   validates :quantity_start, numericality: true, if: -> {quantity_start.present?}
   validates :quantity_available, numericality: true, if: -> {quantity_available.present?}
   validates :to_date, presence: { message: 'Si finaliza con fecha debe ingresar esa fecha' }, if: -> {end_with_date?}
 
 
   before_create do
-    if with_stock?
+    self.to_date = nil if end_with_stock? || end_with_endless?
+
+    if promo_type_with_stock?
       # quito el stock del inventario para ponerselo a esta promo
       Inventory.update_stock({product_id: self.product_id,
                               box_id: self.box_id,
@@ -69,12 +75,12 @@ class Promotion < ActiveRecord::Base
   end
 
   after_destroy do
-    if with_stock? && stock_available > 0
-      # agrego al stock lo que tiene en stock. Debería ser igual al quantity_start porque no debería existir ningun pedido sobre esta promo. sino no podría eliminarse (solo soft delete)
+    if promo_type_with_stock? && quantity_available > 0
+      # agrego al stock lo que tiene en stock esta promo (quantity_available). Debería ser igual al quantity_start porque no debería existir ningun pedido sobre esta promo. sino no podría eliminarse (solo soft delete)
       Inventory.update_stock({product_id: self.product_id,
                               box_id: self.box_id,
                               expiration_date: self.expiration_date,
-                              quantity: self.quantity,
+                              quantity: self.quantity_available,
                               event: InventoryEvent::EVENT_ADD,
                               reason: InventoryEvent::REASON_PROMO_DESTROY})
     end
@@ -92,6 +98,19 @@ class Promotion < ActiveRecord::Base
     self.end_with == END_WITH_DATE
   end
 
+  def end_with_date_or_stock?
+    self.end_with == END_WITH_DATE_OR_STOCK
+  end
+
+  def end_with_stock?
+    self.end_with == END_WITH_STOCK
+  end
+
+  def end_with_endless?
+    self.end_with == END_WITH_ENDLESS
+  end
+
+
   def i18n_promo_type
     PROMO_TYPES_FOR_SELECT.find { |e| e[1] == self.promo_type}[0]
   end
@@ -101,7 +120,7 @@ class Promotion < ActiveRecord::Base
   end
 
   def stock_available
-    if with_stock?
+    if promo_type_with_stock?
       self.quantity_available
     else
       self.product.stock_available(self.box_id, self.expiration_date)
@@ -109,7 +128,7 @@ class Promotion < ActiveRecord::Base
   end
 
   def update_stock(q)
-    if with_stock?
+    if promo_type_with_stock?
       self.quantity_available = q
       save
     else

@@ -24,6 +24,7 @@
                           } do |f| %>
           <div class="form-inputs edit">
 
+            <%= f.input :id, input_html: {disabled: true} if updating? %>
             <%= f.association :customer, as: :ajax_select2, search_class: :customer, placeholder: 'Buscar', input_html: {data:{ dynamic_selectable_url: dynamic_select_customer_branches_path(':customer_id'), dynamic_selectable_target: '#order_customer_branch_id' } } %>
             <%= f.association :customer_branch, collection: @order.customer_id.blank? ? [] : @order.customer.customer_branches %>
             <%= f.association :user, collection: users_hide_or_show_superusers if current_user.superuser? || current_user.admin? %>

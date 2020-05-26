@@ -12,13 +12,14 @@ class Inventory < ActiveRecord::Base
   scope :by_expiration_date, -> (expiration_date){where(expiration_date: expiration_date)}
   scope :not_this_box_id, -> (box_id) {where('box_id <> ?', box_id)}
   scope :order_by_exp_date, -> {order(:expiration_date)}
+  scope :with_quantity_available_cero, -> {where(quantity_available: 0)}
 
   before_save do
     self.quantity_available_in_units = self.quantity_available * self.box.quantity
-  end
 
-  after_save do
-    destroy if self.quantity_available == 0
+    # esto borra todos los inventories que hayan quedado con quantity_warehouse en cero. incluye al actual registro
+    # es una tarea de mantenimiento, prodría estar en un cron pero mejor es aquí
+    Inventory.with_quantity_available_cero.map(){|i| i.destroy if i.quantity_warehouse == 0}
   end
 
   def self.stock_available(product_id, box_id, expiration_date = nil)
@@ -39,14 +40,14 @@ class Inventory < ActiveRecord::Base
     inventory
   end
 
-  def get_inventory(product_id, box_id, expiration_date)
-    inventory = get_or_initialize_inventory(product_id, box_id, expiration_date)
-    if inventory.new_record?
-      return nil
-    else
-      inventory
-    end
-  end
+#  def self.get_inventory(product_id, box_id, expiration_date)
+#    inventory = get_or_initialize_inventory(product_id, box_id, expiration_date)
+#    if inventory.new_record?
+#      return nil
+#    else
+#      inventory
+#    end
+#  end
 
   # data tiene que tener los siguientes campos {product_id: , box_id:, expiration_date: nil , event:, reason: }
   def self.update_stock(data)
@@ -65,12 +66,15 @@ class Inventory < ActiveRecord::Base
 
 
   def quantity_taken
-    OrderDetail.created.by_product_id(self.product_id).by_box_id(self.box_id).by_expiration_date(self.expiration_date).sum(:quantity)
+    OrderDetail.created.by_product_id(self.product_id).by_box_id(self.box_id).sum(:quantity)
   end
 
+  def quantity_promoted
+    Promotion.by_product(self.product_id).by_box(self.box_id).sum(:quantity_available)
+  end
 
   def quantity_warehouse
-    self.quantity_taken + self.quantity_available
+    self.quantity_available + self.quantity_taken + self.quantity_promoted
   end
 
   def except_attr_in_public_activity

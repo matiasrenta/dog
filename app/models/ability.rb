@@ -96,6 +96,10 @@ class Ability
 
 		cannot [:update, :destroy], Box, name: Box::UNITS_BOX_NAME
 
+		cannot :destroy, Order do |order|
+			!order.created? # igual seria order.status != 'CREATED'. es deicr que no se puede eliminar una orden que este en un estado distinto a CREATED
+		end
+
 		unless @user.superuser?
 			cannot [:create, :read, :update, :destroy], User, role_id: Role.find_by_name('superuser').id
 			cannot [:create, :read, :update, :destroy], Role, id: Role.find_by_name('superuser').id

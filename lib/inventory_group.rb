@@ -24,12 +24,12 @@ class InventoryGroup
     @bunch_of_inventories.each do |inventory|
       if inventory.quantity_available >= quantity_to_remove
         inventory.quantity_available = inventory.quantity_available - quantity_to_remove
-        inventory.save if inventory.quantity_available > 0
-        inventory.destroy if inventory.quantity_available == 0
+        inventory.save
         break
       else
         quantity_to_remove = quantity_to_remove - inventory.quantity_available
-        inventory.destroy
+        inventory.quantity_available = 0
+        inventory.save
       end
     end
   end

@@ -101,17 +101,18 @@
                               <td align="right" style="padding-right: 5px;">Min.</td>
                               <td align="right" style="padding-right: 5px;"><b>Disp.</b></td>
                               <td align="right" style="padding-right: 5px;">Res.</td>
+                              <td align="right" style="padding-right: 5px;">Prom.</td>
                               <td align="right">Exis.</td>
                             </tr>
                             <tr>
                               <%
-                                 taken = OrderDetail.created.by_product_id(inventory.product_id).by_box_id(inventory.box_id).sum(:quantity)
                                  stock_min = ProductBox.where(product_id: inventory.product_id, box_id: inventory.box_id).first.try(:stock_min)
                               %>
                               <td align="right" style="padding-right: 5px;"><span style="<%= stock_min_style(stock_min, inventory.quantity_available) %>"><%= stock_min %></span></td>
                               <td align="right" style="padding-right: 5px;"><b><%= inventory.quantity_available %></b></td>
-                              <td align="right" style="padding-right: 5px;"><%= taken if taken > 0 %></td>
-                              <td align="right"><%= inventory.quantity_available + taken if taken > 0 %></td>
+                              <td align="right" style="padding-right: 5px;"><%= inventory.quantity_taken if inventory.quantity_taken > 0 %></td>
+                              <td align="right" style="padding-right: 5px;"><%= inventory.quantity_promoted if inventory.quantity_promoted > 0 %></td>
+                              <td align="right"><%= inventory.quantity_warehouse %></td>
                             </tr>
                           </table>
                         </td>
@@ -130,12 +131,12 @@
                             </tr>
                             <% Inventory.where(product_id: inventory.product_id, box_id: inventory.box_id).order(expiration_date: :asc).each do |i| %>
                                 <tr>
-                                  <td style="padding: 5px; width: 40%;"><%= i.expiration_date ? l(i.expiration_date, format: :default) : '???' %></td>
+                                  <td style="padding: 5px; width: 40%;"><%= i.expiration_date ? l(i.expiration_date, format: :default) : "<span style='color:yellowgreen'>? ? ? ? ? ? ? ?</span>".html_safe %></td>
                                   <td style="padding: 5px; width: 20%;"><%= i.quantity_available %></td>
                                   <td style="width: 40%;">
                                     <% if i.box.is_the_units_box? && !i.product.is_mix_box %>
                                         <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_UBA_action(i)} %>
-                                    <% elsif !i.box.is_the_units_box? %>
+                                    <% elsif !i.box.is_the_units_box? && i.quantity_available > 0 %>
                                         <%= render 'shared/action_icons', locals: {target: i, hide_show: true, extra_actions: build_UBD_action(i)} %>
                                     <% else %>
                                         <%= render 'shared/action_icons', locals: {target: i, hide_show: true} %>

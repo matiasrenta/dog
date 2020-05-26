@@ -120,11 +120,13 @@ es:
         quantity_available: Cantidad disponible
         order: 'Orden en pantalla'
         promo_type: 'Tipo de promo'
-        end_with: 'Finaliza con'
-        from_date: 'Desde'
-        to_date: 'Hasta'
+        end_with: 'Finaliza'
+        from_date: 'Comienza'
+        to_date: 'Finaliza'
         quantity_units: 'Cant. unidades'
         quantity_start: 'Cantidad inicial'
+        promotion_active?: 'Activa?'
+        promotion_published?: 'Publicada?'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

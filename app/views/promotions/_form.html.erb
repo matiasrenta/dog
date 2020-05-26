@@ -21,7 +21,7 @@
             <%= f.association :box %>
             <%= f.input :expiration_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@promotion.expiration_date)} %>
             <div id="with_stock" style="display: <%= @promotion.promo_type_with_stock? ? 'block' : 'none' %>;">
-                <%= f.input :actual_stock, hint: 'el stock actual en inventario', input_html: {readonly: true} if creating? %>
+                <%#= f.input :actual_stock, hint: 'el stock actual en inventario', input_html: {readonly: true} if creating? %>
                 <%= f.input :quantity_start, input_html: {class: 'field_with_popover_lf', data: {pop: 'popover-hover', placement: 'top', title: 'title', content: 'content', icon: 'fa fa-question'}} %>
                 <%= f.input :quantity_available if updating? %>
             </div>
@@ -31,9 +31,7 @@
             <div id="to_date" style="display: <%= @promotion.end_with_date? ? 'block' : 'none' %>;">
                 <%= f.input :to_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@promotion.to_date)} %>
             </div>
-            <%= f.input :published, as: :select, collection: options_for_boolean, include_blank: false %>
-            <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
-
+            <%= f.input :published, as: :select, label: t('simple_form.labels.defaults.promotion_published?'), collection: options_for_boolean, include_blank: false %>
             <%= f.input :product_total_cost, input_html: {class: 'field_with_popover_lf', data: {pop: 'popover-hover', placement: 'top', title: 'El costo total del producto en esta promoción', content: 'Puede ser distinto al costo que tiene el producto habitualmente.', icon: 'fa fa-question'}} %>
 
             <div class="form-group">
@@ -64,6 +62,8 @@
                 </div>
               </div>
             </div>
+
+            <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
 
             <div class="widget-footer">
               <div class="form-actions">

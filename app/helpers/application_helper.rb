@@ -12,6 +12,15 @@ module ApplicationHelper
     end
   end
 
+  def boolean_to_yes_no(boo)
+    if boo
+      t('true')
+    else
+      t('false')
+    end
+  end
+
+
   def creating?
     ["new", "create"].include?(action_name)
   end

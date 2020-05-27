@@ -45,7 +45,7 @@
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.iva') %></strong></label>
 
                 <div class="col-lg-9 details-data">
-                  <%= boolean_check_mark(@order.iva) %>
+                  <%= boolean_to_yes_no(@order.iva) %>
                 </div>
               </div>
               <div class="row show-details">

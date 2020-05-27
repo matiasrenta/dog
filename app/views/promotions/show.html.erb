@@ -22,20 +22,19 @@
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.promotion_active?') %></strong></label>
                 <div class="col-lg-9 details-data">
-                  <%= boolean_check_mark(@promotion.active?) %>
+                  <%= boolean_to_yes_no(@promotion.active?) %>
+                </div>
+              </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.name') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @promotion.name %>
                 </div>
               </div>
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.promo_type') %></strong></label>
                 <div class="col-lg-9 details-data">
                   <%= @promotion.i18n_promo_type %>
-                </div>
-              </div>
-
-              <div class="row show-details">
-                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.name') %></strong></label>
-                <div class="col-lg-9 details-data">
-                  <%= @promotion.name %>
                 </div>
               </div>
               <div class="row show-details">
@@ -92,7 +91,7 @@
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.promotion_published?') %></strong></label>
                 <div class="col-lg-9 details-data">
-                  <%= boolean_check_mark(@promotion.published?) %>
+                  <%= boolean_to_yes_no(@promotion.published?) %>
                 </div>
               </div>
 

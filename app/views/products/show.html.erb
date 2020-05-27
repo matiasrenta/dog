@@ -42,7 +42,7 @@
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.is_mix_box') %></strong></label>
 
                 <div class="col-lg-9 details-data">
-                  <%= boolean_check_mark @product.is_mix_box %>
+                  <%= boolean_to_yes_no @product.is_mix_box %>
                 </div>
               </div>
 

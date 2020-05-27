@@ -36,7 +36,7 @@
             <tr role="row">
               <th><%= t('simple_form.labels.defaults.access_only_with_token') %></th>
               <td>
-                <%= boolean_check_mark(@api_key.access_only_with_token) %>
+                <%= boolean_to_yes_no(@api_key.access_only_with_token) %>
               </td>
             </tr>
             <tr role="row">

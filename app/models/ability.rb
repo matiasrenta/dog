@@ -48,7 +48,6 @@ class Ability
 		can [:manage], Box
 		can [:manage], ProductBrand
 		can [:manage], MixBoxDetail
-		can [:manage], ProductPrice
 		can [:manage], CustomerCategory
 		can [:manage], PurchaseOrderDetail
 		can [:manage], PurchaseOrder
@@ -59,13 +58,9 @@ class Ability
 		can [:manage], CustomerContact
 		can :manage, Customer
 		can :manage, Product
-
-		can :manage, ProductPrice
 		can :manage, ProductBox
 		can :manage, MixBoxDetail
 		can :manage, InvGrouped
-
-
 
 		can [:manage], User
 		can :read, :administrations

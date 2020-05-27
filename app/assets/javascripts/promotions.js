@@ -67,9 +67,9 @@ function calculate_prices(){
         company_profit_percent = ((temp_price - total_cost) / total_cost) * 100;
         seller_profit_percent = total_profit_percent - company_profit_percent;
 
-        $('#promotion_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent);
-        $('#promotion_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent);
-        $('#promotion_prices_attributes_' + i + '_price').val(price);
+        $('#promotion_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent.toFixed(2));
+        $('#promotion_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent.toFixed(2));
+        $('#promotion_prices_attributes_' + i + '_price').val(price.toFixed(2));
     }
 }
 
@@ -87,9 +87,9 @@ function calculate_profits(){
         company_profit_percent = ((temp_price - total_cost) / total_cost) * 100;
         seller_profit_percent = total_profit_percent - company_profit_percent;
 
-        $('#promotion_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent);
-        $('#promotion_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent);
-        $('#promotion_prices_attributes_' + i + '_total_profit_percent').val(total_profit_percent);
+        $('#promotion_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent.toFixed(2));
+        $('#promotion_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent.toFixed(2));
+        $('#promotion_prices_attributes_' + i + '_total_profit_percent').val(total_profit_percent.toFixed(2));
     }
 }
 
@@ -107,8 +107,8 @@ function calculate_seller_profit_and_commision(){
         seller_comm_amount = total_cost * (seller_profit_percent / 100);
         seller_comm = (seller_comm_amount / price) * 100;
 
-        $('#promotion_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent);
-        $('#promotion_prices_attributes_' + i + '_seller_commission_over_price_percent').val(seller_comm);
+        $('#promotion_prices_attributes_' + i + '_seller_profit_percent').val(seller_profit_percent.toFixed(2));
+        $('#promotion_prices_attributes_' + i + '_seller_commission_over_price_percent').val(seller_comm.toFixed(2));
     }
 }
 
@@ -125,8 +125,8 @@ function calculate_company_profit_and_commision(){
         seller_comm_amount = total_cost * (seller_profit_percent / 100);
         seller_comm = (seller_comm_amount / price) * 100;
 
-        $('#promotion_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent);
-        $('#promotion_prices_attributes_' + i + '_seller_commission_over_price_percent').val(seller_comm);
+        $('#promotion_prices_attributes_' + i + '_company_profit_percent').val(company_profit_percent.toFixed(2));
+        $('#promotion_prices_attributes_' + i + '_seller_commission_over_price_percent').val(seller_comm.toFixed(2));
     }
 }
 

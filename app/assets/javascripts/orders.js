@@ -30,14 +30,14 @@ $(document).on("input", ".quantity", function() {
     quantity_in_the_box = parseInt( $(this.closest('table')).find($("[id$='_quantity_in_the_box']"))[0].value );
     quantity_units_element.value = quantity_in_the_box * parseInt(this.value);
     var subtotal = parseFloat(quantity_units_element.closest('table').getElementsByClassName('unit_price')[0].value) * parseInt(quantity_units_element.value);
-    this.closest('table').getElementsByClassName('subtotal')[0].value = subtotal;
+    this.closest('table').getElementsByClassName('subtotal')[0].value = subtotal.toFixed(2);
     calculate_total_amount();
 });
 
 // cuando ingreso la cantidad calculo el subtotal y sumo todos los subtotales para obtener el total
 $(document).on("input", ".quantity_units", function() {
     var subtotal = parseFloat(this.closest('tr').getElementsByClassName('unit_price')[0].value) * parseInt(this.value);
-    this.closest('tr').getElementsByClassName('subtotal')[0].value = subtotal;
+    this.closest('tr').getElementsByClassName('subtotal')[0].value = subtotal.toFixed(2);
     calculate_total_amount();
 });
 
@@ -52,7 +52,7 @@ function calculate_total_amount(){
         // todo: quitar el hardcoded del 1.21 y usar la sett variable de IVA
         sum = sum * 1.21;
     }
-    $("#order_total_amount").val(sum);
+    $("#order_total_amount").val(sum.toFixed(2));
 }
 
 // Tuve que cambiar una cosita en esta librería para que si habia una sola sucursal la pusiera como selected directamente

@@ -15,8 +15,8 @@ function calculate_profits(){
     company_profit_percent = ((temp_price - total_cost) / total_cost) * 100;
     seller_profit_percent = total_profit - company_profit_percent;
 
-    $('#customer_category_company_profit_percent').val(company_profit_percent);
-    $('#customer_category_seller_profit_percent').val(seller_profit_percent);
+    $('#customer_category_company_profit_percent').val(company_profit_percent.toFixed(2));
+    $('#customer_category_seller_profit_percent').val(seller_profit_percent.toFixed(2));
 }
 
 

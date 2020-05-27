@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200526221240) do
+ActiveRecord::Schema.define(version: 20200527003532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,12 +136,12 @@ ActiveRecord::Schema.define(version: 20200526221240) do
 
   create_table "customer_categories", force: :cascade do |t|
     t.string   "name"
-    t.float    "company_profit_percent"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.float    "seller_profit_percent"
-    t.float    "seller_commission_over_price_percent"
-    t.float    "total_profit_percent"
+    t.decimal  "company_profit_percent",               precision: 10, scale: 2
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.decimal  "seller_profit_percent",                precision: 10, scale: 2
+    t.decimal  "seller_commission_over_price_percent", precision: 10, scale: 2
+    t.decimal  "total_profit_percent",                 precision: 10, scale: 2
     t.integer  "order"
   end
 
@@ -271,10 +271,10 @@ ActiveRecord::Schema.define(version: 20200526221240) do
 
   create_table "order_details", force: :cascade do |t|
     t.integer  "order_id"
-    t.float    "unit_price"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.float    "subtotal"
+    t.decimal  "unit_price",      precision: 10, scale: 2
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.decimal  "subtotal",        precision: 10, scale: 2
     t.integer  "quantity"
     t.integer  "stock_at_create"
     t.integer  "quantity_units"
@@ -286,27 +286,27 @@ ActiveRecord::Schema.define(version: 20200526221240) do
   create_table "orders", force: :cascade do |t|
     t.integer  "customer_id"
     t.integer  "user_id"
-    t.float    "total_amount"
+    t.decimal  "total_amount",       precision: 10, scale: 2
     t.string   "status"
     t.datetime "delivery_date"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
     t.integer  "customer_branch_id"
-    t.boolean  "iva",                default: false
-    t.float    "iva_amount"
+    t.boolean  "iva",                                         default: false
+    t.decimal  "iva_amount",         precision: 10, scale: 2
   end
 
   create_table "prices", force: :cascade do |t|
     t.integer  "priceable_id"
     t.string   "priceable_type"
     t.integer  "customer_category_id"
-    t.float    "company_profit_percent"
-    t.float    "seller_profit_percent"
-    t.float    "seller_commission_over_price_percent"
-    t.float    "price"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.float    "total_profit_percent"
+    t.decimal  "company_profit_percent",               precision: 10, scale: 2
+    t.decimal  "seller_profit_percent",                precision: 10, scale: 2
+    t.decimal  "seller_commission_over_price_percent", precision: 10, scale: 2
+    t.decimal  "price",                                precision: 10, scale: 2
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.decimal  "total_profit_percent",                 precision: 10, scale: 2
   end
 
   create_table "product_boxes", force: :cascade do |t|
@@ -327,23 +327,23 @@ ActiveRecord::Schema.define(version: 20200526221240) do
   create_table "product_prices", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "customer_category_id"
-    t.float    "price"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-    t.float    "profit_percent"
-    t.float    "sales_commission"
+    t.decimal  "price",                precision: 10, scale: 2
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.decimal  "profit_percent",       precision: 10, scale: 2
+    t.decimal  "sales_commission",     precision: 10, scale: 2
   end
 
   create_table "products", force: :cascade do |t|
     t.string   "code"
     t.string   "name"
-    t.float    "product_cost"
-    t.float    "cargo_cost"
-    t.float    "total_cost"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.boolean  "units_sale_allowed", default: false
-    t.boolean  "is_mix_box",         default: false
+    t.decimal  "product_cost",       precision: 10, scale: 2
+    t.decimal  "cargo_cost",         precision: 10, scale: 2
+    t.decimal  "total_cost",         precision: 10, scale: 2
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+    t.boolean  "units_sale_allowed",                          default: false
+    t.boolean  "is_mix_box",                                  default: false
     t.integer  "product_brand_id"
   end
 
@@ -359,29 +359,29 @@ ActiveRecord::Schema.define(version: 20200526221240) do
     t.string   "name"
     t.text     "notes"
     t.string   "promo_type"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.boolean  "published",          default: false
-    t.float    "product_total_cost"
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+    t.boolean  "published",                                   default: false
+    t.decimal  "product_total_cost", precision: 10, scale: 2
   end
 
   create_table "purchase_order_details", force: :cascade do |t|
     t.integer  "box_id"
     t.integer  "quantity"
-    t.float    "product_unit_cost"
-    t.float    "box_unit_cost"
+    t.decimal  "product_unit_cost", precision: 10, scale: 2
+    t.decimal  "box_unit_cost",     precision: 10, scale: 2
     t.integer  "purchase_order_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
   end
 
   create_table "purchase_orders", force: :cascade do |t|
     t.integer  "supplier_id"
-    t.float    "total_amount"
+    t.decimal  "total_amount", precision: 10, scale: 2
     t.string   "status"
     t.text     "notes"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -460,14 +460,14 @@ ActiveRecord::Schema.define(version: 20200526221240) do
   create_table "things", force: :cascade do |t|
     t.string   "name"
     t.integer  "age"
-    t.float    "price"
+    t.decimal  "price",             precision: 10, scale: 2
     t.date     "expires"
     t.datetime "discharged_at"
     t.text     "description"
     t.boolean  "published"
     t.string   "gender"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.integer  "thing_category_id"
     t.integer  "user_id"
   end

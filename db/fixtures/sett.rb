@@ -18,7 +18,7 @@ end
 
 Sett.seed_once(:var) do |s|
   s.var = 'WEBSITE_TITLE'
-  s.value = 'Chucky'
+  s.value = 'Dogstribuidora'
   s.description = 'El titulo que muestra el navegador. Esta en layouts/header.erb'
 end
 

@@ -153,7 +153,7 @@
             </table>
           </div>
           <div class="widget-footer">
-            <%= render 'shared/pagination', locals: {target: @inventories, model_index_path: inventories_path} %>
+            <%= render 'shared/pagination', locals: {target: @inventories, model_index_path: inventories_path(grouped: true)} %>
           </div>
         </div>
       </div>

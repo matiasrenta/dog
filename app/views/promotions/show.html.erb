@@ -94,6 +94,12 @@
                   <%= boolean_to_yes_no(@promotion.published?) %>
                 </div>
               </div>
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.product_total_cost') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @promotion.product_total_cost %>
+                </div>
+              </div>
 
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.notes') %></strong></label>

@@ -28,7 +28,7 @@
 
             <%= f.input :from_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@promotion.from_date)} %>
             <%= f.input :end_with, as: :select, collection: Promotion::END_WITH_FOR_SELECT, input_html: {class: 'field_with_popover_lf', data: {pop: 'popover-hover', placement: 'top', title: 'title', content: 'content', icon: 'fa fa-question'}} %>
-            <div id="to_date" style="display: <%= @promotion.end_with_date? ? 'block' : 'none' %>;">
+            <div id="to_date" style="display: <%= @promotion.end_with_date? || @promotion.end_with_date_or_stock? ? 'block' : 'none' %>;">
                 <%= f.input :to_date, as: :string, placeholder: 'dd/mm/aaaa', input_html: {class: 'date-picker', value: format_date_field(@promotion.to_date)} %>
             </div>
             <%= f.input :published, as: :select, label: t('simple_form.labels.defaults.promotion_published?'), collection: options_for_boolean, include_blank: false %>

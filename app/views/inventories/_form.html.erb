@@ -22,7 +22,7 @@
             <div class="widget-footer">
               <div class="form-actions">
                 <div class="btn-group">
-                  <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), inventories_path, class: 'btn btn-default btn-sm' if can?(:read, Inventory) %>
+                  <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), inventories_path(grouped: true), class: 'btn btn-default btn-sm' if can?(:read, Inventory) %>
                   <%= link_to raw("<i class='fa fa-binoculars'></i> #{t('simple_form.buttons.show')}"), @inventory, class: 'btn btn-default btn-sm' if can?(:read, Inventory) && updating? %>
                   <%= link_to raw("<i class='fa fa-trash'></i> #{t('simple_form.buttons.destroy')}"), @inventory, class: 'btn btn-default btn-sm', method: :delete, data: {confirm: t('helpers.messages.are_you_sure'), 'original-title': 'Destroy'} if can?(:destroy, Inventory) && updating? %>
                   <button type="submit" class="btn btn-primary btn-sm">

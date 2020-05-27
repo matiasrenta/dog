@@ -24,7 +24,7 @@
             <div class="widget-footer">
               <div class="form-actions">
                 <div class="btn-group">
-                  <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), inventories_path, class: 'btn btn-default btn-sm' if can?(:read, Inventory) %>
+                  <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), inventories_path(grouped: true), class: 'btn btn-default btn-sm' if can?(:read, Inventory) %>
                   <button type="submit" class="btn btn-primary btn-sm">
                     <i class='fa fa-check-circle'></i> <%= creating? ? t('simple_form.buttons.create') : t('simple_form.buttons.update') %>
                   </button>

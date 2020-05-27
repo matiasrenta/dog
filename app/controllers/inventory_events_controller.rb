@@ -21,7 +21,7 @@ class InventoryEventsController < ApplicationController
   # POST /inventory_events
   def create
     if @inventory_event.save
-      redirect_to inventories_path, notice: t("simple_form.flash.successfully_created")
+      redirect_to inventories_path(grouped: true), notice: t("simple_form.flash.successfully_created")
     else
       generate_flash_msg_no_keep(@inventory_event)
       render :new

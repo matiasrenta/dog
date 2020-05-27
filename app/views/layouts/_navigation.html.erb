@@ -29,7 +29,7 @@
 
       <% if can? :read, Inventory %>
           <li data-step="2" data-intro="Este es el menú de Inventario.">
-            <a href="<%= inventories_path %>"><i class="fa fa-lg fa-fw fa-archive"></i> <span class="menu-item-parent"><%= t('activerecord.models.inventory.other') %></span></a>
+            <a href="<%= inventories_path(grouped: true) %>"><i class="fa fa-lg fa-fw fa-archive"></i> <span class="menu-item-parent"><%= t('activerecord.models.inventory.other') %></span></a>
           </li>
       <% end %>
 

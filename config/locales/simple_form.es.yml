@@ -129,6 +129,7 @@ es:
         promotion_published?: 'Publicada?'
         margin: 'Margen'
         created_by: 'Creado por'
+        product_total_cost: 'Costo total del producto'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'
@@ -184,6 +185,8 @@ es:
       add: 'Agregar'
       new_event: 'Nuevo evento'
       new_mix_box: 'Armar surtida'
+      group: 'Agrupar'
+      ungroup: 'Desagrupar'
 
     tooltips:
       show: 'Ver'

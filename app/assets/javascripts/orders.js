@@ -48,7 +48,7 @@ function calculate_total_amount(){
         sum += ( +$(this).val() );
     });
 
-    if (document.getElementById("order_iva").checked){
+    if (document.getElementById("order_iva").value == 'true'){
         // todo: quitar el hardcoded del 1.21 y usar la sett variable de IVA
         sum = sum * 1.21;
     }

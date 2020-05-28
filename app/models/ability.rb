@@ -61,6 +61,7 @@ class Ability
 		can :manage, ProductBox
 		can :manage, MixBoxDetail
 		can :manage, InvGrouped
+		can :manage, Price
 
 		can [:manage], User
 		can :read, :administrations

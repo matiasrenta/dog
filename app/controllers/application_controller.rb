@@ -241,6 +241,16 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AuthorizationNotPerformed do |exception|
     raise CanCan::AuthorizationNotPerformed
   end
+  rescue_from Inventory::NotEnougStockAvailablehError do |e|
+    if @inventory_event
+      @inventory_event.errors.add(:quantity, e.message) # todo: este tipo de error solo puedo lanzarlo cuando estoy en el form de inventory_event, sino no existirá @inventory_event. no está bien diseñado esto
+      generate_flash_msg_no_keep(@inventory_event)
+      render :new
+    else
+      #raise Inventory::NotEnougStockAvailablehError.new(e.message) # si no viene del form de inbventory event entonces no existe @inventory_event. dara un error 500 supongo
+      render_500(e)
+    end
+  end
 
   def render_404(exception)
     #set_content_title(t("screens.errors.not_found_404"))

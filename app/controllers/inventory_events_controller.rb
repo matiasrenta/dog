@@ -29,14 +29,14 @@ class InventoryEventsController < ApplicationController
   end
 
   # PATCH/PUT /inventory_events/1
-  def update
-    if @inventory_event.update(inventory_event_params)
-      redirect_to @inventory_event, notice: t("simple_form.flash.successfully_updated")
-    else
-      generate_flash_msg_no_keep(@inventory_event)
-      render :edit
-    end
-  end
+#  def update
+#    if @inventory_event.update(inventory_event_params)
+#      redirect_to @inventory_event, notice: t("simple_form.flash.successfully_updated")
+#    else
+#      generate_flash_msg_no_keep(@inventory_event)
+#      render :edit
+#    end
+#  end
 
   # DELETE /inventory_events/1
   def destroy

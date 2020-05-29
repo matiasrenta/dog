@@ -22,6 +22,8 @@ class Inventory < ActiveRecord::Base
     Inventory.with_quantity_available_cero.map(){|i| i.destroy if i.quantity_warehouse == 0}
   end
 
+  class NotEnougStockAvailablehError < StandardError; end # clase para lanzar error cuandodo no haya stock suficiente
+
   def self.stock_available(product_id, box_id, expiration_date = nil)
     if expiration_date.blank?
       InvGrouped.stock_available(product_id, box_id)
@@ -99,7 +101,8 @@ class Inventory < ActiveRecord::Base
         inventory.quantity_available = inventory.quantity_available - quantity_to_remove
         inventory.save
       else
-        raise("no hay stock suficiente. Stock actual: #{inventory.quantity_available} #{inventory.try(:box).try(:name)}")
+        #raise("no hay stock suficiente. Stock actual: #{inventory.quantity_available} #{inventory.try(:box).try(:name)}")
+        raise NotEnougStockAvailablehError.new("no hay stock suficiente. Stock actual: #{inventory.quantity_available} #{inventory.try(:box).try(:name)}")
       end
     else
       # si no se pasa un expiration_date entonces puede que sean muchos inventories (InventoryGroup)
@@ -108,7 +111,8 @@ class Inventory < ActiveRecord::Base
       if inventory_group.quantity_available >= quantity_to_remove
         inventory_group.fefo_remove(quantity_to_remove)
       else
-        raise("no hay stock suficiente. Stock actual: #{inventory_group.quantity_available} #{Box.find(data[:box_id]).name}")
+        #raise("no hay stock suficiente. Stock actual: #{inventory_group.quantity_available} #{Box.find(data[:box_id]).name}")
+        raise NotEnougStockAvailablehError.new("no hay stock suficiente. Stock actual: #{inventory_group.quantity_available} #{Box.find(data[:box_id]).name}")
       end
     end
   end
@@ -148,7 +152,8 @@ class Inventory < ActiveRecord::Base
       inventory.save
       units_inventory.save
     else
-      raise "No hay stock para convertir. Stock actual: #{inventory.quantity_available} #{data[:box].name}"
+      #raise "No hay stock para convertir. Stock actual: #{inventory.quantity_available} #{data[:box].name}"
+      raise NotEnougStockAvailablehError.new("No hay stock para convertir. Stock actual: #{inventory.quantity_available} #{data[:box].name}")
     end
   end
 
@@ -167,7 +172,8 @@ class Inventory < ActiveRecord::Base
       inventory.save
       box_inventory.save
     else
-      raise "No hay suficiente stock para convertir. Stock actual: #{inventory.quantity_available} #{Box.units_box.name}"
+      #raise "No hay suficiente stock para convertir. Stock actual: #{inventory.quantity_available} #{Box.units_box.name}"
+      raise NotEnougStockAvailablehError.new("No hay suficiente stock para convertir. Stock actual: #{inventory.quantity_available} #{Box.units_box.name}")
     end
   end
 
@@ -177,13 +183,17 @@ class Inventory < ActiveRecord::Base
       if inventory_group.quantity_available >= mix_box_detail.quantity
         inventory_group.fefo_remove(mix_box_detail.quantity)
       else
-        raise "No hay suficiente stock para convertir. Stock actual de #{mix_box_detail.product.name}: #{inventory_group.quantity_available} #{Box.units_box.name}"
+        #raise "No hay suficiente stock para convertir. Stock actual de #{mix_box_detail.product.name}: #{inventory_group.quantity_available} #{Box.units_box.name}"
+        raise NotEnougStockAvailablehError.new("No hay suficiente stock para convertir. Stock actual de #{mix_box_detail.product.name}: #{inventory_group.quantity_available} #{Box.units_box.name}")
       end
     end
     inventory = get_or_initialize_inventory(data[:product_id], data[:box_id], data[:expiration_date]) # la fecha de vto de una caja surtida es la del producto que venza primero
     inventory.quantity_available = inventory.quantity_available + data[:quantity]
     inventory.save
   end
+
+
+
 
 
 end

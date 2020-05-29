@@ -53,6 +53,7 @@ class InventoryEvent < ActiveRecord::Base
 
   validates :event, :reason, :product_id, :quantity, :box_id, presence: true
   validates :quantity, :product_id, :box_id, numericality: true
+  validate :not_add_event_for_mix_box
 
   before_create do
     Inventory.update_stock({product_id: self.product_id,
@@ -63,5 +64,13 @@ class InventoryEvent < ActiveRecord::Base
                        expiration_date: self.expiration_date} )
   end
 
+  private
+
+  def not_add_event_for_mix_box
+    if self.event == EVENT_ADD && self.product.is_mix_box
+      errors.add(:product_id, 'No se aceptan ENTRADAS de cajas surtidas, se arman con stock existente')
+      false
+    end
+  end
 
 end

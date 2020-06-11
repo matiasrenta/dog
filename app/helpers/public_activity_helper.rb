@@ -27,10 +27,10 @@ module PublicActivityHelper
     if activity.trackable
       if can?(:read, activity.trackable)
         begin
-          #ActionController::Routing::Routes.recognize_path(@related_page_path, :method => :get)
+          path = eval("#{activity.trackable_type.underscore}_path(activity.trackable)")
+          Rails.application.routes.recognize_path(path, method: :get) # si no existe el route va al rescue y devuelve solo el label
           link_to label, activity.trackable
         rescue
-          #@related_page_path = nil
           label
         end
       else

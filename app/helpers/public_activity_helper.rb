@@ -26,7 +26,13 @@ module PublicActivityHelper
     label = activity.parameters[:model_label]
     if activity.trackable
       if can?(:read, activity.trackable)
-        link_to label, activity.trackable
+        begin
+          #ActionController::Routing::Routes.recognize_path(@related_page_path, :method => :get)
+          link_to label, activity.trackable
+        rescue
+          #@related_page_path = nil
+          label
+        end
       else
         label
       end

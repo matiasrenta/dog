@@ -16,6 +16,7 @@ class Order < ActiveRecord::Base
   STATUS_SENT         = 'SENT'
   STATUS_DELIVERED    = 'DELIVERED'
   STATUS_CHARGED      = 'CHARGED'
+  STATUS_ACCOUNTED    = 'ACCOUNTED'
   STATUS_COMMISSIONED = 'COMMISSIONED'
   STATUS_CANCELED     = 'CANCELED'
 
@@ -24,6 +25,7 @@ class Order < ActiveRecord::Base
                   ['ENVIADO', STATUS_SENT],
                   ['ENTREGADO', STATUS_DELIVERED],
                   ['COBRADO', STATUS_CHARGED],
+                  ['CONTABILIZADO', STATUS_ACCOUNTED],
                   ['COMISIONADO', STATUS_COMMISSIONED],
                   ['CANCELADO', STATUS_CANCELED]]
 
@@ -34,7 +36,7 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :order_details, allow_destroy: true
 
   before_validation on: :create do
-    self.status = STATUS_TYPES[0][1]
+    self.status = STATUS_CREATED
   end
 
   validates :customer_id, :customer_branch_id, :user_id, :total_amount, :status, presence: true

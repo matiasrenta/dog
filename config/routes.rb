@@ -147,39 +147,6 @@ Rails.application.routes.draw do
   #     #   end
 
 
-  # API's routes
-  api_version(:module => "V1", :path => {:value => "v1"}, :defaults => {:format => "json"}) do
-    resources :things
-    resources :project_activity_obras
-    resources :verifications
-    resources :portal do
-      collection do
-        get :total_budget
-        get :budget_by_chapter
-        get :treemap
-        get :suppliers
-        get :mapa_obras
-        get :financial_documents
-        get :open_data
-      end
-    end
-  end
 
-  api_version(:module => "V2", :path => {:value => "v2"}, :defaults => {:format => "json"}) do
-    resources :things
-    resources :project_activity_obras
-    resources :verifications
-    resources :portal do
-      collection do
-        get 'total_budget/:year', action: 'total_budget'
-        get :budget_by_chapter
-        get 'treemap/:year', action: 'treemap'
-        get 'suppliers/:year', action: 'suppliers'
-        get 'mapa_obras/:year', action: 'mapa_obras'
-        get 'financial_documents/:year', action: 'financial_documents'
-        get :open_data
-      end
-    end
-  end
 
 end

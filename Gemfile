@@ -178,5 +178,5 @@ group :development, :test do
 end
 
 group :production do
-  gem 'puma', '4.3.1'
+  gem 'puma', '4.3.5'
 end

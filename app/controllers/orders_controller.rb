@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
     if @order.update(order_params)
       redirect_to @order, notice: t("simple_form.flash.successfully_updated")
     else
-      puts @order.errors.messages
+      #puts @order.errors.messages
       generate_flash_msg_no_keep(@order)
       render :edit
     end
@@ -115,7 +115,7 @@ class OrdersController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def order_params
     params.require(:order).permit(:customer_id, :customer_branch_id, :user_id, :iva, :total_amount, :status, :delivery_date,
-                                  {order_details_attributes: [:_destroy, :id, :product_id, :promotion_id, :box_id, :quantity_in_the_box, :quantity, :quantity_units, :unit_price, :stock_at_create, :subtotal]})
+                                  {order_details_attributes: [:_destroy, :id, :product_id, :promotion_id, :box_id, :quantity_in_the_box, :quantity, :quantity_units, :unit_price, :stock_at_create, :disccount_amount, :subtotal]})
   end
 
 

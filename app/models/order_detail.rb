@@ -26,7 +26,9 @@ class OrderDetail < ActiveRecord::Base
 
   validates :product_id, :box_id, :quantity_in_the_box, :quantity, :stock_at_create, :quantity_units, :unit_price, :subtotal, presence: true
   validates :product_id, :box_id, :quantity_in_the_box, :quantity, :stock_at_create, :quantity_units, :unit_price, :subtotal, numericality: true
+  validates :quantity, numericality: { greater_than: 0 }
   validates :product_id, uniqueness: { scope: :order_id }
+  validate :check_stock
 
   scope :created, -> { joins(:order).where("orders.status = ?", Order::STATUS_CREATED) }
   scope :by_product_id, -> (product_id) { where(product_id: product_id) }
@@ -34,9 +36,13 @@ class OrderDetail < ActiveRecord::Base
 
   before_create do
     if promo_detail?
-      promotion_update_stock
+      self.promotion.update_stock(self.promotion.stock_available - self.quantity)
     else
-      product_update_stock
+      Inventory.update_stock({product_id: self.product_id,
+                              box_id: self.box_id,
+                              quantity: self.quantity,
+                              event: InventoryEvent::EVENT_REMOVE,
+                              reason: InventoryEvent::REASON_SALE})
     end
   end
 
@@ -60,28 +66,19 @@ class OrderDetail < ActiveRecord::Base
 
   private
 
-  def promotion_update_stock
-    stock_available = self.promotion.stock_available
-    if stock_available < self.quantity
-      errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
-      false
+  def check_stock
+    if promo_detail?
+      stock_available = self.promotion.stock_available
+      if stock_available < self.quantity
+        errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
+        false
+      end
     else
-      self.promotion.update_stock(self.promotion.stock_available - self.quantity)
-      true
-    end
-  end
-
-  def product_update_stock
-    stock_available = Inventory.stock_available(self.product_id, self.box_id)
-    if stock_available < self.quantity
-      errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
-      false
-    else
-      Inventory.update_stock({product_id: self.product_id,
-                              box_id: self.box_id,
-                              quantity: self.quantity,
-                              event: InventoryEvent::EVENT_REMOVE,
-                              reason: InventoryEvent::REASON_SALE})
+      stock_available = Inventory.stock_available(self.product_id, self.box_id)
+      if stock_available < self.quantity
+        errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
+        false
+      end
     end
   end
 

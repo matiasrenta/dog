@@ -10,7 +10,7 @@ install_plugin Capistrano::SCM::Git
 require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/rbenv'
-
+require 'seed-fu/capistrano3'
 
 # Includes tasks from other gems included in your Gemfile
 #

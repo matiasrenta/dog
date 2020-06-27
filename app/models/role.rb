@@ -26,5 +26,9 @@ class Role < ActiveRecord::Base
     name == 'Vendedor'
   end
 
+  def repartidor?
+    name == 'Repartidor'
+  end
+
 
 end

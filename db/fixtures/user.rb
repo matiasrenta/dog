@@ -9,14 +9,6 @@ User.seed_once(:email) do |s|
 end
 
 User.seed_once(:email) do |s|
-  s.email = 'alejandroperrotat@gmail.com'
-  s.name = 'Perro'
-  s.password = 'recompensa'
-  s.password_confirmation = 'recompensa'
-  s.role_id = Role.find_by_name('Administrador').id
-end
-
-User.seed_once(:email) do |s|
   s.email = 'administrador@mail.com'
   s.name = 'Administrador'
   s.password = 'recompensa'
@@ -30,4 +22,12 @@ User.seed_once(:email) do |s|
   s.password = 'recompensa'
   s.password_confirmation = 'recompensa'
   s.role_id = Role.find_by_name('Vendedor').id
+end
+
+User.seed_once(:email) do |s|
+  s.email = 'repartidor@mail.com'
+  s.name = 'Repartidor'
+  s.password = 'recompensa'
+  s.password_confirmation = 'recompensa'
+  s.role_id = Role.find_by_name('Repartidor').id
 end

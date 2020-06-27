@@ -11,9 +11,11 @@ class Order < ActiveRecord::Base
           }
 
 
+
+
   STATUS_CREATED      = 'CREATED'
   STATUS_PACKED       = 'PACKED'
-  STATUS_SENT         = 'SENT'
+  STATUS_DISPATCHED   = 'DISPATCHED'
   STATUS_DELIVERED    = 'DELIVERED'
   STATUS_CHARGED      = 'CHARGED'
   STATUS_ACCOUNTED    = 'ACCOUNTED'
@@ -22,39 +24,48 @@ class Order < ActiveRecord::Base
 
   STATUS_TYPES = [['CREADO', STATUS_CREATED],
                   ['EMPACADO', STATUS_PACKED],
-                  ['ENVIADO', STATUS_SENT],
+                  ['DESPACHADO', STATUS_DISPATCHED],
                   ['ENTREGADO', STATUS_DELIVERED],
                   ['COBRADO', STATUS_CHARGED],
                   ['CONTABILIZADO', STATUS_ACCOUNTED],
                   ['COMISIONADO', STATUS_COMMISSIONED],
                   ['CANCELADO', STATUS_CANCELED]]
 
-  belongs_to :user
-  belongs_to :customer
-  belongs_to :customer_branch
-  has_many :order_details, dependent: :destroy
-  accepts_nested_attributes_for :order_details, allow_destroy: true
 
-  before_validation on: :create do
-    self.status = STATUS_CREATED
-  end
+  state_machine :status, initial: :CREATED do
+    #store_audit_trail
 
-  validates :customer_id, :customer_branch_id, :user_id, :total_amount, :status, presence: true
-  validates :customer_id, :customer_branch_id, :user_id, :total_amount, numericality: true
-  validates :status, inclusion: {in: STATUS_TYPES.map{|s| s[1]}}
+    event :PACKED do
+      transition CREATED: :PACKED
+    end
 
-  # todo: esta validacion no muestra un mensaje bueno. la otra validacion no funciona al crearse
-  validates_presence_of :order_details, message: 'HOLA'
-  validate do |order|
-    order.errors.add(:base, :order_details_blank, message: 'Debe haber al menos un detalle') if order.order_details.empty?
-  end
+    event :DISPATCHED do
+      transition PACKED: :DISPATCHED
+    end
 
-  scope :created, -> { where(status: STATUS_TYPES[0][1]) }
+    event :DELIVERED do
+      transition DISPATCHED: :DELIVERED
+    end
 
-  before_update do
-    if self.status_changed? && self.canceled?
-      #todo: no qiuiero que de created lo pasen a canceled. pero no me da bola al quereer hacer el destroy aqui dentro de update, ni retornando false lo destruye, pero si destruye los order_details
-      #self.destroy if self.status_was == STATUS_CREATED
+    event :CHARGED do
+      transition DELIVERED: :CHARGED
+      transition DISPATCHED: :CHARGED
+    end
+
+    event :ACCOUNTED do
+      transition CHARGED: :ACCOUNTED
+    end
+
+    event :COMMISSIONED do
+      transition ACCOUNTED: :COMMISSIONED
+    end
+
+    event :CANCELED do
+      transition PACKED: :CANCELED
+      transition DISPATCHED: :CANCELED
+    end
+
+    after_transition [:PACKED, :DISPATCHED] => :CANCELED do |order, transition|
       self.order_details.each do |od|
         # agrego al stock lo que se quitó cuando se creó esta entidad
         Inventory.update_stock({product_id: od.product_id,
@@ -62,9 +73,48 @@ class Order < ActiveRecord::Base
                                 quantity: od.quantity,
                                 event: InventoryEvent::EVENT_ADD,
                                 reason: InventoryEvent::REASON_ORDER_CANCELED})
+
       end
     end
   end
+
+
+  belongs_to :user
+  belongs_to :customer
+  belongs_to :customer_branch
+  has_many :order_details, dependent: :destroy
+  accepts_nested_attributes_for :order_details, allow_destroy: true
+
+  #before_validation on: :create do
+  #  self.status = STATUS_CREATED
+  #end
+
+  validates :customer_id, :customer_branch_id, :user_id, :total_amount, :status, presence: true
+  validates :customer_id, :customer_branch_id, :user_id, :total_amount, numericality: true
+  #validates :status, inclusion: {in: STATUS_TYPES.map{|s| s[1]}}
+
+  # todo: esta validacion no muestra un mensaje bueno. la otra validacion no funciona al crearse
+  validates_presence_of :order_details, message: 'HOLA'
+  validate do |order|
+    order.errors.add(:base, :order_details_blank, message: 'Debe haber al menos un detalle') if order.order_details.empty?
+  end
+
+  scope :created, -> { where(status: STATUS_CREATED) }
+
+  #before_update do
+  #  if self.status_changed? && self.canceled?
+  #    #todo: no qiuiero que de created lo pasen a canceled. pero no me da bola al quereer hacer el destroy aqui dentro de update, ni retornando false lo destruye, pero si destruye los order_details
+  #    #self.destroy if self.status_was == STATUS_CREATED
+  #    self.order_details.each do |od|
+  #      # agrego al stock lo que se quitó cuando se creó esta entidad
+  #      Inventory.update_stock({product_id: od.product_id,
+  #                              box_id: od.box_id,
+  #                              quantity: od.quantity,
+  #                              event: InventoryEvent::EVENT_ADD,
+  #                              reason: InventoryEvent::REASON_ORDER_CANCELED})
+  #    end
+  #  end
+  #end
 
   before_destroy do
     unless self.created?

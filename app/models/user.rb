@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
 
   after_destroy :remove_file
 
-  delegate :superuser?, :admin?, :admin_or_superuser?, :vendedor?, to: :role
+  delegate :superuser?, :admin?, :admin_or_superuser?, :vendedor?, :repartidor?, to: :role
 
   scope :less_superusers, -> {where.not(role_id: Role.superuser.id)}
   scope :actives, -> {where('deleted_at IS NULL')}

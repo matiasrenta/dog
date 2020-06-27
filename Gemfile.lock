@@ -378,6 +378,15 @@ GEM
     sshkit (1.20.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    state_machines (0.5.0)
+    state_machines-activemodel (0.7.1)
+      activemodel (>= 4.1)
+      state_machines (>= 0.5.0)
+    state_machines-activerecord (0.6.0)
+      activerecord (>= 4.1)
+      state_machines-activemodel (>= 0.5.0)
+    state_machines-audit_trail (2.0.2)
+      state_machines
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
@@ -480,6 +489,8 @@ DEPENDENCIES
   simple_form
   simple_form_auto_select2
   spring
+  state_machines-activerecord
+  state_machines-audit_trail
   therubyracer
   turbolinks
   turnout

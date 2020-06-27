@@ -304,6 +304,10 @@ es:
           attributes:
             event:
               reason_not_matching: 'El evento no coincide con la razón del mismo'
+        order:
+          attributes:
+            status_event:
+              invalid_event: 'Status incorrecto debido al status actual'
 
 
     messages:

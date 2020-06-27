@@ -1,0 +1,1 @@
+PublicActivity.enabled = false

@@ -82,8 +82,8 @@ namespace :deploy do
   desc 'Restart application by restarting puma service'
   task :restart do
     on roles(:app) do
-      server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog_staging/shared/puma.rb phased-restart"
-      app_current = '/home/deployer/railsapps/dog_staging/current'
+      #server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog_staging/shared/puma.rb phased-restart"
+      #app_current = '/home/deployer/railsapps/dog_staging/current'
       execute "cd '#{app_current}'; #{server_command}"
       #execute "sudo service puma-chucky-template restart"
     end

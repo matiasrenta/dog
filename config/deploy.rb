@@ -7,10 +7,11 @@ set :application, 'dogstribuidora'
 set :repo_url, 'git@github.com:matiasrenta/dog.git'
 
 # Default branch is :master
-set :branch, :staging
+#set :branch, :staging
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/deployer/railsapps/dog_staging'
+set :deploy_to, '/home/deployer/railsapps/dog'
+#set :deploy_to, '/home/deployer/railsapps/dog_staging'
 
 # Default value for :scm is :git
 # set :scm, :git

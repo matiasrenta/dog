@@ -50,10 +50,12 @@ local   all          usuario_del_database_yml           md5
 dumping: pg_dump -U dbname > outfile
 pg_dump -U pitagoras -o -O -C cuauh_development > cuauh_development_dump.txt
 pg_dump -U dbuser -o -O -C dog_production > dog_production_dump.txt
+pg_dump -U dbuser -o -O dog_staging > dog_staging_2_dump.txt  (nota: sin el create database)
 
 restoring:
 psql -U web -d cuauh_production -f cuauh_development_dump.txt
 psql -U dbuser -d dog_staging -f dog_production_dump.txt
+psql -U dbuser -d dog_production -f dog_staging_dump.txt
 
 
 LOGS PRODUCCION:

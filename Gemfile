@@ -143,6 +143,11 @@ gem 'paper_trail'
 gem 'attribute_normalizer' #proyecto_inversion en key_analytical se cambia de nil a '' provocando un attribute change en una afectacion. Este gem hace que se quede como nil
 # database views. https://github.com/scenic-views/scenic
 gem 'scenic'
+# https://github.com/state-machines/state_machines-audit_trail
+gem 'state_machines-audit_trail'
+gem 'state_machines-activerecord'
+
+
 # invoce printer. https://github.com/strzibny/invoice_printer
 #gem 'json', '2.1' # json de chucky 1.8.6
 #gem 'invoice_printer'

@@ -130,6 +130,7 @@ es:
         margin: 'Margen'
         created_by: 'Creado por'
         product_total_cost: 'Costo total del producto'
+        disccount_amount: 'Descuento'
 
     hints:
       access_only_with_token: 'La app no necesita autenticar usuario, solo usa el token para acceder a la API'

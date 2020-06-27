@@ -29,18 +29,35 @@ $(document).on("input", ".quantity", function() {
     quantity_units_element = this.closest('table').getElementsByClassName('quantity_units')[0];
     quantity_in_the_box = parseInt( $(this.closest('table')).find($("[id$='_quantity_in_the_box']"))[0].value );
     quantity_units_element.value = quantity_in_the_box * parseInt(this.value);
-    var subtotal = parseFloat(quantity_units_element.closest('table').getElementsByClassName('unit_price')[0].value) * parseInt(quantity_units_element.value);
+    unit_price = parseFloat(quantity_units_element.closest('table').getElementsByClassName('unit_price')[0].value);
+
+    disccount_amount = parseFloat(quantity_units_element.closest('table').getElementsByClassName('disccount_amount')[0].value);
+    if (!$.isNumeric(disccount_amount)){
+        disccount_amount = 0
+    }
+    var subtotal = (unit_price * parseInt(quantity_units_element.value)) - disccount_amount;
     this.closest('table').getElementsByClassName('subtotal')[0].value = subtotal.toFixed(2);
+
     calculate_total_amount();
 });
 
-// cuando ingreso la cantidad calculo el subtotal y sumo todos los subtotales para obtener el total
-$(document).on("input", ".quantity_units", function() {
-    var subtotal = parseFloat(this.closest('tr').getElementsByClassName('unit_price')[0].value) * parseInt(this.value);
-    this.closest('tr').getElementsByClassName('subtotal')[0].value = subtotal.toFixed(2);
+
+// cuando ingreso un disccount_amount se calcula el subtotal y el total
+$(document).on("input", ".disccount_amount", function() {
+    quantity_units_element = this.closest('table').getElementsByClassName('quantity_units')[0];
+    quantity_in_the_box = parseInt( $(this.closest('table')).find($("[id$='_quantity_in_the_box']"))[0].value );
+    quantity_units_element.value = quantity_in_the_box * parseInt(parseInt( $(this.closest('table')).find($("[id$='_quantity']"))[0].value ));
+    unit_price = parseFloat(quantity_units_element.closest('table').getElementsByClassName('unit_price')[0].value);
+
+    disccount_amount = parseFloat(this.value);
+    if (!$.isNumeric(disccount_amount)){
+        disccount_amount = 0
+    }
+    var subtotal = (unit_price * parseInt(quantity_units_element.value)) - disccount_amount;
+    this.closest('table').getElementsByClassName('subtotal')[0].value = subtotal.toFixed(2);
+
     calculate_total_amount();
 });
-
 
 function calculate_total_amount(){
     var sum = 0;

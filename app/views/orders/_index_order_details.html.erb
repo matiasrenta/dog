@@ -16,6 +16,7 @@
             <th><%= t('simple_form.labels.defaults.quantity') %></th>
             <th><%= t('simple_form.labels.defaults.quantity_units') %></th>
             <th><%= t('simple_form.labels.defaults.unit_price') %></th>
+            <th><%= t('simple_form.labels.defaults.disccount_amount') %></th>
             <th><%= t('simple_form.labels.defaults.subtotal') %></th>
           </tr>
           </thead>
@@ -28,6 +29,7 @@
                 <td align='right'><%= order_detail.quantity %></td>
                 <td align='right'><%= order_detail.quantity_units %></td>
                 <td align='right'><%= order_detail.unit_price ? number_to_currency(order_detail.unit_price, unit: '') : nil %></td>
+                <td align='right'><%= order_detail.disccount_amount ? number_to_currency(order_detail.disccount_amount, unit: '') : nil %></td>
                 <td align='right'><%= order_detail.subtotal ? number_to_currency(order_detail.subtotal, unit: '') : nil  %></td>
               </tr>
           <% end %>

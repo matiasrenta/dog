@@ -29,11 +29,19 @@
 
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.customer') %></strong></label>
-
                 <div class="col-lg-9 details-data">
                   <%= @order.customer.try(:name) %>
                 </div>
               </div>
+
+              <div class="row show-details">
+                <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.customer_branch') %></strong></label>
+                <div class="col-lg-9 details-data">
+                  <%= @order.customer_branch.try(:name) %>
+                </div>
+              </div>
+
+
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.user') %></strong></label>
 

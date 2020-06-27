@@ -12,3 +12,8 @@ Role.seed_once(:name) do |r|
   r.name = 'Vendedor'
   r.list_order = 3
 end
+
+Role.seed_once(:name) do |r|
+  r.name = 'Repartidor'
+  r.list_order = 4
+end

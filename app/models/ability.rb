@@ -74,8 +74,8 @@ class Ability
 		can [:read], CustomerCategory
 		can [:create, :read, :update, :destroy], PurchaseOrderDetail
 		can [:create, :read, :update, :destroy], OrderDetail
-		#can :read, Order
-		can [:read, :create, :update, :destroy], Order, user_id: @user.id
+		can [:read, :create, :destroy], Order, user_id: @user.id
+		can [:update], Order, user_id: @user.id, status: [Order::STATUS_CREATED]
 		can [:manage], CustomerBranch
 		can [:manage], CustomerContact
 		can [:read], Customer
@@ -83,6 +83,12 @@ class Ability
 		can [:read], Product
 		can [:read], Price
 		can :read, MixBoxDetail
+	end
+
+	def repartidor
+		can [:read], Order, status: [Order::STATUS_DISPATCHED, Order::STATUS_DELIVERED, Order::STATUS_CHARGED]
+		can [:update], Order, status: [Order::STATUS_DISPATCHED, Order::STATUS_DELIVERED]
+		can [:read], OrderDetail
 	end
 
 
@@ -97,7 +103,7 @@ class Ability
 		cannot [:update, :destroy], Box, name: Box::UNITS_BOX_NAME
 
 		cannot :destroy, Order do |order|
-			!order.created? # igual seria order.status != 'CREATED'. es deicr que no se puede eliminar una orden que este en un estado distinto a CREATED
+			!order.created? # igual seria order.status != 'CREATED'. es decir que no se puede eliminar una orden que este en un estado distinto a CREATED
 		end
 
 		unless @user.superuser?

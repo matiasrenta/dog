@@ -69,13 +69,13 @@ class OrderDetail < ActiveRecord::Base
   def check_stock
     if promo_detail?
       stock_available = self.promotion.stock_available
-      if stock_available < self.quantity
+      if self.quantity && stock_available < self.quantity
         errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
         false
       end
     else
       stock_available = Inventory.stock_available(self.product_id, self.box_id)
-      if stock_available < self.quantity
+      if self.quantity && stock_available < self.quantity
         errors.add(:quantity, "No hay stock suficiente. Stock actual: #{stock_available}")
         false
       end

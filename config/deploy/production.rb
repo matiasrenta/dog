@@ -1,16 +1,16 @@
 # production
-deploy_to = '/home/deployer/railsapps/dog'
-keep_releases = 2
-server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog/shared/puma.rb phased-restart"
-app_current = '/home/deployer/railsapps/dog/current'
-branch = :master
+#deploy_to = '/home/deployer/railsapps/dog'
+#keep_releases = 2
+#server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog/shared/puma.rb phased-restart"
+#app_current = '/home/deployer/railsapps/dog/current'
+#branch = :master
 
 #staging
-#deploy_to = '/home/deployer/railsapps/dog_staging'
-#keep_releases = 2
-#server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog_staging/shared/puma.rb phased-restart"
-#app_current = '/home/deployer/railsapps/dog_staging/current'
-#branch = :staging
+deploy_to = '/home/deployer/railsapps/dog_staging'
+keep_releases = 2
+server_command = "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/railsapps/dog_staging/shared/puma.rb phased-restart"
+app_current = '/home/deployer/railsapps/dog_staging/current'
+branch = :staging
 
 # Default branch is :master
 set :branch, branch

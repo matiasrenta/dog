@@ -27,8 +27,10 @@
             <%= f.association :box, collection: product_boxes, input_html: {disabled: @inventory_event.box_id} %>
             <%= f.input :box_id, as: :hidden, input_html: {value: @inventory_event.box_id} if @inventory_event.box_id %>
 
-            <%= f.input :quantity, input_html: {disabled: @inventory_event.quantity} %>
-            <%= f.input :quantity, as: :hidden, input_html: {value: @inventory_event.quantity} if @inventory_event.quantity %>
+            <% stock = Inventory.where(product_id: @inventory_event.product_id, box_id: @inventory_event.box_id, expiration_date: @inventory_event.expiration_date).try(:first).try(:quantity_available) %>
+            <%= f.input :quantity, hint: "El stock actual es: #{stock}" %>
+            <%#= f.input :quantity, input_html: {disabled: @inventory_event.quantity} %>
+            <%#= f.input :quantity, as: :hidden, input_html: {value: @inventory_event.quantity} if @inventory_event.quantity %>
 
             <%= f.input :notes, :input_html => {:rows => 4, :cols => 30} %>
 

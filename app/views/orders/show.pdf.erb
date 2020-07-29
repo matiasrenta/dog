@@ -24,7 +24,7 @@
           vertical-align: top;
       }
 
-      .invoice-box table tr td:nth-child(3) {
+      .invoice-box table tr td:nth-child(4) {
           text-align: right;
       }
 
@@ -64,12 +64,12 @@
           border-bottom: none;
       }
 
-      .invoice-box table tr.total td:nth-child(4) {
+      .invoice-box table tr.total td:nth-child(5) {
           border-top: 2px solid #aaa;
           font-weight: bold;
           font-size: 20px;
       }
-      .invoice-box table tr.total td:nth-child(3) {
+      .invoice-box table tr.total td:nth-child(4) {
           border-top: 2px solid #aaa;
           font-weight: bold;
           font-size: 20px;
@@ -106,7 +106,7 @@
 <div class="invoice-box">
   <table cellpadding="0" cellspacing="0">
     <tr class="top">
-      <td colspan="4">
+      <td colspan="5">
         <table>
           <tr>
             <td class="title">
@@ -124,22 +124,10 @@
       </td>
     </tr>
 
-    <tr class="information">
-      <td colspan="4">
-        <table>
-          <tr>
-            <td>
-            </td>
-            <td>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-
     <tr class="heading">
       <td>Código</td>
       <td>Producto</td>
+      <td>Caja</td>
       <td align="right">Cantidad</td>
       <td align="right">Subtotal</td>
     </tr>
@@ -147,12 +135,14 @@
     <tr class="item">
       <td><%= order_detail.product.code %></td>
       <td align="left"><%= order_detail.product.name %></td>
+      <td align="left"><%= order_detail.box.name %></td>
       <td align="right"><%= order_detail.quantity %></td>
       <td align="right">$ <%= number_to_currency(order_detail.subtotal, unit: '') %></td>
     </tr>
 <% end %>
 
     <tr class="total">
+      <td></td>
       <td></td>
       <td></td>
       <td>TOTAL:</td>

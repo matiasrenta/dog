@@ -5,7 +5,13 @@
     <article class="col-sm-6">
 
       <div id="wid-id-0" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" class="jarviswidget jarviswidget-color-darken">
-        <header><span class="widget-icon"><i class="fa fa-binoculars"></i></span>
+        <header>
+          <div class="jarviswidget-ctrls hidden-xs" role="menu">
+            <a href="<%= order_path(@order) %>.pdf" class="button-icon" rel="tooltip" title="" data-placement="bottom" data-original-title="PDF"><i class="fa fa-file-pdf-o"></i>
+            </a>
+          </div>
+
+          <span class="widget-icon"><i class="fa fa-binoculars"></i></span>
 
           <div class="widget-toolbar filter-group">
             <%= link_to raw("<i class='fa fa-arrow-left'></i> #{t('simple_form.buttons.list')}"), orders_path, class: 'btn btn-primary' %>
@@ -37,7 +43,10 @@
               <div class="row show-details">
                 <label class="col-lg-3 col-md-4 control-label"><strong><%= t('simple_form.labels.defaults.customer_branch') %></strong></label>
                 <div class="col-lg-9 details-data">
-                  <%= @order.customer_branch.try(:name) %>
+                  <%= @order.customer_branch.try(:name) %> <br/>
+                  <b>Dirección:</b> <%= @order.customer_branch.try(:address) %> <br/>
+                  <b>Contactos:</b> <%= @order.customer.customer_contacts.map{|cont| "#{cont.name} #{cont.phones}"}.join(" - ") %>
+
                 </div>
               </div>
 

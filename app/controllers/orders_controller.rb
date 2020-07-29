@@ -9,6 +9,13 @@ class OrdersController < ApplicationController
   # GET /orders/1
   def show
     @order_details = @order.order_details.accessible_by(current_ability, :read)
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "pedido_#{@order.id}", encoding: 'utf8' # Excluding ".pdf" extension.
+      end
+    end
   end
 
   # GET /orders/new
@@ -24,7 +31,7 @@ class OrdersController < ApplicationController
     if @order.save
       redirect_to @order, notice: t("simple_form.flash.successfully_created")
     else
-      puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #{@order.errors.messages}"
+      #puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ #{@order.errors.messages}"
       generate_flash_msg_no_keep(@order)
       render :new
     end

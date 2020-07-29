@@ -147,6 +147,8 @@ gem 'scenic'
 gem 'state_machines-audit_trail'
 gem 'state_machines-activerecord'
 
+# pdf generation. https://github.com/mileszs/wicked_pdf
+gem 'wicked_pdf'
 
 # invoce printer. https://github.com/strzibny/invoice_printer
 #gem 'json', '2.1' # json de chucky 1.8.6
@@ -160,6 +162,8 @@ gem 'state_machines-activerecord'
 # gem 'bcrypt', '~> 3.1.7'
 
 group :development do
+  gem 'wkhtmltopdf-binary'
+
   #gem 'capistrano', '~> 3.1.0'
   gem 'capistrano', '~> 3.7.0'
   gem 'capistrano-bundler', '~> 1.1.2'

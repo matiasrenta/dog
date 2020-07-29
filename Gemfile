@@ -147,6 +147,9 @@ gem 'scenic'
 gem 'state_machines-audit_trail'
 gem 'state_machines-activerecord'
 
+# pdf generation. https://github.com/mileszs/wicked_pdf
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 # invoce printer. https://github.com/strzibny/invoice_printer
 #gem 'json', '2.1' # json de chucky 1.8.6

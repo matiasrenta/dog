@@ -422,9 +422,12 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
     wicked (1.2.1)
       railties (>= 3.0.7)
+    wicked_pdf (2.1.0)
+      activesupport
     will_paginate (3.0.7)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
+    wkhtmltopdf-binary (0.12.6.2)
     yard (0.8.7.6)
 
 PLATFORMS
@@ -499,7 +502,9 @@ DEPENDENCIES
   versionist
   web-console (~> 2.0)
   wicked
+  wicked_pdf
   will_paginate-bootstrap
+  wkhtmltopdf-binary
 
 RUBY VERSION
    ruby 2.3.1p112

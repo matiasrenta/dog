@@ -428,7 +428,7 @@ GEM
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
     wkhtmltopdf-binary (0.12.6.2)
-    yard (0.8.7.6)
+    yard (0.9.25)
 
 PLATFORMS
   ruby

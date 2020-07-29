@@ -13,7 +13,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: "pedido_#{@order.id}", encoding: 'utf8'   # Excluding ".pdf" extension.
+        render pdf: "pedido_#{@order.id}", encoding: 'utf8', disposition: 'attachment', template: "orders/show.pdf.erb"   # Excluding ".pdf" extension.
       end
     end
   end

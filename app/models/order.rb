@@ -66,7 +66,7 @@ class Order < ActiveRecord::Base
     end
 
     after_transition [:PACKED, :DISPATCHED] => :CANCELED do |order, transition|
-      self.order_details.each do |od|
+      order.order_details.each do |od|
         # agrego al stock lo que se quitó cuando se creó esta entidad
         Inventory.update_stock({product_id: od.product_id,
                                 box_id: od.box_id,

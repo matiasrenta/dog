@@ -16,6 +16,7 @@
           <%= f.input :email, input_html: {disabled: !can_change_user_email? } %>
           <%= f.input :name %>
           <%= f.association :role, collection: roles_for_dropdown, input_html: {disabled: !can_change_user_role? } %>
+          <%= f.input :boolean_active, label: 'Activo?', as: :select, collection: options_for_boolean, include_blank: false, selected: f.object.deleted_at.nil? if (updating? && current_user.admin_or_superuser?) %>
           <%#= f.input :locale, as: :select, collection: available_locales_for_dropdown %>
           <%= f.input :time_zone, priority: /Argentina/, include_blank: true %>
           <%= render 'shared/dropzone_simple', locals: {f: f, field: :avatar, max_filesize: Sett['REFILE_S3_AVATAR_MAX_FILESIZE'].to_i} %>

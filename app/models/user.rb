@@ -24,11 +24,13 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :timeoutable, :lockable, :validatable
   attachment :avatar, type: :image, store: 's3_avatar_backend', cache: 's3_avatar_cache'
 
+
+  attr_accessor :boolean_active # usado para activar o desactivar usuarios desde el formulario de usuario
+
   validates :email, :name, :role_id, presence: true
   validates :email, uniqueness: true
   #validates :email, email: {message: I18n.t('errors.messages.invalid_email')}, mx: {message: I18n.t('errors.messages.invalid_mx')}
   validates :email, email: {message: I18n.t('errors.messages.invalid_email')}
-
 
   after_destroy :remove_file
 

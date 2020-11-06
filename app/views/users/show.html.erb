@@ -36,6 +36,15 @@
 
             <div class="row show-details">
               <label class="col-lg-3 col-md-4 control-label">
+                <strong>Activo?</strong>
+              </label>
+              <div class="col-lg-9 details-data">
+                <%= @user.deleted_at ? 'No. Desactivado el ' : 'Sí' %> <%= l(@user.deleted_at, :format => :with_seg) if @user.deleted_at %>
+              </div>
+            </div>
+
+            <div class="row show-details">
+              <label class="col-lg-3 col-md-4 control-label">
                 <strong><%= t('simple_form.labels.defaults.time_zone') %></strong>
               </label>
               <div class="col-lg-9 details-data"><%= @user.time_zone %></div>

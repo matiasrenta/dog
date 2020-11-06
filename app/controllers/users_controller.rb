@@ -43,6 +43,13 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
+
+    if params[:user][:boolean_active] == 'true'
+      @user.deleted_at = nil
+    else
+      @user.deleted_at = Time.now if @user.active?
+    end
+
     if @user.update(user_params)
       redirect_to @user, notice: t("simple_form.flash.successfully_updated")
     else
@@ -74,7 +81,7 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:remove_avatar, :avatar, :email, :name, :locale, :time_zone, :role_id, :password, :password_confirmation)
+      params.require(:user).permit(:remove_avatar, :avatar, :email, :name, :locale, :time_zone, :role_id, :password, :password_confirmation, :boolean_active)
     end
 
 end

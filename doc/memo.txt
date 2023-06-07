@@ -75,3 +75,6 @@ EJECUTAR CONSOLA EN PRODUCCION:
 ===============================
 RAILS_ENV=production bundle exec rails c --sandbox
 
+GitHub personal access token (clasic)
+=====================================
+Esta en un archivo github_token en la carpeta projects de mi mac

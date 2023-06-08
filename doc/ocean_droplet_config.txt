@@ -315,3 +315,4 @@ gem install libv8 -v '3.16.14.19' -- --with-system-v8
 libv8-3.16.14.13-x86_64-linux
 
 sudo certbot --nginx -d chucky.ml -d www.chucky.ml -d puma.chucky.ml
+sudo certbot --nginx -d dogat.xyz -d www.dogat.xyz -d sys.dogat.xyz -d staging.dogat.xyz

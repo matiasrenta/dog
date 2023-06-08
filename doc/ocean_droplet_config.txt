@@ -136,24 +136,24 @@ sys
 (-)
 
 (+) Nginx Server Blocks. ver aqui: https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04
-sudo mkdir -p /var/www/dogstribuidora.ga/html
-sudo chown -R $USER:$USER /var/www/dogstribuidora.ga/html
-sudo chmod -R 755 /var/www/dogstribuidora.ga
+sudo mkdir -p /var/www/dogat.xyz/html
+sudo chown -R $USER:$USER /var/www/dogat.xyz/html
+sudo chmod -R 755 /var/www/dogat.xyz
 
 crear un index.html
-vim /var/www/dogstribuidora.ga/html/index.html
+vim /var/www/dogat.xyz/html/index.html
 
 crear el server block:
-sudo vim /etc/nginx/sites-available/dogstribuidora.ga
+sudo vim /etc/nginx/sites-available/dogat.xyz
 
 server {
         listen 80;
         listen [::]:80;
 
-        root /var/www/dogstribuidora.ga/html;
+        root /var/www/dogat.xyz/html;
         index index.html index.htm index.nginx-debian.html;
 
-        server_name dogstribuidora.ga www.dogstribuidora.ga;
+        server_name dogat.xyz www.dogat.xyz;
 
         location / {
                 try_files $uri $uri/ =404;
@@ -161,7 +161,7 @@ server {
 }
 
 Ahora crear el link:
-sudo ln -s /etc/nginx/sites-available/dogstribuidora.ga /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/dogat.xyz /etc/nginx/sites-enabled/
 
 Descomentar la linea en la configuracion
 sudo vim /etc/nginx/nginx.conf
@@ -214,9 +214,9 @@ chequear este nginx config que parece muy completo:
 https://serverfault.com/questions/947011/host-two-rails-app-using-puma-nginx-on-domain-and-subdomain-each
 
 You should test your configuration at:
-https://www.ssllabs.com/ssltest/analyze.html?d=dogstribuidora.ga
-https://www.ssllabs.com/ssltest/analyze.html?d=www.dogstribuidora.ga
-https://www.ssllabs.com/ssltest/analyze.html?d=sys.dogstribuidora.ga
+https://www.ssllabs.com/ssltest/analyze.html?d=dogat.xyz
+https://www.ssllabs.com/ssltest/analyze.html?d=www.dogat.xyz
+https://www.ssllabs.com/ssltest/analyze.html?d=sys.dogat.xyz
 
 (-)
 
@@ -315,3 +315,4 @@ gem install libv8 -v '3.16.14.19' -- --with-system-v8
 libv8-3.16.14.13-x86_64-linux
 
 sudo certbot --nginx -d chucky.ml -d www.chucky.ml -d puma.chucky.ml
+sudo certbot --nginx -d dogat.xyz -d www.dogat.xyz -d sys.dogat.xyz -d staging.dogat.xyz

@@ -2,7 +2,8 @@
 lock '3.7.2'
 
 set :application, 'dogstribuidora'
-set :repo_url, 'git@github.com:matiasrenta/dog.git'
+#set :repo_url, 'git@github.com:matiasrenta/dog.git'
+set :repo_url, 'https://github.com/matiasrenta/dog.git' # asi me funciona con personal access token de github
 
 # Simple Role Syntax
 # ==================

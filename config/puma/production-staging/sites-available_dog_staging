@@ -3,14 +3,14 @@ upstream puma-dog_staging {
 }
 
 server {
-    if ($host = staging.dogstribuidora.ga) {
+    if ($host = staging.dogat.xyz) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
     listen 80;
     listen [::]:80;
 
-    server_name staging.dogstribuidora.ga;
+    server_name staging.dogat.xyz;
     return 404; # managed by Certbot
 }
 
@@ -28,7 +28,7 @@ server {
 
 
   # If you're planning on using SSL (which you should), you can also go ahead and fill out the following server_name variable:
-  server_name staging.dogstribuidora.ga;
+  server_name staging.dogat.xyz;
 
   # Don't forget to update these, too
   root /home/deployer/railsapps/dog_staging/current/public;
@@ -55,8 +55,8 @@ server {
   client_max_body_size 10M;
   keepalive_timeout 10;
 
-  ssl_certificate /etc/letsencrypt/live/dogstribuidora.ga/fullchain.pem; # managed by Certbot
-  ssl_certificate_key /etc/letsencrypt/live/dogstribuidora.ga/privkey.pem; # managed by Certbot
+  ssl_certificate /etc/letsencrypt/live/dogat.xyz/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/dogat.xyz/privkey.pem; # managed by Certbot
 
 }
 
